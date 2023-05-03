@@ -1,38 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
-import React, {useEffect, useState} from "react";
-import axios from "axios";
 
-function App() {
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Service from './screens/Service';
+import Home from './screens/Home';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CreditRating from './screens/CreditRating';
 
-  const [hello, SetHello] = useState('');
-
-  useEffect(() => {
-    axios.get('/api/hello')
-      .then(result => SetHello(result.data))
-      .catch(error => console.log(error))
-  }, []);
-
-  return (
-    <div className="App">
-
-      <h2>백에서 뭐래?? : {hello}</h2>
-
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+function App(){
+  return(
+    <Router>
+      <Header />
+      <div className="main">
+      <Routes>
+        <Route path ="/" element = {<Home />} />
+        <Route path ="/Service" element = {<Service />} />
+        <Route path ="/CreditRating" element = {<CreditRating />} />
+        </Routes>
+      </div>
+      <Footer />
+    </Router>
+    
   );
 }
 
