@@ -3,7 +3,7 @@ import './css/Home.css'
 
 const Home = () => {
   return (
-    <div>
+    <div class="home_page">
       <div class="intro_main_content">
         <h3 class="tit_main">신용을 자바<br></br>HOLD CREDIT</h3>
         <p class="tit_sub">
@@ -17,6 +17,7 @@ const Home = () => {
           <li><button class="button">평가하기</button></li>
         </ul>
       </div>
+      <div class = "row">
       <div class="intro_cont">
         <div class="cont_img">
           (예시)
@@ -25,7 +26,7 @@ const Home = () => {
           <h3>클릭 한번으로<br />내 신용평가 점수 확인하기 !</h3>
           <p>간단한 정보입력으로<br />자신의 신용등급을 평가 받을 수 있습니다.</p>
         </div>
-        
+      </div>
       </div>
     </div>
   )
