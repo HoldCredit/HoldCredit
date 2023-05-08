@@ -1,0 +1,203 @@
+.container_doc {
+    height: 100%;
+    font-size: 0;
+}
+
+.container_doc
+.inner_container {
+    display: inline-block;
+    overflow-x: hidden;
+    width: 100%;
+    vertical-align: middle;
+}
+body, input, select, textarea, button {
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: NotoSans-Regular,system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #7c7c7c;
+    letter-spacing: -0.03em;
+    word-wrap: break-word;
+}
+
+div, button, h1, h2, h3, p, input, fieldset {
+    margin: 0;
+    padding: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.doc_main .doc_title {
+    padding-top: 50px;
+}
+.doc_title
+.tit_service {
+    display: block;
+}
+
+.doc_title .tit_service .Login_name {
+    display: block;
+    width: 200px;
+    height: 80px;
+    margin: 30px auto;
+    background-size: 100px 80px;
+    font-size: 30px;
+    line-height: 100px;
+    text-align: center;
+}
+.ir_wa {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+#mArticle {
+    position: relative;
+    max-width: 580px;
+    min-height: 520px;
+    margin: 40px auto;
+    padding: 58px 69px 139px;
+    border: 1px solid #e5e5e5;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.content_article>[class^=cont_] {
+    position: relative;
+    height: 100%;
+    padding: 25px 0 50px;
+    box-sizing: border-box;
+}
+.desc_main, .tit_main {
+    letter-spacing: -.03em;
+}
+.tit_main {
+    font-size: 24px;
+    line-height: 34px;
+    color: #252525;
+    letter-spacing: -1px;
+    font-weight: normal;
+}
+
+
+.tit_main+.desc_main {
+    padding-top: 15px;
+}
+
+.desc_main {
+    font-size: 15px;
+    text-align: left;
+    word-break: keep-all;
+}
+.box_tf:first-of-type,
+.desc_main+.boxtf, .tit_main+.box_tf {
+    margin-top: 47px;
+}
+.cont_find
+.fld_apply {
+    margin-top: 4px;
+}
+
+fieldset {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+}
+fieldset {
+    border: 0 none;
+}
+.screen_out {
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    text-align: -9999px;
+}
+.tf_required {
+    display: block;
+    font-size: 12px;
+    color: #000;
+    font-weight: normal;
+    margin-top: 40px;
+}
+.item_tf {
+    position: relative;
+    padding-right: 0;
+}
+.item_inp {
+    position: relative;
+}
+.item_tf
+.lab_placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 47px;
+    line-height: 47px;
+    color: #8e8e8e;
+}
+.lab_g {
+    overflow: hidden;
+    position: relative;
+    display: block;
+    font-size: 15px;
+    color: #4c4c4c;
+    cursor: pointer;
+}
+.item_inp .tf_g {
+    width: 100%;
+    height: 48px;
+    border-style: solid;
+    border-width: 0 0 2px 0;
+    border-color: #ebebeb;
+    padding: 11px 70px 8px 0;
+    color: #252525;
+    outline: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+    caret-color: #191919;
+    text-decoration: none;
+}
+.cont_find
+.wrap_btn {
+    margin-top: 40px;
+}
+
+.wrap_btn3 {
+    overflow: hidden;
+    position: absolute;
+    right: -4px;
+    bottom: -95px;
+    left: -7px;
+}
+
+.wrap_btn
+.btn_g {
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #191919;
+    background: #fee500;
+}
+
+.btn_g {
+    display: inline-block;
+    height: 42px;
+    padding: 0 31px;
+    color: #252525;
+    border: 1px solid #dbdbdb;
+    border-radius: 30px;
+    box-sizing: border-box;
+}
+
+.tf_g:focus-within {
+    border-color: black;
+}
