@@ -78,17 +78,17 @@ function FindId() {
     };
         return (
 
-            <div className="container_doc">
-                <div className="inner_container">
-                    <main className="doc_main">
-                        <div className="doc_title">
-                            <h1 className="tit_service">
-                                <span className="Login_name">
-                                    <span className="ir_wa">HOLD CREDIT</span>
-                                </span>
+            <div className="container_doc1">
+                <div className="inner_container1">
+                    <main className="doc_main1">
+                        <div className="doc_title1">
+                            <h1 className="tit_service1">
+                                <a href="LoginPage" className="Login_name">
+                                    <span className="ir_wa1">HOLD CREDIT</span>
+                                </a>
                             </h1>
                         </div>
-                        <article id="mainContent" className="content_article">
+                        <article id="mainContent" className="content_article1">
                             <div className="cont_find">
                                 <h2 className="tit_g">
                                     네이버 메일로
@@ -100,8 +100,8 @@ function FindId() {
                                     <br />
                                     휴대폰 번호를 입력해 주세요.
                                 </p>
-                                <div className={"box_tf" + (nameError && " error")}>
-                                    <label className="screen_out" htmlFor="account_name--1">입력</label>
+                                <div className={"box_tf1" + (nameError && " error")}>
+                                    <label className="screen_out1" htmlFor="account_name--1">입력</label>
                                     <input
                                         type="text"
                                         id="account_name--1"
@@ -116,8 +116,8 @@ function FindId() {
                                 {nameError && (
                                     <p className="info_tf error">{nameError}</p>
                                 )}
-                                <div className={"box_tf" + (birthdayError && " error")}>
-                                    <label className="screen_out" htmlFor="birthday_yyyymmdd--2">입력</label>
+                                <div className={"box_tf1" + (birthdayError && " error")}>
+                                    <label className="screen_out1" htmlFor="birthday_yyyymmdd--2">입력</label>
                                     <input 
                                     type="tel" 
                                     id="birthday_yyyymmdd--2" 
@@ -131,7 +131,7 @@ function FindId() {
                                 {birthdayError && (
                                     <p className="info_tf error">{birthdayError}</p>
                                 )}
-                                <div className={"box_tf" + (phoneNumberError && " error")}>
+                                <div className={"box_tf1" + (phoneNumberError && " error")}>
                                     <label className="screen_out" htmlFor="phone_number">입력</label>
                                     <input 
                                     type="tel" 
@@ -148,7 +148,7 @@ function FindId() {
 
                                 <p className="info_tf error">{phoneNumberError}</p>
                                 )}
-                                  <div className={"box_tf" + (emailError && " error")}>
+                                  <div className={"box_tf1" + (emailError && " error")}>
                                     <label className="screen_out" htmlFor="email">입력</label>
                                     <input 
                                     type="text" 
@@ -165,8 +165,8 @@ function FindId() {
 
                                 <p className="info_tf error">{emailError}</p>
                                 )}
-                                <div className="confirm_btn">
-                                    <button type="submit" className="btn_g submit">보내기</button>
+                                <div className="confirm_btn1">
+                                    <button type="submit" className="btn_g1 submit">보내기</button>
                                 </div>
                             </div>
                         </article>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "../styles/JoinForm.css";
+import "../styles/EditMember.css";
 import CheckIcon from '@mui/icons-material/Check';
 
 
-function JoinForm() {
+function EditMember() {
     const [isIdRequired, setIsIdRequired] = useState(false);
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
@@ -77,17 +77,6 @@ function JoinForm() {
         }
     };
 
-    // 이름
-    const [name, setName] = useState("");
-    const [showNameMsg, setShowNameMsg] = useState(false);
-
-    const handleNameBlur = () => {
-        if (name === "") {
-            setShowNameMsg(true);
-        } else {
-            setShowNameMsg(false);
-        }
-    };
 
     // 생년 월 일
     const [message, setMessage] = useState('');
@@ -109,16 +98,16 @@ function JoinForm() {
 
     // 성별
     const [isRequired, setIsRequired] = useState(false);
-    
+
     const [gender, setGender] = useState('');
-    
+
     function genderBlur() {
         setIsRequired(document.querySelector("#gender").value === "");
     }
 
     // 직업구분
     const [isOccupation, setIsOccupation] = useState(false);
-    
+
     const [occupation, setOccupation] = useState('');
 
     function occupationBlur() {
@@ -127,7 +116,7 @@ function JoinForm() {
 
     // 교육 수준
     const [isEducation, setIsEducation] = useState(false);
-    
+
     const [education, setEducation] = useState('');
 
     function educationBlur() {
@@ -157,67 +146,52 @@ function JoinForm() {
         // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
-  
+
 
 
     return (
         <div id="wrap">
-            <div id="header" className="join_membership">
+            <div id="header1" className="join_membership">
                 <h1>
-                    <a href="/LoginPage" className="h_logo">
+                    <span className="h_logo">
                         <span className="blind">HOLD CREDIT</span>
-                    </a>
+                    </span>
                 </h1>
             </div>
-            <div id="container">
-                <div id="content">
-                    <h2 className="blind1">holdcredit 회원가입</h2>
+            <div id="container1">
+                <div id="content1">
+                    <h2 className="EditM">회원 정보 수정</h2>
                     <div className="join_content">
-                        <div className="row_group">
+                        <div className="row_group1">
                             <div className="join_row">
-                                <h3 className="join_title">
+                                <h3 className="join_title1">
                                     <label htmlFor="id">아이디</label>
                                 </h3>
-                                <span className="ps_box int_id">
+                                <span className="edit_box int_id">
                                     <input
                                         type="text"
                                         id="id"
                                         name="id"
-                                        className="int1"
+                                        className="edit1"
                                         title="ID"
                                         maxLength={20}
-                                        onBlur={(e) => {
-                                            if (e.target.value === "") {
-                                                setIsIdRequired(true);
-                                            } else {
-                                                setIsIdRequired(false);
-                                            }
-                                        }}
-                                        onChange={handleIdChange}
+                                        disabled
+                                        value={'ID'}
                                     />
                                     <span className="step_url">@holdcredit.com</span>
                                 </span>
-                                {isIdRequired && (
-                                    <span className="error_next_box" id="idMsg" style={{ display: isIdRequired ? "block" : "none" }}>
-                                        필수 정보입니다.
-                                    </span>
-                                )}
-                                {!isIdValid && (
-                                    <span style={{ color: "red" }}>
-                                        5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.
-                                    </span>
-                                )}
+
                             </div>
                             <div className="join_row">
-                                <h3 className="join_title">
+                                <h3 className="join_title1">
                                     <label htmlFor="password">비밀번호</label>
                                 </h3>
-                                <span className="ps_box">
+                                <span className="edit_box">
                                     <input
                                         type="password"
                                         id="password"
                                         name="password"
-                                        className="int"
+                                        className="edit"
                                         title="비밀번호"
                                         maxLength={20}
                                         value={password}
@@ -240,12 +214,12 @@ function JoinForm() {
                                 <h3 className="join_title">
                                     <label htmlFor="passwordCheck">비밀번호 확인</label>
                                 </h3>
-                                <span className="ps_box">
+                                <span className="edit_box">
                                     <input
                                         type="password"
                                         id="passwordCheck"
                                         name="passwordCheck"
-                                        className="int"
+                                        className="edit"
                                         title="비밀번호 확인"
                                         maxLength={20}
                                         value={passwordCheck}
@@ -270,7 +244,7 @@ function JoinForm() {
                                     <h3 className="join_title">
                                         <label htmlFor="name">이름</label>
                                     </h3>
-                                    <span className="ps_box box_right_space">
+                                    <span className="edit_box box_right_space">
                                         <input
                                             type="text"
                                             id="name"
@@ -278,33 +252,39 @@ function JoinForm() {
                                             title="이름"
                                             className="int"
                                             maxLength="40"
-                                            value={name}
-                                            onBlur={handleNameBlur}
-                                            onChange={(e) => setName(e.target.value)}
+                                            value={"김창민"}
+                                            disabled
                                         />
                                     </span>
-                                    <span
-                                        className="error_next_box"
-                                        id="nameMsg"
-                                        aria-live="assertive"
-                                        style={{ display: showNameMsg ? "block" : "none" }}
-                                    >
-                                        이름을 입력해주세요.
-                                    </span>
+
                                 </div>
                             </div>
 
                             <div className="join_birthday">
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
                                 <div className="bir_yy">
-                                    <span className="ps_box">
-                                        <input type="text" id="yy" placeholder="년(4자)" aria-label="년(4자)" className="int" maxLength="4" onClick={handleYearClick} onBlur={handleBlur} />
+                                    <span className="edit_box">
+                                        <input
+                                            type="text"
+                                            id="yy"
+                                            placeholder="년(4자)"
+                                            aria-label="년(4자)"
+                                            className="int"
+                                            maxLength="4"
+                                            disabled
+                                            value={"1997"}
+                                        />
                                     </span>
                                 </div>
                                 <div className="bir_mm">
-                                    <span className="ps_box">
-                                        <select id="mm" className="sel" aria-label="월" onClick={handleMonthClick}>
-                                            <option value="" defaultValue>월</option>
+                                    <span className="edit_box">
+                                        <select id="mm"
+                                            className="sel"
+                                            aria-label="월"
+                                            onClick={handleMonthClick}
+                                            disabled
+                                        >
+                                            <option value="" defaultValue>{"3"}</option>
                                             <option value="01">1</option>
                                             <option value="02">2</option>
                                             <option value="03">3</option>
@@ -321,8 +301,16 @@ function JoinForm() {
                                     </span>
                                 </div>
                                 <div className="bir_dd">
-                                    <span className="ps_box">
-                                        <input type="text" id="dd" placeholder="일" aria-label="일" className="int" maxLength="2" onClick={handleDayClick} onBlur={handleBlur} />
+                                    <span className="edit_box">
+                                        <input type="text"
+                                            id="dd"
+                                            placeholder="일"
+                                            aria-label="일"
+                                            className="int"
+                                            maxLength="2"
+                                            disabled
+                                            value={"19"}
+                                        />
                                         <label htmlFor="dd" className="lbl"></label>
                                     </span>
                                 </div>
@@ -333,33 +321,22 @@ function JoinForm() {
                                 <h3 className="join_title">
                                     <label htmlFor="gender">성별</label>
                                 </h3>
-                                <div className="ps_box gender_code">
-                                    <select
-                                        id="gender"
-                                        name="gender"
-                                        className="sel"
-                                        aria-label="성별"
-                                        onBlur={genderBlur}
+                                <div
+                                    id="gender"
+                                    name="gender"
+                                    className="edit_box gender_code"
+                                    disabled
+                                    value= {"남"}
                                     >
-                                        <option value="" defaultValue>
-                                            성별
-                                        </option>
-                                        <option value="M">남자</option>
-                                        <option value="F">여자</option>
-                                        <option value="U">선택 안함</option>
-                                    </select>
+                                    {"남"}
                                 </div>
-                                {isRequired && (
-                                    <span className="error_next_box" id="genderMsg">
-                                        필수 정보입니다.
-                                    </span>
-                                )}
+                                
                             </div>
                             <div className="join_row join_occupation">
                                 <h3 className="join_title">
                                     <label htmlFor="occupation">직업구분</label>
                                 </h3>
-                                <div className="ps_box occupation_code">
+                                <div className="edit_box occupation_code">
                                     <select
                                         id="occupation"
                                         name="occupation"
@@ -387,7 +364,7 @@ function JoinForm() {
                                 <h3 className="join_title">
                                     <label htmlFor="ed_level">교육 수준</label>
                                 </h3>
-                                <div className="ps_box education_code">
+                                <div className="edit_box education_code">
                                     <select
                                         id="education"
                                         name="education"
@@ -410,6 +387,7 @@ function JoinForm() {
                                     </span>
                                 )}
                             </div>
+                          
 
 
                             <div>
@@ -420,7 +398,7 @@ function JoinForm() {
                                             <span className="terms_choice">(선택)</span>
                                         </label>
                                     </h3>
-                                    <span className="ps_box int_email box_right_space">
+                                    <span className="edit_box int_email box_right_space">
                                         <input
                                             type="text"
                                             id="email"
@@ -448,14 +426,14 @@ function JoinForm() {
                                         <label htmlFor="pphoneNo">휴대전화</label>
                                     </h3>
                                     <div className="int_mobile_area">
-                                        <span className="ps_box int_mobile">
+                                        <span className="edit_box int_mobile">
                                             <input type="tel" id="pphoneNo" name="pphoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력" className="int" maxLength="16" />
                                         </span>
                                         <a href="#" className="btn_verify btn_primary" id="btnPrtsSend" role="button">
                                             <span>인증번호 받기</span>
                                         </a>
                                     </div>
-                                    <div className="ps_box_disable box_right_space" id="pauthNoBox">
+                                    <div className="edit_box_disable box_right_space" id="pauthNoBox">
                                         <input type="tel" id="pauthNo" name="pauthNo" placeholder="인증번호 입력하세요" aria-label="인증번호 입력하세요" aria-describedby="pwa_verify" className="int" disabled maxLength="6" />
                                         <label id="pwa_verify" htmlFor="pauthNo" className="lbl">
                                             <span className="wa_blind">인증받은 후 인증번호를 입력해야 합니다.</span>
@@ -464,6 +442,7 @@ function JoinForm() {
                                     </div>
                                 </div>
                             </div>
+                            
 
 
                             <div className="btn_area">
@@ -477,4 +456,4 @@ function JoinForm() {
     );
 }
 
-export default JoinForm;
+export default EditMember;

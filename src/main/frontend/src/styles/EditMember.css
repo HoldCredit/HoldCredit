@@ -3,17 +3,17 @@ body {
     background: #f5f6f7;
 }
 
-#container {
+#container1 {
     width: auto;
     max-width: 768px;
 }
 
 
-#header.join_membership {
+#header1.join_membership {
     padding-bottom: 20px;
 }
 
-#header {
+#header1 {
     position: relative;
     overflow: hidden;
     padding: 60px 0 54px;
@@ -22,24 +22,21 @@ body {
 
 
 
-#container,
-#footer,
-#header {
+#container1,
+#header1 {
     margin: 0 auto;
     max-width: 768px;
     min-width: 460px;
 }
 
-.blind1 {
-    position: absolute;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    margin: -1px;
-    width: 1px;
-    height: 1px;
+
+.EditM {
+    margin: 1px;
+    text-align: center;
+    padding-bottom: 10px;
 }
 
-#header .h_logo {
+#header1 .h_logo {
     display: block;
     margin: 0 auto;
     width: 273px;
@@ -53,17 +50,17 @@ body {
     font-style: oblique;
 }
 
-#content {
+#content1 {
     width: 460px;
     margin: 0 auto;
 }
 
-.row_group {
+.row_group1 {
     overflow: hidden;
     width: 100%;
 }
 
-.join_title {
+.join_title1 {
     margin: 19px 0 8px;
     font-size: 17px;
     font-weight: 700;
@@ -73,14 +70,14 @@ label {
     cursor: pointer;
 }
 
-.ps_box.int_id,
-.ps_box.int_id input {
+.edit_box.int_id,
+.edit_box.int_id input {
     background: #fff;
     outline: 0;
 }
 
-.ps_box,
-.ps_box_disable {
+.edit_box,
+.edit_box_disable {
     display: block;
     position: relative;
     width: 100%;
@@ -91,7 +88,7 @@ label {
     box-sizing: border-box;
 }
 
-.int {
+.edit {
     display: block;
     position: relative;
     width: 100%;
@@ -127,9 +124,9 @@ label {
     color: red;
 }
 
-.ps_box.int_pass,
-.ps_box.int_pass_check,
-.ps_box.int_pass_check2 {
+.edit_box.edit_pass,
+.edit_box.edit_pass_check,
+.edit_box.edit_pass_check2 {
     padding-right: 40px;
 }
 
@@ -138,13 +135,8 @@ label {
     box-sizing: border-box;
 }
 
-.row_group+.row_group {
+.row_group1+.row_group1 {
     margin-top: 20px;
-}
-
-.row_group {
-    overflow: hidden;
-    width: 100%;
 }
 
 .join_birtday {
@@ -173,7 +165,7 @@ label {
     padding-left: 10px;
 }
 
-.int1 {
+.edit1 {
     display: block;
     position: relative;
     width: 73%;
@@ -267,15 +259,15 @@ select:hover:not(:focus) {
     background-color: #fee500;
 }
 
-.join_mobile .ps_box_disable,
-.join_mobile .ps_box_disable input {
+.join_mobile .edit_box_disable,
+.join_mobile .edit_box_disable input {
     background: #f7f7f7;
     outline: 0;
 }
 
-.int_mobile_area+.ps_box,
-.int_mobile_area+.ps_box_disable,
-.ps_box_disable+.ps_box {
+.int_mobile_area+.edit_box,
+.int_mobile_area+.edit_box_disable,
+.edit_box_disable+.edit_box {
     margin-top: 10px;
 }
 

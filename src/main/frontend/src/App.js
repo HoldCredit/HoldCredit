@@ -8,6 +8,9 @@ import Footer from './components/Footer';
 import CreditRating from './screens/CreditRating';
 import LoginPage from './login/LoginPage';
 import JoinForm from './login/JoinForm';
+import FindId from './login/FindId';
+import FindPwd from './login/FindPwd';
+import EditMember from './login/EditMember';
 
 function App(){
   return(
@@ -20,7 +23,10 @@ function App(){
         <Route path ="/CreditRating" element = {<CreditRating />} />
         <Route path ="/LoginPage" element = {<LoginPage />} />
         <Route path ="/JoinForm" element = {<JoinForm />} />
-        </Routes>
+        <Route path ="/FindId" element = {<FindId />} />
+        <Route path ="/FindPwd" element = {<FindPwd />} />
+        <Route path ="/EditMember" element = {<EditMember />} />
+      </Routes>
  
       <Footer />
     </Router>
