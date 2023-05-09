@@ -23,8 +23,8 @@ const Header = () => {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">로그인</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
+            <Nav.Link href="/LoginPage">로그인</Nav.Link>
+            <Nav.Link eventKey={2} href="/JoinForm">
               회원가입
             </Nav.Link>
           </Nav>

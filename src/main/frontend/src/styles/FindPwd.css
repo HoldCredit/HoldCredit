@@ -1,59 +1,48 @@
-.container_doc {
+.container_doc2 {
     height: 100%;
     font-size: 0;
 }
 
-.container_doc
-.inner_container {
+.container_doc2
+.inner_container2 {
     display: inline-block;
     overflow-x: hidden;
     width: 100%;
     vertical-align: middle;
 }
-body, input, select, textarea, button {
-    font-size: 16px;
-    line-height: 1.5;
-    font-family: NotoSans-Regular,system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #7c7c7c;
-    letter-spacing: -0.03em;
-    word-wrap: break-word;
-}
 
-div, button, h1, h2, h3, p, input, fieldset {
-    margin: 0;
-    padding: 0;
-}
-* {
-    margin: 0;
-    padding: 0;
-}
-.doc_main .doc_title {
+
+.doc_main2 .doc_title2 {
     padding-top: 50px;
 }
-.doc_title
-.tit_service {
+.doc_title2
+.tit_service2 {
     display: block;
 }
 
-.doc_title .tit_service .Login_name {
+.doc_title2 .tit_service2 .Login_name2 {
     display: block;
-    width: 200px;
+    width: 220px;
     height: 80px;
     margin: 30px auto;
     background-size: 100px 80px;
     font-size: 30px;
     line-height: 100px;
     text-align: center;
+    color: #191919;
+    text-decoration: dashed;
 }
-.ir_wa {
+.ir_wa2 {
     display: block;
     overflow: hidden;
     position: relative;
     z-index: -1;
     width: 100%;
     height: 100%;
+    font-weight: bold;
+    font-style: oblique;
 }
-#mArticle {
+#mArticle2 {
     position: relative;
     max-width: 580px;
     min-height: 520px;
@@ -64,16 +53,16 @@ div, button, h1, h2, h3, p, input, fieldset {
     box-sizing: border-box;
 }
 
-.content_article>[class^=cont_] {
+.content_article2>[class^=cont_] {
     position: relative;
     height: 100%;
     padding: 25px 0 50px;
     box-sizing: border-box;
 }
-.desc_main, .tit_main {
+.desc_main2, .tit_content2 {
     letter-spacing: -.03em;
 }
-.tit_main {
+.tit_content2 {
     font-size: 24px;
     line-height: 34px;
     color: #252525;
@@ -82,19 +71,16 @@ div, button, h1, h2, h3, p, input, fieldset {
 }
 
 
-.tit_main+.desc_main {
+.tit_content2+.desc_main2 {
     padding-top: 15px;
 }
 
-.desc_main {
+.desc_main2 {
     font-size: 15px;
     text-align: left;
     word-break: keep-all;
 }
-.box_tf:first-of-type,
-.desc_main+.boxtf, .tit_main+.box_tf {
-    margin-top: 47px;
-}
+
 .cont_find
 .fld_apply {
     margin-top: 4px;
@@ -108,7 +94,7 @@ fieldset {
 fieldset {
     border: 0 none;
 }
-.screen_out {
+.screen_out2 {
     overflow: hidden;
     position: absolute;
     width: 0;
@@ -116,22 +102,22 @@ fieldset {
     line-height: 0;
     text-align: -9999px;
 }
-.tf_required {
+.tf_required2 {
     display: block;
     font-size: 12px;
     color: #000;
     font-weight: normal;
     margin-top: 40px;
 }
-.item_tf {
+.item_tf2 {
     position: relative;
     padding-right: 0;
 }
-.item_inp {
+.item_inp2 {
     position: relative;
 }
-.item_tf
-.lab_placeholder {
+.item_tf2
+.lab_placeholder2 {
     position: absolute;
     top: 0;
     left: 0;
@@ -148,7 +134,7 @@ fieldset {
     color: #4c4c4c;
     cursor: pointer;
 }
-.item_inp .tf_g {
+.item_inp2 .tf_g2 {
     width: 100%;
     height: 48px;
     border-style: solid;
@@ -162,8 +148,8 @@ fieldset {
     caret-color: #191919;
     text-decoration: none;
 }
-.cont_find
-.wrap_btn {
+.cont_find2
+.wrap_btn2 {
     margin-top: 40px;
 }
 
@@ -175,8 +161,8 @@ fieldset {
     left: -7px;
 }
 
-.wrap_btn
-.btn_g {
+.wrap_btn2
+.btn_g2 {
     display: block;
     width: 100%;
     height: 50px;
@@ -188,7 +174,7 @@ fieldset {
     background: #fee500;
 }
 
-.btn_g {
+.btn_g2 {
     display: inline-block;
     height: 42px;
     padding: 0 31px;
@@ -198,6 +184,6 @@ fieldset {
     box-sizing: border-box;
 }
 
-.tf_g:focus-within {
+.tf_g2:focus-within {
     border-color: black;
 }
