@@ -12,12 +12,11 @@ import FindId from './login/FindId';
 import FindPwd from './login/FindPwd';
 import EditMember from './login/EditMember';
 
-
 function App(){
   return(
     <Router>
       <Header />
-      <div className="main">
+      
       <Routes>
         <Route path ="/" element = {<Home />} />
         <Route path ="/Service" element = {<Service />} />
@@ -27,9 +26,8 @@ function App(){
         <Route path ="/FindId" element = {<FindId />} />
         <Route path ="/FindPwd" element = {<FindPwd />} />
         <Route path ="/EditMember" element = {<EditMember />} />
-
-        </Routes>
-      </div>
+      </Routes>
+ 
       <Footer />
     </Router>
     

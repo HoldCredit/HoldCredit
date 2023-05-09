@@ -1,16 +1,13 @@
 .home_page{
-    min-width: 1200px;
-    height: 100%;
+    min-width: 1024px;
 }
 .intro_main_content {
     position: relative;
-    max-width: 100%;
     height: 1200px;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-image: url("../../images/main-bg3.png");
-    z-index: 1;
-    margin: auto;
+
 }
 
 .tit_main {
@@ -94,6 +91,7 @@ dl, ul, ol, menu, li {
     background-repeat: no-repeat;
     background-image: url("../../images/data.png");
     z-index: 1;
+    margin-top: 300px;
 }
 
 .cont_txt{
@@ -109,8 +107,8 @@ dl, ul, ol, menu, li {
 }
 
 .intro_cont {
-    max-width: 100%;
-    position: relative;
+    margin-left: 250px;
+    display: block;
     margin-top: -200px;
-    margin-bottom: 300px;
+    margin-bottom: 350px;
 }
