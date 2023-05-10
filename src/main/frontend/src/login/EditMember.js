@@ -340,7 +340,7 @@ function EditMember() {
                                     <select
                                         id="occupation"
                                         name="occupation"
-                                        className="sel"
+                                        className="sel1"
                                         aria-label="직업구분"
                                         onBlur={occupationBlur}
                                     >
@@ -368,7 +368,7 @@ function EditMember() {
                                     <select
                                         id="education"
                                         name="education"
-                                        className="sel"
+                                        className="sel1"
                                         aria-label="교육 수준"
                                         onBlur={educationBlur}
                                     >
@@ -420,16 +420,16 @@ function EditMember() {
                             <div>
 
                             </div>
-                            <div className="join_row join_mobile" id="mobDiv">
+                            <div className="join_row join_mobile1" id="mobDiv">
                                 <div className="join_row join_mobile">
                                     <h3 className="join_title">
                                         <label htmlFor="pphoneNo">휴대전화</label>
                                     </h3>
-                                    <div className="int_mobile_area">
-                                        <span className="edit_box int_mobile">
+                                    <div className="int_mobile_area1">
+                                        <span className="edit_box int_mobile1">
                                             <input type="tel" id="pphoneNo" name="pphoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력" className="int" maxLength="16" />
                                         </span>
-                                        <a href="#" className="btn_verify btn_primary" id="btnPrtsSend" role="button">
+                                        <a href="#" className="btn_verify1 btn_primary1" id="btnPrtsSend" role="button">
                                             <span>인증번호 받기</span>
                                         </a>
                                     </div>
@@ -446,7 +446,8 @@ function EditMember() {
 
 
                             <div className="btn_area">
-                                <button type="button" id="btnJoin" className="btn_type btn_primary"><span>가입하기</span></button>
+                                <button type="button" id="btnJoin" className="btn_type1 btn_primary1"><span>수정</span></button>
+                                <button type="button" id="btnJoin" className="btn_type2 btn_primary2"><span>삭제</span></button>
                             </div>
                         </div>
                     </div>

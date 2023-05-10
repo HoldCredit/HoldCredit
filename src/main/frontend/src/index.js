@@ -13,6 +13,7 @@ import JoinForm from "./login/JoinForm";
 import FindId from "./login/FindId";
 import FindPwd from "./login/FindPwd";
 import EditMember from "./login/EditMember";
+import DeleteMember from './login/DeleteMember';
 import ReportSummary from "./dashboard/maincontents/ReportSummary";
 import MyAssets from "./dashboard/maincontents/MyAssets";
 import MyCredit from "./dashboard/maincontents/MyCredit";
@@ -36,6 +37,7 @@ root.render(
           <Route path="/FindId" element={<FindId/>}/>
           <Route path="/FindPwd" element={<FindPwd/>}/>
           <Route path="/EditMember" element={<EditMember/>}/>
+          <Route path="/DeleteMember" element={<DeleteMember/>}/>
         </Route>
         <Route path="/dashboard" element={<Dashboard/>}>
           <Route path="" element={<ReportSummary/>}/>
