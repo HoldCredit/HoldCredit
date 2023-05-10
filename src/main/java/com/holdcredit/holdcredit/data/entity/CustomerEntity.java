@@ -17,28 +17,28 @@ public class CustomerEntity{
     @Id //회원번호
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_no_SEQ_GENERATOR")
     @Column(nullable = false)
-    Long customer_no;
+    private Long customer_no;
 
     @Column(nullable = false, length = 20)
-    String customer_id;
+    private String customer_id;
 
     @Column(nullable = false, length = 30)
-    String password;
+    private String password;
 
     @Column(nullable = false, length = 20)
-    String customer_name;
+    private String customer_name;
 
     @Column(nullable = false)
     private LocalDate birth; //LocalDateTime 이 아니라 LocalDate만 받아야합니다.
 
     @Column(nullable = false, length = 1)
-    String sex;
+    private String sex;
 
     @Column(nullable = false)
-    Long phone_num;
+    private Long phone_num;
 
     @Column(nullable = false, length = 30)
-    String email;
+    private String email;
 
     @Column(nullable = false)
     private LocalDateTime joinDate = LocalDateTime.now(); //현재 시간으로 바로 저장.
