@@ -63,7 +63,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-function DashBoardHeader({setMenu}) {
+function DashBoardHeader() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -114,9 +114,9 @@ function DashBoardHeader({setMenu}) {
 
         <Divider />
         <List component="nav">
-          <SidebarMainMenus setMenu={setMenu}/>
+          <SidebarMainMenus />
           <Divider sx={{ my: 1 }} />
-          <SidebarSubMenus setMenu={setMenu}/>
+          <SidebarSubMenus />
         </List>
       </Drawer>
     </>

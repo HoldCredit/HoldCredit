@@ -1,11 +1,12 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
+import Paging from "./Paging";
+import {useState} from "react";
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -52,11 +53,14 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Orders() {
+export default function Board() {
+
+  const menu = useState('Menu');
+
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
-      <Table size="small">
+      <Title>{menu}</Title>
+      <Table size="midium">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
@@ -78,9 +82,8 @@ export default function Orders() {
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href=".#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
-      </Link>
+
+      <Paging/>
     </React.Fragment>
   );
 }
