@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Table(name = "Customer")
+@SequenceGenerator(sequenceName ="customer_no_SEQ_GENERATOR", initialValue = 1, allocationSize = 1, name ="customer_no_SEQ_GENERATOR")    //G_generator = S_name
 public class CustomerEntity{
     @Id //회원번호
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_no_SEQ_GENERATOR")
@@ -32,7 +33,7 @@ public class CustomerEntity{
     private LocalDate birth; //LocalDateTime 이 아니라 LocalDate만 받아야합니다.
 
     @Column(nullable = false, length = 1)
-    private String sex;
+    private String gender;
 
     @Column(nullable = false)
     private Long phone_num;

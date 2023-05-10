@@ -18,7 +18,7 @@ public class CustomerDto {
     private String password;
     private String customer_name;
     private LocalDate birth;
-    private String sex;
+    private String gender;
     private Long phone_num;
     private String email;
     private LocalDateTime joinDate;
@@ -32,7 +32,7 @@ public class CustomerDto {
                 .password(password)
                 .customer_name(customer_name)
                 .birth(birth)
-                .sex(sex)
+                .gender(gender)
                 .phone_num(phone_num)
                 .email(email)
                 .joinDate(joinDate)
