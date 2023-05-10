@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import javax.persistence.*;
 
@@ -23,43 +23,41 @@ public class NonFinalceEntity {
 
     //FK : userNo
     @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
+    @JoinColumn(name = "customer_no", nullable = false, updatable = false) //readonly
 //  @JsonIgnore //response에 해당 필드 제외>>>>여기는 확인 해봐야함...ㅋ
     private CustomerEntity customerEntity; //userNo
 
     //결혼여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String marital_status;
+    private String marital_status;
 
     //자녀수
     @Column(nullable = false)
-    Long children_cnt;
+    private Long children_cnt;
 
     //주택 소유 여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String realestate;
+    private String realestate;
 
     //자동차 소유 여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String vehicle;
+    private String vehicle;
 
     //건강보험 납부 여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String health_insurance;
+    private String health_insurance;
 
     //통신요금 납부 여부
     @Column(nullable = false, length = 1)     // Y OR N 둘중 하나만 가능!
-    String phone_bill_payment;
+    private String phone_bill_payment;
 
     //소득금액 증명 납부 여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String proof_of_income_amount;
+    private String proof_of_income_amount;
 
     //국민연금 증명 여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    String national_pension;
-
-
+    private String national_pension;
 
 
     /*CREATE TABLE "NonFinancial" (

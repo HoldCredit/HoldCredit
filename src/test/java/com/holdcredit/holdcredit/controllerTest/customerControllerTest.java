@@ -13,12 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @AutoConfigureMockMvc
 @SpringBootTest
 public class customerControllerTest {
-
 
         @Autowired
         MockMvc mockMvc;
@@ -32,15 +34,15 @@ public class customerControllerTest {
         public void createTest() throws Exception {
             //give
             CustomerDto dto = CustomerDto.builder()
-                    .userNo(1004L)
-                    .Id("gj09")
-                    .pwd("240")
-                    .name("쮸")
-                    .pNum(123L)
-                    .rNum(456L)
-                    .adress("용인살아요")
+                    .customer_id("gj09")
+                    .password("240")
+                    .customer_name("쮸")
+                    .birth(LocalDate.of(1996, 7, 18))
+                    .gender("F")
+                    .phone_num(1042933333L)
                     .email("jju240@tistory.com")
-                    .joinDate("230502")
+                    .joinDate(LocalDateTime.now())
+                    .admin_level(0L)
                     .build();
 
             String json = object.writeValueAsString(dto);
