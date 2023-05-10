@@ -16,7 +16,7 @@ public class FaqResponseDto {
     // entity 일부만 사용해 생성자로 값을 받아 대입
     public FaqResponseDto(FaqEntity faqEntity){
         this.faq_no = faqEntity.getFaq_no();
-        this.customerEntity = faqEntity.getCustomerEntity().getUserNo();
+        this.customerEntity = faqEntity.getCustomerEntity().getCustomer_no();
         this.title = faqEntity.getTitle();
         this.content = faqEntity.getContent();
     }

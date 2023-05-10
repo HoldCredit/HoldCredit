@@ -23,7 +23,7 @@ public class NoticeResponseDto {
     /* 조회한 entity -> dto */
     public NoticeResponseDto(NoticeEntity noticeEntity){
         this.notice_no = noticeEntity.getNotice_no();
-        this.customerEntity = noticeEntity.getCustomerEntity().getUserNo();
+        this.customerEntity = noticeEntity.getCustomerEntity().getCustomer_no();
         this.title = noticeEntity.getTitle();
         this.content = noticeEntity.getContent();
         this.hits = noticeEntity.getHits();
