@@ -39,7 +39,7 @@ body {
 #header1 .h_logo {
     display: block;
     margin: 0 auto;
-    width: 273px;
+    width: 271px;
     height: 44px;
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -184,11 +184,11 @@ label {
     padding: 6px;
 }
 
-:root .sel {
+:root .sel1 {
     background-size: 20px 8px;
 }
 
-.sel {
+.sel1 {
     width: 100%;
     height: 29px;
     font-size: 18px;
@@ -221,20 +221,20 @@ select:hover:not(:focus) {
     color: #8e8e8e;
 }
 
-.join_mobile .int_mobile_area {
+.join_mobile1 .int_mobile_area1 {
     position: relative;
     margin-top: 10px;
     padding: 0 125px 0 0;
 }
 
-.join_mobile .int_mobile {
+.join_mobile1 .int_mobile1 {
     display: inline-block;
     width: 100%;
     padding: 10px 15px 10px 14px;
     vertical-align: top;
 }
 
-.join_mobile .int_mobile_area .btn_verify {
+.join_mobile1 .int_mobile_area1 .btn_verify1 {
     position: absolute;
     top: 0;
     right: 0;
@@ -245,46 +245,63 @@ select:hover:not(:focus) {
     text-align: center;
     box-sizing: border-box;
     text-decoration: none;
+    color: #000;
 }
 
-.btn_verify {
+.btn_verify1 {
     display: block;
     font-size: 15px;
-    cursor: pointer;
 }
 
-.btn_primary {
-    color: #fff;
+.btn_primary1 {
     border: solid 1px rgba(0, 0, 0, .08);
     background-color: #fee500;
 }
 
-.join_mobile .edit_box_disable,
-.join_mobile .edit_box_disable input {
+.join_mobile1 .edit_box_disable,
+.join_mobile1 .edit_box_disable input {
     background: #f7f7f7;
     outline: 0;
 }
 
-.int_mobile_area+.edit_box,
-.int_mobile_area+.edit_box_disable,
+.int_mobile_area1+.edit_box,
+.int_mobile_area1+.edit_box_disable,
 .edit_box_disable+.edit_box {
     margin-top: 10px;
 }
 
 .btn_area {
     margin: 30px 0 30px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
-.btn_type {
-    display: block;
-    width: 100%;
+.btn_type1 {
+    width: 95px;
     padding: 15px 0 15px;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center;
     cursor: pointer;
     box-sizing: border-box;
     margin-bottom: 5px;
+}
+.btn_type2 {
+    width: 95px;
+    padding: 15px 0 15px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+.btn_primary2 {
+    color: #000;
+    border: solid 1px rgba(0, 0, 0, .08);
+    background-color: #dadada;
 }
 
 .address-form input {
