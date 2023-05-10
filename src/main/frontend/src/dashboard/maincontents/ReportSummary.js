@@ -4,12 +4,11 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Chart from "../components/Chart";
 import Deposits from "../components/Deposits";
-import Orders from "../components/Orders";
 import DashboardFooter from "../DashboardFooter";
-import Box from "@mui/material/Box";
 import * as React from "react";
+import Board from "../components/Board";
 
-function ReportSummary() {
+export default function ReportSummary() {
   return (
     <>
       <Toolbar/>
@@ -49,7 +48,7 @@ function ReportSummary() {
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-              <Orders/>
+              <Board/>
             </Paper>
           </Grid>
         </Grid>
@@ -59,4 +58,3 @@ function ReportSummary() {
     </>
   )
 }
-export default ReportSummary;

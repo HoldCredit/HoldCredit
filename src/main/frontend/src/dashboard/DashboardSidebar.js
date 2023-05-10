@@ -11,32 +11,29 @@ import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ChatIcon from '@mui/icons-material/Chat';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import ReportSummary from "./maincontents/ReportSummary";
-import MyAssets from "./maincontents/MyAssets";
-import MyCredit from "./maincontents/MyCredit";
-import QNA from "./subcontents/QNA";
-import FAQ from "./subcontents/FAQ";
-import Notice from "./subcontents/Notice";
-import LiskAnalysis from "./maincontents/LiskAnalysis";
+import {useNavigate} from "react-router-dom";
 
-function SidebarMainMenus({setMenu}) {
+function SidebarMainMenus() {
+
+  const navigate = useNavigate();
+
   return (
     <React.Fragment>
-      <ListItemButton onClick={() => setMenu(<ReportSummary/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard');}}>
         <ListItemIcon>
           <BarChartIcon/>
         </ListItemIcon>
         <ListItemText primary="Reports Summary" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setMenu(<MyAssets/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard/myassets');}}>
         <ListItemIcon>
           <AttachMoneyIcon/>
         </ListItemIcon>
         <ListItemText primary="My Assets" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setMenu(<MyCredit/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard/mycredit');}}>
         <ListItemIcon>
           <CreditCardIcon/>
         </ListItemIcon>
@@ -47,7 +44,7 @@ function SidebarMainMenus({setMenu}) {
         <ListItemIcon>
           <RunningWithErrorsIcon/>
         </ListItemIcon>
-        <ListItemText primary="Lisk Analysis" onClick={() => setMenu(<LiskAnalysis/>)}/>
+        <ListItemText primary="Lisk Analysis" onClick={() => {navigate('/dashboard/liskanalysis');}}/>
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
@@ -60,7 +57,9 @@ function SidebarMainMenus({setMenu}) {
 }
 
 
-function SidebarSubMenus({setMenu}) {
+function SidebarSubMenus() {
+
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -68,21 +67,21 @@ function SidebarSubMenus({setMenu}) {
         고객 센터
       </ListSubheader>
 
-      <ListItemButton onClick={() => setMenu(<Notice/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard/notice');}}>
         <ListItemIcon>
           <TelegramIcon/>
         </ListItemIcon>
         <ListItemText primary="공지 사항" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setMenu(<QNA/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard/qna');}}>
         <ListItemIcon>
           <HelpOutlineIcon/>
         </ListItemIcon>
         <ListItemText primary="Q & A" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => setMenu(<FAQ/>)}>
+      <ListItemButton onClick={() => {navigate('/dashboard/faq');}}>
         <ListItemIcon>
           <ChatIcon/>
         </ListItemIcon>
