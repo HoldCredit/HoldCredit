@@ -8,6 +8,13 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./screens/Home";
 import Service from "./screens/Service";
 import CreditRating from "./screens/CreditRating";
+import MainNotice from './screens/MainNotice';
+import MainQnA from './screens/MainQnA';
+import MainFaQ from './screens/MainFaQ';
+import NoticeView from './screens/NoticeView';
+import NoticeWrite from './screens/NoticeWrite';
+import NoticeEdit from './screens/NoticeEdit';
+
 import LoginPage from "./login/LoginPage";
 import JoinForm from "./login/JoinForm";
 import FindId from "./login/FindId";
@@ -31,6 +38,12 @@ root.render(
           <Route path="/" element={<Home/>}/>
           <Route path="/Service" element={<Service/>}/>
           <Route path="/CreditRating" element={<CreditRating/>}/>
+          <Route path ="/MainNotice" element ={<MainNotice />} />
+          <Route path ="/MainQnA" element ={<MainQnA />} />
+          <Route path ="/MainFaQ" element ={<MainFaQ />} />
+          <Route path="/NoticeView" element = {<NoticeView/>} />
+          <Route path="/NoticeWrite" element = {<NoticeWrite/>} />
+          <Route path="/NoticeEdit" element ={<NoticeEdit/>} />
           <Route path="/LoginPage" element={<LoginPage/>}/>
           <Route path="/JoinForm" element={<JoinForm/>}/>
           <Route path="/FindId" element={<FindId/>}/>
