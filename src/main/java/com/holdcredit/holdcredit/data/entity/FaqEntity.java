@@ -12,20 +12,19 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter //setter: 기능 변경 시 복잡 -> 생성자를 통해 db 삽입
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 자동생성
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //접근 제어로 설정하여 무분별한 객체의 생성을 막음 //기본생성자 생성
 @Entity //jpa
 @Table(name="FAQ")
-@SequenceGenerator(sequenceName ="FAQ_SEQ", initialValue = 1, allocationSize = 1, name ="FAQ_SEQ")    //G_generator = S_name
-public class FaqEntity {
+@SequenceGenerator(sequenceName ="FAQ_SEQ", initialValue = 1, allocationSize = 1, name ="FAQ_SEQ_GENERATOR")    //G_generator = S_name
+public class FaqEntity extends DateEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="FAQ_SEQ") //시퀀스
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="FAQ_SEQ_GENERATOR") //시퀀스
     private Long faq_no;
 
     @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
     @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
 //    @JsonIgnore //response에 해당 필드 제외
-
     private CustomerEntity customerEntity; //userNo
     @Column(length = 500, nullable = false )
     private String title;
