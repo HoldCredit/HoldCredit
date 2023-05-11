@@ -21,16 +21,16 @@ public class DeptDto {
     private Date loan_period;
     private Long loan_count;
 
-    /* Dto -> Entity 저장 */
-    public Debt toEntity() {
-        return Debt.builder()
-                .debt_level_no(debt_level_no)
-                .customerEntity(customerEntity)
-                .loan_amount(loan_amount)
-                .loan_period(loan_period)
-                .loan_count(loan_count)
-                .build();
-    }
+//    /* Dto -> Entity 저장 */
+//    public Debt toEntity() {
+//        return Debt.builder()
+//                .debt_level_no(debt_level_no)
+//                .customerEntity(customerEntity)
+//                .loan_amount(loan_amount)
+//                .loan_period(loan_period)
+//                .loan_count(loan_count)
+//                .build();
+//    }
 
     /*@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEBT_SEQ_GENERATOR")

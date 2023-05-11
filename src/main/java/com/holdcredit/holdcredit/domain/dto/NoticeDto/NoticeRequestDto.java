@@ -16,10 +16,10 @@ public class NoticeRequestDto {
     private String attach;
 
 
-    /* Dto -> Entity 저장 */
-    public Notice toEntity(){
-        return Notice.builder().customerEntity(customerEntity).title(title).content(content).attach(attach).build();
-    }
+//    /* Dto -> Entity 저장 */
+//    public Notice toEntity(){
+//        return Notice.builder().customerEntity(customerEntity).title(title).content(content).attach(attach).build();
+//    }
 
 
 

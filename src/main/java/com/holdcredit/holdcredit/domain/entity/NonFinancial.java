@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,51 +14,58 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "NonFinalcial")
+@SequenceGenerator(sequenceName = "NON_FINANCIAL_SEQ", initialValue = 1, allocationSize = 1, name = "NON_FINANCIAL_SEQ_GENERATOR")
 public class NonFinancial {
 
     @Id //PK: 비금융 번호
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "non_financial_SEQ_GENERATOR")
-    @Column(nullable = false)
-    private Long non_financial_no;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NON_FINANCIAL_SEQ_GENERATOR")
+    @Column(name = "non_financial_no")
+    private Long ID;
 
     //FK : userNo
-    @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
+    @OneToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
     @JoinColumn(name = "customer_no", nullable = false, updatable = false) //readonly
 //  @JsonIgnore //response에 해당 필드 제외>>>>여기는 확인 해봐야함...ㅋ
-    private Customer customerEntity; //userNo
+    private Customer customer; //userNo
 
     //결혼여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String marital;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification marital = Classification.NO;
 
     //자녀수
     @Column(nullable = false)
-    private Long children_cnt;
+    private Integer children_cnt;
 
     //주택 소유 여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String realestate;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification realestate = Classification.NO;
 
     //자동차 소유 여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String vehicle;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification vehicle = Classification.NO;
 
     //건강보험 납부 여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String health_insurance;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification healthInsurance = Classification.NO;
 
     //통신요금 납부 여부
-    @Column(nullable = false, length = 1)     // Y OR N 둘중 하나만 가능!
-    private String phone_bill_payment;
+    @Builder.Default
+    @Column(nullable = false, length = 3)     // Y OR N 둘중 하나만 가능!
+    private Classification phoneBillPayment = Classification.NO;
 
     //소득금액 증명 납부 여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String proof_of_income_amount;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification proofOfIncomeAmount = Classification.NO;
 
     //국민연금 증명 여부
-    @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String national_pension;
+    @Builder.Default
+    @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
+    private Classification nationalPension = Classification.NO;
 
 
 

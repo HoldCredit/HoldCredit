@@ -28,7 +28,7 @@ public class Customer {
     private Long id;
 
     @Column(nullable = false, length = 20)
-    private String customer_id;
+    private String customerId;
 
     @Column(nullable = false, length = 30)
     private String password;
@@ -49,6 +49,7 @@ public class Customer {
     @Column(nullable = false, length = 30)
     private String email;
 
+    @Builder.Default
     private LocalDateTime joinDate = LocalDateTime.now(); //현재 시간으로 바로 저장.
 
     /*
@@ -57,15 +58,17 @@ public class Customer {
     *  위와 같이 joinDate 필드를 LocalDateTime 으로 선언하였습니다.
     *  현재 날짜와 시간으로 초기화됩니다.
     * */
-
-    @Enumerated(EnumType.STRING)
-    private UserLevel adminLevel = CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
-
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private JobDomain job = JobDomain.기타; // 기본값 : '기타'로 저장
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private EducationDomain educationLevel = EducationDomain.고등학교졸업; // 기본값 : '고졸'로 저장
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private UserLevel adminLevel = CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
 
     /*CREATE TABLE "Customer" (
 	"customer_no"	NUMBER		NOT NULL,
@@ -87,16 +90,42 @@ public class Customer {
     /* 연관 관계 설정 */
 
     // FAQ
+    @Builder.Default
     @OneToMany(mappedBy = "customer")
     private List<Faq> faqs = new ArrayList<>();
 
     // Notice
+    @Builder.Default
     @OneToMany(mappedBy = "customer")
     private List<Notice> notices = new ArrayList<>();
 
     // QNA
+    @Builder.Default
     @OneToMany(mappedBy = "customer")
     private List<Qna> qnas = new ArrayList<>();
+
+    //부채수준
+    @Builder.Default
+    @OneToMany(mappedBy = "customer")
+    private List<Debt> debts = new ArrayList<>();
+
+    //신용카드 형태
+    @Builder.Default
+    @OneToMany(mappedBy = "customer")
+    private List<CreditCard> creditCards = new ArrayList<>();
+
+    //개인 금융
+    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
+    private Finance finance;
+
+    //비금융
+    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
+    private NonFinancial nonFinancial;
+
+    //점수
+    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
+    private Score scores;
+
 
 
 }

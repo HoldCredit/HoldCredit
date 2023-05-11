@@ -16,7 +16,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Notice")
 @SequenceGenerator(sequenceName ="NOTICE_SEQ", initialValue = 1, allocationSize = 1, name ="NOTICE_SEQ_GENERATOR")
 public class Notice extends Date {
 
@@ -30,6 +29,10 @@ public class Notice extends Date {
     @JoinColumn(name = "customer_no", nullable = false, updatable = false)
     private Customer customer;
 
+    //작성자
+    @Column (length=200, nullable = false)
+    private String writer;
+
     //제목
     @Column(length = 500, nullable = false )
     private String title;
@@ -40,12 +43,14 @@ public class Notice extends Date {
 
     //조회수
     @Column(nullable = false)
-    private Long hits = 0L;
+    private Long hits;
 
     //첨부파일 구분
-    private Classification attach_classification = Classification.NO;
+    @Builder.Default
+    private Classification attachClassification = Classification.NO;
 
     //첨부파일과 연관관계 설정
+    @Builder.Default
     @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE)
     private List<Attach> attach = new ArrayList<>();
 

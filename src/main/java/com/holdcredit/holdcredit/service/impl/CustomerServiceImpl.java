@@ -16,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
     //dto에서 회원 정보를 입력하면 그것을 핸들러 한번 거쳐서 엔티티로 바꾼 객체를 customerEntity에 저장한다
     @Override
     public CustomerDto saveCustomer(final CustomerDto customerDto){
-        Customer customerEntity = customerRepository.save(customerDto.toEntity());
+//        Customer customerEntity = customerRepository.save(customerDto.toEntity());
         return customerDto;
     }
 

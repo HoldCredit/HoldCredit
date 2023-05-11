@@ -12,14 +12,14 @@ public class FaqResponseDto {
     private final String title;
     private final String content;
 
-    /* 조회한 entity -> dto */
-    // entity 일부만 사용해 생성자로 값을 받아 대입
-    public FaqResponseDto(Faq faqEntity){
-        this.faq_no = faqEntity.getFaq_no();
-        this.customerEntity = faqEntity.getCustomerEntity().getCustomer_no();
-        this.title = faqEntity.getTitle();
-        this.content = faqEntity.getContent();
-    }
+//    /* 조회한 entity -> dto */
+//    // entity 일부만 사용해 생성자로 값을 받아 대입
+//    public FaqResponseDto(Faq faqEntity){
+//        this.faq_no = faqEntity.getFaq_no();
+//        this.customerEntity = faqEntity.getCustomerEntity().getCustomer_no();
+//        this.title = faqEntity.getTitle();
+//        this.content = faqEntity.getContent();
+//    }
 
     @Builder //final: readonly 속성
     public FaqResponseDto(Long faq_no, Long customerEntity, String title, String content){

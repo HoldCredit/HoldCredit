@@ -6,30 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SequenceGenerator(name = "REDEMPTION_SEQ_GENERATOR",sequenceName ="REDEMPTION_SEQ", allocationSize = 1)
-
-public class Repayment {
+@SequenceGenerator(sequenceName ="REDEMPTION_SEQ", initialValue = 1, allocationSize = 1, name ="REDEMPTION_SEQ_GENERATOR")
+public class Redemption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REDEMPTION_SEQ_GENERATOR")
-    private Long redemption_information_no;
+    @Column(name = "redemption_information_no")
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "debt_level_no", nullable = false, updatable = false)
-    private Debt debtEntity;
+    private Debt debt;
 
     @Column(nullable = false)
-    private Long loan_amount;
+    private Long loanAmount;
 
     @Column(nullable = false)
-    private Date overdue_period;
+    private Long overduePeriod;
 
     /*CREATE TABLE "Repayment" (
 	"redemption_information_no"	NUMBER		NOT NULL,
