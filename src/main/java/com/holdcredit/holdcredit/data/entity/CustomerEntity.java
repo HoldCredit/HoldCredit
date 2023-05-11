@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+
+import static com.holdcredit.holdcredit.data.entity.RoleDomain.CUSTOMER;
 
 @Entity
 @Getter
@@ -51,16 +52,16 @@ public class CustomerEntity{
     *  현재 날짜와 시간으로 초기화됩니다.
     * */
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Long admin_level = 0L; // 0 이 커스토머 1이 관리자 // 기본값은 0으로 지정했습니다.
-
+    private RoleDomain admin_level = CUSTOMER;  // 0 이 커스토머 1이 관리자 // 기본값은 0으로 지정했습니다.
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Long job = 0L; // 0 이 무직 // 기본값은 0으로 지정했습니다.
+    private JobDomain job = JobDomain.기타; // 기본값은 기타로 지정했습니다.
     //1,2,3,4 번은 직업을 뭘로할지 생각해봐야합니다. >>  도매인으로 생성할 예정
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Long education_level = 0L; // 0 이 고졸 // 기본값은 0으로 지정했습니다.
-    //1,2,3,4 번은 고졸, 중졸, 대졸, 석사, 박사 뭘로할지 생각해봐야합니다. >>  도매인으로 생성할 예정
+    private EducationDomain education_level = EducationDomain.고등학교졸업; // 기본값은 고졸로 지정했습니다.
 
     /*CREATE TABLE "Customer" (
 	"customer_no"	NUMBER		NOT NULL,
