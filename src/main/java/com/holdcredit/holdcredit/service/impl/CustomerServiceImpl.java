@@ -5,7 +5,10 @@ import com.holdcredit.holdcredit.data.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,30 +24,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDto;
     }
 
- /*   @Override
-    public CustomerDto getCustomer(Long userNo) {
-        //dataHandler에서 userNo로 찾은 정보의 엔터티를 customer에 담아서
-        //그 customer안에 있는 정보를 dto로 만들어준다.
+    @Override
+    public CustomerDto getCustomer(CustomerDto customerDto) {
+        // 고객 정보 조회 로직 작성
+    return null;
+    }
 
-        return null;
-    }*/
-
-
-   /* @Override
-    public CustomerDto getCustomer(Long userNo) {
-        //dataHandler에서 userNo로 찾은 정보의 엔터티를 customer에 담아서
-        //그 customer안에 있는 정보를 dto로 만들어준다.
-        CustomerEntity customer = customerDataHandler.getCustomerEntity(userNo);
-        CustomerDto customerDto = new CustomerDto(customer.getUserNo(),
-                customer.getId(),
-                customer.getPwd(),
-                customer.getName(),
-                customer.getPNum(),
-                customer.getRNum(),
-                customer.getAdress(),
-                customer.getEmail(),
-                customer.getJoinDate()
-        );
-        return customerDto;
-    }*/
 }
