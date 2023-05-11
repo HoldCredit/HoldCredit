@@ -1,7 +1,7 @@
 
 package com.holdcredit.holdcredit.controller;
 
-import com.holdcredit.holdcredit.data.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

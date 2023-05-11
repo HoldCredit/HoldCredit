@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.entityTest;
 
-import com.holdcredit.holdcredit.data.entity.FaqEntity;
-import com.holdcredit.holdcredit.data.repository.FaqRepository;
+import com.holdcredit.holdcredit.domain.entity.Faq;
+import com.holdcredit.holdcredit.repository.FaqRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,11 +24,11 @@ public class faqTest {
         String title = "제목";
         String content = "내용";
 
-        faqRepository.save(FaqEntity.builder().title(title).content(content).build());
+        faqRepository.save(Faq.builder().title(title).content(content).build());
 
-        List<FaqEntity> faqList = faqRepository.findAll();
+        List<Faq> faqList = faqRepository.findAll();
 
-        FaqEntity faq= faqList.get(0);
+        Faq faq= faqList.get(0);
 
         assertThat(faq.getTitle()).isEqualTo(title);
         assertThat(faq.getContent()).isEqualTo(content);

@@ -1,13 +1,12 @@
 package com.holdcredit.holdcredit.serviceTest;
 
-import com.holdcredit.holdcredit.data.dto.FaqDto.FaqRequestDto;
-import com.holdcredit.holdcredit.data.entity.FaqEntity;
-import com.holdcredit.holdcredit.data.repository.FaqRepository;
+import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.entity.Faq;
+import com.holdcredit.holdcredit.repository.FaqRepository;
 import com.holdcredit.holdcredit.service.impl.FaqServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ public class faqServiceTest {
         faqServiceImpl.create(FaqCreate);
 
         //then
-        FaqEntity faq = faqRepository.findAll().get(0);
+        Faq faq = faqRepository.findAll().get(0);
 
     }
 
