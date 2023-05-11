@@ -1,8 +1,6 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.data.dto.customerDto.CustomerDto;
-import com.holdcredit.holdcredit.data.entity.CustomerEntity;
-import com.holdcredit.holdcredit.data.repository.CustomerRepository;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import org.springframework.stereotype.Service;
 
 @Service

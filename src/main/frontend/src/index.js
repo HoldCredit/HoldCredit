@@ -14,7 +14,6 @@ import MainFaQ from './screens/MainFaQ';
 import NoticeView from './screens/NoticeView';
 import NoticeWrite from './screens/NoticeWrite';
 import NoticeEdit from './screens/NoticeEdit';
-
 import LoginPage from "./login/LoginPage";
 import JoinForm from "./login/JoinForm";
 import FindId from "./login/FindId";
@@ -29,6 +28,7 @@ import Notice from "./dashboard/subcontents/Notice";
 import QNA from "./dashboard/subcontents/QNA";
 import FAQ from "./dashboard/subcontents/FAQ";
 import Error404 from "./pages/Error404";
+import CreditForm from "./pages/CreditForm";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -51,6 +51,7 @@ root.render(
           <Route path="/FindPwd" element={<FindPwd/>}/>
           <Route path="/EditMember" element={<EditMember/>}/>
           <Route path="/DeleteMember" element={<DeleteMember/>}/>
+          <Route path="/CreditForm" element={<CreditForm/>}/>
         </Route>
         <Route path="/dashboard" element={<Dashboard/>}>
           <Route path="" element={<ReportSummary/>}/>

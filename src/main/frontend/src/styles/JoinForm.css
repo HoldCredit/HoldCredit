@@ -63,6 +63,17 @@ body {
     width: 100%;
 }
 
+.join_row {
+    padding-bottom: 16px;
+}
+
+.join_row_flex {
+    display: flex;
+    flex-direction: column;
+}
+.join_hr {
+    padding-bottom: 10px;
+}
 .join_title {
     margin: 19px 0 8px;
     font-size: 17px;
@@ -313,4 +324,7 @@ select:hover:not(:focus) {
 
 .address-form button:hover {
     background-color: #0069d9;
+}
+.creditDivider {
+    padding-top: 30px;
 }

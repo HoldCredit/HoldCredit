@@ -1,9 +1,8 @@
 package com.holdcredit.holdcredit.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.holdcredit.holdcredit.data.dto.customerDto.CustomerDto;
-import com.holdcredit.holdcredit.data.entity.CustomerEntity;
-import com.holdcredit.holdcredit.data.repository.CustomerRepository;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

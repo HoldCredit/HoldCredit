@@ -4,9 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import DashBoardHeader from "../dashboard/DashboardHeader";
 import {Outlet} from "react-router-dom";
-import {Provider} from "react-redux";
-import PageTitleStore from "../store/PageTitleStore";
-import {useState} from "react";
 
 const mdTheme = createTheme();
 

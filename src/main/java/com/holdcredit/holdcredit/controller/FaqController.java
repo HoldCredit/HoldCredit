@@ -1,9 +1,8 @@
 package com.holdcredit.holdcredit.controller;
 
-import com.holdcredit.holdcredit.data.dto.FaqDto.FaqRequestDto;
-import com.holdcredit.holdcredit.data.dto.FaqDto.FaqUpdateDto;
+import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqUpdateDto;
 import com.holdcredit.holdcredit.service.FaqService;
-import com.holdcredit.holdcredit.service.impl.FaqServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

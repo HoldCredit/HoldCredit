@@ -1,12 +1,11 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.data.dto.FaqDto.FaqRequestDto;
-import com.holdcredit.holdcredit.data.dto.FaqDto.FaqUpdateDto;
-import com.holdcredit.holdcredit.data.entity.FaqEntity;
-import com.holdcredit.holdcredit.data.repository.FaqRepository;
+import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqUpdateDto;
+import com.holdcredit.holdcredit.domain.entity.Faq;
+import com.holdcredit.holdcredit.repository.FaqRepository;
 import com.holdcredit.holdcredit.service.FaqService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,7 @@ public class FaqServiceImpl implements FaqService {
     @Override
     @Transactional //db자동 커밋
     public Long create(final FaqRequestDto faqReq){
-        FaqEntity faq = faqRepository.save(faqReq.toEntity());
+        Faq faq = faqRepository.save(faqReq.toEntity());
         return faq.getFaq_no();
     } //create() 실행하여 entity 저장 -> 종료 후 fNo 리턴
 
@@ -29,7 +28,7 @@ public class FaqServiceImpl implements FaqService {
     @Override
     @Transactional
     public Long update(final FaqUpdateDto faqUpdateDto, final Long faq_no){
-        FaqEntity faqEntity = faqRepository.findById(faq_no).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+faq_no));
+        Faq faqEntity = faqRepository.findById(faq_no).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+faq_no));
 
         faqEntity.update(faqUpdateDto.getTitle(), faqUpdateDto.getContent());
         faqRepository.save(faqEntity);
