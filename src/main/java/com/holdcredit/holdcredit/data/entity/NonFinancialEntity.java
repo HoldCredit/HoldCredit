@@ -29,7 +29,7 @@ public class NonFinancialEntity {
 
     //결혼여부
     @Column(nullable = false, length = 1)    // Y OR N 둘중 하나만 가능!
-    private String marital_status;
+    private String marital;
 
     //자녀수
     @Column(nullable = false)
@@ -64,7 +64,7 @@ public class NonFinancialEntity {
     /*CREATE TABLE "NonFinancial" (
 	피케이 "non_financial_no"	NUMBER		NOT NULL,
 	에프케이 "customer_no"	NUMBER		NOT NULL,
-	"marital_status"	CHAR(1)		NOT NULL,
+	"marital"	CHAR(1)		NOT NULL,
 	"children_cnt"	NUMBER		NOT NULL,
 	"realestate"	CHAR(1)		NOT NULL,
 	"vehicle"	CHAR(1)		NOT NULL,

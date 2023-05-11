@@ -12,7 +12,7 @@ import lombok.*;
 public class NonFinancialDto {
 
     private Long non_financial_no;
-    private String marital_status;
+    private String marital;
     private Long children_cnt;
     private String realestate;
     private String vehicle;
@@ -24,7 +24,7 @@ public class NonFinancialDto {
     public NonFinancialEntity toEntity() {
         return NonFinancialEntity.builder()
                 .non_financial_no(non_financial_no)
-                .marital_status(marital_status)
+                .marital(marital)
                 .children_cnt(children_cnt)
                 .realestate(realestate)
                 .vehicle(vehicle)
