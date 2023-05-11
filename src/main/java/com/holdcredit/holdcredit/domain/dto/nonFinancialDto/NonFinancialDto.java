@@ -21,17 +21,17 @@ public class NonFinancialDto {
     private String proof_of_income_amount;
     private String national_pension;
 
-    public NonFinancial toEntity() {
-        return NonFinancial.builder()
-                .non_financial_no(non_financial_no)
-                .marital(marital)
-                .children_cnt(children_cnt)
-                .realestate(realestate)
-                .vehicle(vehicle)
-                .health_insurance(health_insurance)
-                .phone_bill_payment(phone_bill_payment)
-                .proof_of_income_amount(proof_of_income_amount)
-                .national_pension(national_pension)
-                .build();
-    }
+//    public NonFinancial toEntity() {
+//        return NonFinancial.builder()
+//                .non_financial_no(non_financial_no)
+//                .marital(marital)
+//                .children_cnt(children_cnt)
+//                .realestate(realestate)
+//                .vehicle(vehicle)
+//                .health_insurance(health_insurance)
+//                .phone_bill_payment(phone_bill_payment)
+//                .proof_of_income_amount(proof_of_income_amount)
+//                .national_pension(national_pension)
+//                .build();
+//    }
 }

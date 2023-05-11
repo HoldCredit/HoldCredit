@@ -20,7 +20,7 @@ public class FaqServiceImpl implements FaqService {
     @Transactional //db자동 커밋
     public Long create(final FaqRequestDto faqReq){
         Faq faq = faqRepository.save(faqReq.toEntity());
-        return faq.getFaq_no();
+        return faq.getId();
     } //create() 실행하여 entity 저장 -> 종료 후 fNo 리턴
 
 
@@ -33,7 +33,7 @@ public class FaqServiceImpl implements FaqService {
         faqEntity.update(faqUpdateDto.getTitle(), faqUpdateDto.getContent());
         faqRepository.save(faqEntity);
 
-        return faqEntity.getFaq_no();
+        return faqEntity.getId();
     } //영속성으로 entity 객체의 값만 변경하면 자동으로 변경사항 반영됨 -> repository.update() 필요없음
 
 

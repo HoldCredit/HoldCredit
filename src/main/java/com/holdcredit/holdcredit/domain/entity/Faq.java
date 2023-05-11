@@ -16,16 +16,20 @@ public class Faq extends Date {
     @Column(name = "faq_no")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
+    @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
+//    @JsonIgnore //response에 해당 필드 제외
+    private Customer customer; //userNo
+
+    //작성자
+    @Column (length=200, nullable = false)
+    private String writer;
+
     @Column(length = 500, nullable = false )
     private String title;
 
     @Column(length = 5000, nullable = false)
     private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
-//    @JsonIgnore //response에 해당 필드 제외
-    private Customer customer; //userNo
 
     @Builder
     public Faq(Customer customerEntity, String title, String content){

@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.domain.dto.repaymentDto;
 
 import com.holdcredit.holdcredit.domain.entity.Debt;
-import com.holdcredit.holdcredit.domain.entity.Repayment;
+import com.holdcredit.holdcredit.domain.entity.Redemption;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,14 +20,14 @@ public class RepaymentDto {
     private Long loan_amount;
     private Date overdue_period;
 
-    /* Dto -> Entity 저장 */
-    public Repayment toEntity() {
-        return Repayment.builder()
-                .redemption_information_no(redemption_information_no)
-                .debtEntity(debtEntity)
-                .loan_amount(loan_amount)
-                .overdue_period(overdue_period)
-                .build();
+//    /* Dto -> Entity 저장 */
+//    public Redemption toEntity() {
+//        return Redemption.builder()
+//                .redemption_information_no(redemption_information_no)
+//                .debtEntity(debtEntity)
+//                .loan_amount(loan_amount)
+//                .overdue_period(overdue_period)
+//                .build();
 
     /*CREATE TABLE "Repayment" (
 	"redemption_information_no"	NUMBER		NOT NULL,
@@ -35,5 +35,5 @@ public class RepaymentDto {
 	"loan_amount"	NUMBER		NOT NULL,
 	"overdue_period"	DATE		NOT NULL
 );*/
-    }
+//    }
 }

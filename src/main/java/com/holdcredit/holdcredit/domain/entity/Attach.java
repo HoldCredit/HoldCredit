@@ -44,6 +44,7 @@ public class Attach extends Date {
     private String ext;
 
     //삭제 구분 (YES,NO)
+    @Builder.Default
     @Column(length = 1, nullable = false)
     private Classification isDelete = Classification.NO;
 

@@ -28,7 +28,7 @@ public class Reply extends Date {
 
     //작성자
     @Column(length = 200, nullable = false)
-    private String writer = qna.getWriter();
+    private String writer;
 
     //내용
     @Column(length = 5000, nullable = false)

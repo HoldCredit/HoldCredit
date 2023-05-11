@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="QnA")
 @SequenceGenerator(sequenceName ="QNA_SEQ", initialValue = 1, allocationSize = 1, name ="QNA_SEQ_GENERATOR")
 public class Qna extends Date {
 
@@ -31,7 +30,7 @@ public class Qna extends Date {
 
     //작성자
     @Column (length=200, nullable = false)
-    private String writer = customer.getCustomerName();
+    private String writer;
 
     //제목
     @Column(length = 500, nullable = false )
@@ -43,8 +42,9 @@ public class Qna extends Date {
 
     //조회수
     @Column(nullable = false)
-    private Long hits = 0L;
+    private Long hits;
 
+    @Builder.Default
     @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
     private List<Reply> reply = new ArrayList<>();
 

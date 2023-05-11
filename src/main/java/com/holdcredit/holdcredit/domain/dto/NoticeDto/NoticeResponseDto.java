@@ -19,14 +19,14 @@ public class NoticeResponseDto {
     private Long hits;
     private String attach;
 
-    /* 조회한 entity -> dto */
-    public NoticeResponseDto(Notice noticeEntity){
-        this.notice_no = noticeEntity.getNotice_no();
-        this.customerEntity = noticeEntity.getCustomerEntity().getCustomer_no();
-        this.title = noticeEntity.getTitle();
-        this.content = noticeEntity.getContent();
-        this.hits = noticeEntity.getHits();
-        this.attach = noticeEntity.getAttach();
-    }
+//    /* 조회한 entity -> dto */
+//    public NoticeResponseDto(Notice noticeEntity){
+//        this.notice_no = noticeEntity.getNotice_no();
+//        this.customerEntity = noticeEntity.getCustomerEntity().getCustomer_no();
+//        this.title = noticeEntity.getTitle();
+//        this.content = noticeEntity.getContent();
+//        this.hits = noticeEntity.getHits();
+//        this.attach = noticeEntity.getAttach();
+//    }
 
 }
