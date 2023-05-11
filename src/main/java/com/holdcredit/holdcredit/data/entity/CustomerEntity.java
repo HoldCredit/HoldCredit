@@ -42,7 +42,7 @@ public class CustomerEntity{
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime joinDate = LocalDateTime.now(); //현재 시간으로 바로 저장.
+    private LocalDateTime join_Date = LocalDateTime.now(); //현재 시간으로 바로 저장.
 
     /*
     *  java.util.Date 클래스는 더 이상 권장되지 않는 클래스이며, 대신 java.time.LocalDateTime 클래스를 사용하는 것이 좋습니다.

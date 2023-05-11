@@ -21,7 +21,7 @@ public class CustomerDto {
     private String gender;
     private Long phone_num;
     private String email;
-    private LocalDateTime joinDate;
+    private LocalDateTime join_Date;
     private Long admin_level;
 
     //dto를 엔터티로 변경하는 작업
@@ -35,7 +35,7 @@ public class CustomerDto {
                 .gender(gender)
                 .phone_num(phone_num)
                 .email(email)
-                .joinDate(joinDate)
+                .join_Date(join_Date)
                 .admin_level(admin_level)
                 .build();
     }
