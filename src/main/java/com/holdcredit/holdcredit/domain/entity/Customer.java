@@ -1,10 +1,13 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.entity.enumeration.EducationDomain;
+import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
 import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,7 +26,7 @@ import static com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel.CUST
 public class Customer {
 
     @Id //회원번호
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUSTOMER_NO_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUSTOMER_SEQ_GENERATOR")
     @Column(name ="customer_no")
     private Long id;
 
@@ -53,18 +56,18 @@ public class Customer {
     private LocalDateTime joinDate = LocalDateTime.now(); //현재 시간으로 바로 저장.
 
     /*
-    *  java.util.Date 클래스는 더 이상 권장되지 않는 클래스이며, 대신 java.time.LocalDateTime 클래스를 사용하는 것이 좋습니다.
-    *  LocalDateTime 클래스는 java.util.Date 클래스보다 더 간결하고 안정적인 API를 제공합니다.
-    *  위와 같이 joinDate 필드를 LocalDateTime 으로 선언하였습니다.
-    *  현재 날짜와 시간으로 초기화됩니다.
-    * */
+     *  java.util.Date 클래스는 더 이상 권장되지 않는 클래스이며, 대신 java.time.LocalDateTime 클래스를 사용하는 것이 좋습니다.
+     *  LocalDateTime 클래스는 java.util.Date 클래스보다 더 간결하고 안정적인 API를 제공합니다.
+     *  위와 같이 joinDate 필드를 LocalDateTime 으로 선언하였습니다.
+     *  현재 날짜와 시간으로 초기화됩니다.
+     * */
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private JobDomain job = JobDomain.기타; // 기본값 : '기타'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private EducationDomain educationLevel = EducationDomain.고등학교졸업; // 기본값 : '고졸'로 저장
+    private EducationLevel educationLevel = EducationLevel.고등학교졸업; // 기본값 : '고졸'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

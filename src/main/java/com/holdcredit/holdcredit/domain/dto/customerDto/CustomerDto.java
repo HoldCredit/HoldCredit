@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.domain.dto.customerDto;
 
 import com.holdcredit.holdcredit.domain.entity.Customer;
-import com.holdcredit.holdcredit.domain.entity.enumeration.EducationDomain;
+import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
 import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
 import lombok.*;
@@ -30,7 +30,7 @@ public class CustomerDto {
     private JobDomain job;
     private UserLevel admin_level;
 
-    private EducationDomain education_level;
+    private EducationLevel education_level;
 
 //    //dto를 엔터티로 변경하는 작업
 //    public Customer toEntity(){
