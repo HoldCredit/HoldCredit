@@ -31,8 +31,8 @@ public class Debt {
     @Column(nullable = false)
     private Long loanCount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Redemption repayment;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt")
+    private Redemption redemption;
 
 
 /*
