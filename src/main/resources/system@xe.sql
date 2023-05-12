@@ -2,6 +2,20 @@ create user holdcredit identified by credit;
 grant connect, resource, dba to holdcredit;
 commit;
 
+drop table customer;
+drop table debt;
+drop table Attach;
+drop table credit_card;
+drop table faq;
+drop table finance;
+drop table non_financial;
+drop table notice;
+drop table repayment;
+drop table qna;
+drop table reply;
+drop table score;
+drop table redemption;
+
 --customer 테이블 DB에 삽입해볼때
 select * from customer;
 
