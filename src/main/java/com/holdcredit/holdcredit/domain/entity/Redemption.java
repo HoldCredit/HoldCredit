@@ -30,6 +30,7 @@ public class Redemption {
     @Column(nullable = false)
     private Long overduePeriod;
 
+
     /*CREATE TABLE "Repayment" (
 	"redemption_information_no"	NUMBER		NOT NULL,
 	"debt_level_no"	NUMBER		NOT NULL,
