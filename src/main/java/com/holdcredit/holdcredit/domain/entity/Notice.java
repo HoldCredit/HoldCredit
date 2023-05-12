@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,6 @@ public class Notice extends Date {
     @JoinColumn(name = "customer_no", nullable = false, updatable = false)
     private Customer customer;
 
-    //작성자
-    @Column (length=200, nullable = false)
-    private String writer;
-
     //제목
     @Column(length = 500, nullable = false )
     private String title;
@@ -41,12 +38,19 @@ public class Notice extends Date {
     @Column(length = 500, nullable = false)
     private String content;
 
+    @Column(length = 255)
+    private LocalDate reg_date;
+
+    @Column(length = 255)
+    private LocalDate update_date;
+
     //조회수
     @Column(nullable = false)
     private Long hits;
 
     //첨부파일 구분
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private Classification attachClassification = Classification.NO;
 
     //첨부파일과 연관관계 설정

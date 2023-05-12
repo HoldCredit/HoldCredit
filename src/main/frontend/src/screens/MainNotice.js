@@ -1,8 +1,24 @@
-import React from 'react'
-import './css/Board.css'
+import React, { useEffect, useState } from 'react';
+import NoticeService from '../service/NoticeService';
+import './css/Board.css';
 
+function MainNotice(props) {
 
-const MainNotice = props => {
+const[notice, setNotice] = useState([]);
+
+ useEffect(() => {
+    const fetchNoticeData = async () => {
+      try {
+        const data = await NoticeService();
+        setNotice(data);
+        console.log(data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchNoticeData();
+  }, []);
 
   return (
     <div>
@@ -16,50 +32,24 @@ const MainNotice = props => {
           <a href="/NoticeWrite" class="btn_insert">글쓰기</a>
           {/* <a href="#" class="btn_update">수정</a> */}
         </div>
-        <div class="board_list_wrap">
-          <div class="board_list">
-            <div class="top">
-              <div class="num">번호</div>
-              <div class="title">제목</div>
-              <div class="writer">글쓴이</div>
-              <div class="date">작성일</div>
-              <div class="count">조회</div>
+        <div className="board_list_wrap">
+          <div className="board_list">
+            <div className="top">
+              <div className="num">번호</div>
+              <div className="title">제목</div>
+              <div className="writer">글쓴이</div>
+              <div className="date">작성일</div>
+              <div className="count">조회</div>
             </div>
-            <div>
-              <div class="num">5</div>
-              <div class="title"><a href="/NoticeView" class="content">글 제목이 들어갑니다</a></div>
-              <div class="writer">김영빈</div>
-              <div class="date">2023.05.09</div>
-              <div class="count">123</div>
+            {notice.map((item) => (
+            <div className="notice_read" key = {item.notice_no}>
+              <div className="num"><input type ="checkbox" id="check_box" />{item.notice_no}</div>
+              <div className="title"><a href="/NoticeView" class="content">{item.title}</a></div>
+              <div className="writer">{item.customer_name}</div>
+              <div className="date">{item.reg_date}</div>
+              <div className="count">{item.hits}</div>
             </div>
-            <div>
-              <div class="num">4</div>
-              <div class="title"><a href="/NoticeView" class="content">글 제목이 들어갑니다</a></div>
-              <div class="writer">김영빈</div>
-              <div class="date">2023.05.09</div>
-              <div class="count">123</div>
-            </div>
-            <div>
-              <div class="num">3</div>
-              <div class="title"><a href="/NoticeView" class="content">글 제목이 들어갑니다</a></div>
-              <div class="writer">김영빈</div>
-              <div class="date">2023.05.09</div>
-              <div class="count">123</div>
-            </div>
-            <div>
-              <div class="num">2</div>
-              <div class="title"><a href="/NoticeView" class="content">글 제목이 들어갑니다</a></div>
-              <div class="writer">김영빈</div>
-              <div class="date">2023.05.09</div>
-              <div class="count">123</div>
-            </div>
-            <div>
-              <div class="num">1</div>
-              <div class="title"><a href="/NoticeView" class="content">글 제목이 들어갑니다</a></div>
-              <div class="writer">김영빈</div>
-              <div class="date">2023.05.09</div>
-              <div class="count">123</div>
-            </div>
+            ))}
           </div>
           <div class="board_page">
             <a href="#" class="bt first">{"<<"}</a>

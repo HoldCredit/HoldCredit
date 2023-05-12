@@ -126,6 +126,10 @@ a {
   font-size: 1.0rem;
 }
 
+.notice_read {
+    text-align: center;
+}
+
 .board_list > div.top > div {
   font-weight: 600;
 }
@@ -137,7 +141,7 @@ a {
 
 .board_list .title {
   width: 60%;
-  text-align: left;
+  text-align: center;
 }
 
 .board_list .top .title {
@@ -355,5 +359,9 @@ a {
   border: none;
   border-bottom: 1px solid #ddd;
   text-align: center;
+}
 
+#check_box {
+   position : relative;
+   right : 5px;
 }
