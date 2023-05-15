@@ -1,12 +1,12 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class Debt {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_no", nullable = false, updatable = false)
+    @JoinColumn(name = "customer_no", /*nullable = false,*/ updatable = false)
     private Customer customer;
 
     @Column(nullable = false)
@@ -35,13 +35,13 @@ public class Debt {
     private Redemption redemption;
 
 
-/*
-* CREATE TABLE "Debt" (
-	"debt_level_no"	NUMBER		NOT NULL,
-	"customer_no"	NUMBER		NOT NULL,
-	"loan_amount"	NUMBER		NOT NULL,
-	"loan_period"	DATE		NOT NULL,
-	"loan_count"	NUMBER	DEFAULT 0	NOT NULL
-);*/
+    public DebtResponseDto toDto(){
+        return DebtResponseDto.builder()
+                .id(this.getId())
+                .customer(this.getCustomer())
+                .loanAmount(this.getLoanAmount())
+                .loanPeriod(this.getLoanPeriod())
+                .loanCount(this.getLoanCount()).build();
+    }
 
 }
