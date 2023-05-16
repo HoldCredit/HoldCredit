@@ -55,6 +55,9 @@ public class Customer {
     @Builder.Default
     private LocalDateTime joinDate = LocalDateTime.now(); //현재 시간으로 바로 저장.
 
+    @Builder.Default
+    private LocalDateTime updateDate = LocalDateTime.now();
+
     /*
      *  java.util.Date 클래스는 더 이상 권장되지 않는 클래스이며, 대신 java.time.LocalDateTime 클래스를 사용하는 것이 좋습니다.
      *  LocalDateTime 클래스는 java.util.Date 클래스보다 더 간결하고 안정적인 API를 제공합니다.
@@ -63,11 +66,11 @@ public class Customer {
      * */
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private JobDomain job = JobDomain.기타; // 기본값 : '기타'로 저장
+    private JobDomain job = JobDomain.etc; // 기본값 : '기타'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private EducationLevel educationLevel = EducationLevel.고등학교졸업; // 기본값 : '고졸'로 저장
+    private EducationLevel educationLevel = EducationLevel.university; // 기본값 : '고졸'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

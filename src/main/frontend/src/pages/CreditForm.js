@@ -3,31 +3,52 @@ import "../styles/JoinForm.css";
 import {FormControl, FormControlLabel, RadioGroup, Radio, Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CreditCardCompany from "../components/CreditCardCompany";
+import Debt from "../components/Debt";
 
 export default function CreditForm() {
   // 연봉
   const [income, setIncome] = useState("");
-  const [isCredit, setIsCredit] = useState(false);
-  const [addCredit, setAddCredit] = useState('신용카드 추가');
 
-  // 신용카드 추가 미구현임
+  // 신용카드 추가
   const [creditCards, setCreditCards] = useState([]);
   const addCreditCard = () => {
-    const copyCard = creditCards;
-    setCreditCards([...copyCard, <CreditCardCompany/>]);
-    setIsCredit(!isCredit);
-    if(isCredit) setAddCredit('신용카드 추가');
-    else setAddCredit('취소');
+    setCreditCards((prevCards) => [
+      ...prevCards,
+      <CreditCardCompany
+        key={prevCards.length}
+        i={prevCards.length}
+        deleteCreditCard={deleteCreditCard}
+      />,
+    ]);
+  };
+  const deleteCreditCard = (i) => {
+    setCreditCards((prevCards) => {
+      const updatedCards = [...prevCards];
+      updatedCards.splice(i-1, 1);
+      return updatedCards;
+    });
   };
 
-  // 대출 추가 미구현임
-  const [debt, setDebts] = useState([]);
+
+  // 대출 추가
+  const [debts, setDebts] = useState([]);
   const addDebt = () => {
-    const copydebt = debt;
-
-    setDebts([...copydebt, /*<Debt/>*/]);
+    setDebts((prevCards) => [
+      ...prevCards,
+      <Debt
+        key={prevCards.length}
+        i={prevCards.length}
+        deleteDebt={deleteDebt}
+      />,
+    ]);
   }
-
+  const deleteDebt = (i) => {
+    setDebts((prevCards) => {
+      const updatedCards = [...prevCards];
+      updatedCards.splice(i-1, 1);
+      return updatedCards;
+    });
+  }
 
   return (
     <>
@@ -99,8 +120,7 @@ export default function CreditForm() {
                     <hr className="join_hr"/>
                     <h3>비금융 정보 입력</h3>
                     <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 16}}>
-                      <Grid item xs={6}>
-                        <div className="join_row">
+                      <Grid item xs={12}>
                           <h3 className="join_title">
                             <label htmlFor="extraFund">결혼 여부</label>
                           </h3>
@@ -110,130 +130,107 @@ export default function CreditForm() {
                             <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
                             <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
-                      <Grid item xs={6}>
-                        <div className="join_row">
+                      <Grid item xs={12}>
                           <h3 className="join_title">
                             <label htmlFor="extraFund">자녀 수</label>
                           </h3>
-                          <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
-                          </RadioGroup>
-                        </div>
+                          <span className="ps_box box_right_space">
+                      <input type="text" id="name" name="name"
+                             className="int" maxLength="40" value={income}
+                             onChange={(e) => setIncome(e.target.value)}/> </span>
                       </Grid>
 
+
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">주택 소유 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isRealestate" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notRealestate" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">자동차 소유 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isMarried" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notMarried" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">건강보험 납부 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isMarried" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notMarried" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">통신요금 납부 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isMarried" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notMarried" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">소득금액 증명 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isMarried" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notMarried" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <div className="join_row">
                           <h3 className="join_title">
                             <label htmlFor="extraFund">국민연금 증명 여부</label>
                           </h3>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label" defaultValue="notMarried"
                             name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
-                            <FormControlLabel value="isMarried" control={<Radio/>} label="기혼"/>
-                            <FormControlLabel value="notMarried" control={<Radio/>} label="미혼"/>
+                            <FormControlLabel value="isMarried" control={<Radio/>} label="YES"/>
+                            <FormControlLabel value="notMarried" control={<Radio/>} label="NO"/>
                           </RadioGroup>
-                        </div>
                       </Grid>
                     </Grid>
 
-                    {/* 신용카드 형태 정보 (추가 기능 미구현) */}
+                    {/* 신용카드 형태 정보 (추가 기능) */}
                     <hr className="join_hr"/>
                     <h3>신용카드 정보 입력</h3>
                     <div className="join_row_flex">
-                      <Button variant="outlined" onClick={addCreditCard}>{addCredit}</Button>
+                      <Button variant="outlined" onClick={addCreditCard}>신용카드 추가</Button>
+                      {
+                        creditCards.map((creditCard, i) => (
+                          <div key={i}>
+                            {creditCard}
+                          </div>
+                        ))
+                      }
                     </div>
-                    {isCredit && <CreditCardCompany/>}
-
 
                     {/*
-              - 사용하는 신용카드 회사
-              - 거래기간
-              - 한도
-              - 연체 횟수
-              - 연체 기간 */}
-                    <hr className="join_hr"/>
-                    <h3>대출 및 상환이력 정보 입력</h3>
-                    <div className="join_row_flex">
-                      <Button variant="outlined" onCilck={() => {
-                        addDebt()
-                      }}>대출 이력 추가</Button>
-                    </div>
 
                     {/* 부채 수준 (추가가능)
               - 대출 금액
@@ -241,8 +238,24 @@ export default function CreditForm() {
               - 대출 횟수*/}
                     {/* 부채 상환이력 (부채수준 추가한것 만큼 추가)
               - 대출 금액
-              - 남은 대출 기간
-              - 대출 횟수*/}
+              - 연체 기간 */}
+                    <hr className="join_hr"/>
+                    <h3>대출 및 상환이력 정보 입력</h3>
+                    <div className="join_row_flex">
+                      <Button variant="outlined" onClick={addDebt}>대출 이력 추가</Button>
+                      {
+                        debts.map((debt, i) => (
+                          <div key={i}>
+                            {debt}
+                          </div>
+                        ))
+                      }
+                    </div>
+
+                    <div className="btn_area">
+                      <button type="button" id="btnJoin" className="btn_type btn_primary"><span>제출</span></button>
+                    </div>
+
 
                   </div>
                 </div>
