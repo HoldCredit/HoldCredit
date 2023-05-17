@@ -1,5 +1,7 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
+import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +23,7 @@ public class Redemption {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "debt_level_no", nullable = false, updatable = false)
+    @JoinColumn(name = "debt_id", referencedColumnName = "debt_id")
     private Debt debt;
 
     @Column(nullable = false)
@@ -31,10 +33,13 @@ public class Redemption {
     private Long overduePeriod;
 
 
-    /*CREATE TABLE "Repayment" (
-	"redemption_information_no"	NUMBER		NOT NULL,
-	"debt_level_no"	NUMBER		NOT NULL,
-	"loan_amount"	NUMBER		NOT NULL,
-	"overdue_period"	DATE		NOT NULL
-);*/
+    public RedemptionResponseDto toDto() {
+        return RedemptionResponseDto.builder()
+                .id(this.id)
+                .debtId(this.debt != null ? this.debt.getId() : null)
+                .loanAmount(this.loanAmount)
+                .overduePeriod(this.overduePeriod)
+                .build();
+    }
+
 }
