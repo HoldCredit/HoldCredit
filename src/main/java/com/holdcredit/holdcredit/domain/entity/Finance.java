@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SequenceGenerator(sequenceName ="FINANCE_SEQ", initialValue = 1, allocationSize = 1, name ="FINANCE_SEQ_GENERATOR")
+@SequenceGenerator(sequenceName ="FINANCE_SEQ", allocationSize = 1, name ="FINANCE_SEQ_GENERATOR")
 public class Finance {
 
     @Id
@@ -21,9 +22,8 @@ public class Finance {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
+    @JoinColumn (name = "customer_no", /*nullable = false,*/ updatable = false) //readonly
     private Customer customer; //userNo
-//    @JsonIgnore //response에 해당 필드 제외
 
     @Column(nullable = false)
     private Long annulIncome;
@@ -34,13 +34,14 @@ public class Finance {
     @Column(nullable = false)
     private Long extraMonthlyFund;
 
+    public FinanceResponseDto toDto(){
+        return FinanceResponseDto.builder()
+                .id(this.id)
+                .customer(this.customer)
+                .annulIncome(this.annulIncome)
+                .continuousService(this.continuousService)
+                .extraMonthlyFund(this.extraMonthlyFund).build();
+    }
 
-    /*CREATE TABLE "Finance" (
-	"personal_financial_no"	NUMBER		NOT NULL,
-	"customer_no"	NUMBER		NOT NULL,
-	"annul_Income"	NUMBER		NOT NULL,
-	"continuous_service"	NUMBER		NOT NULL,
-	"extra_monthly_fund"	NUMBER		NOT NULL
-);*/
 
 }
