@@ -42,9 +42,9 @@ root.render(
           <Route path ="/MainNotice" element ={<MainNotice />} />
           <Route path ="/MainQnA" element ={<MainQnA />} />
           <Route path ="/MainFaQ" element ={<MainFaQ />} />
-          <Route path="/NoticeView" element = {<NoticeView/>} />
+          <Route path="/NoticeView/:id" element = {<NoticeView/>} />
           <Route path="/NoticeWrite" element = {<NoticeWrite/>} />
-          <Route path="/NoticeEdit" element ={<NoticeEdit/>} />
+          <Route path="/NoticeEdit/:id" element ={<NoticeEdit/>} />
           <Route path="/LoginPage" element={<LoginPage/>}/>
           <Route path="/JoinForm" element={<JoinForm/>}/>
           <Route path="/FindId" element={<FindId/>}/>

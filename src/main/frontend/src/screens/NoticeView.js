@@ -1,9 +1,46 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import axios from 'axios';
 import './css/Board.css'
 
-const DetailView = () => {
-  return (
+function NoticeView(props){
 
+const {id} = useParams();
+
+const[notice, setNotice] = useState({});
+
+  useEffect(() => {
+     axios.get(`http://localhost:8080/api/Notice/${id}`)
+       .then(res => setNotice(res.data))
+       .catch(error => console.log(error));
+   }, [id]);
+
+
+  const navigate = useNavigate();
+
+  const updateNotice = () => {
+    navigate(`/NoticeEdit/${id}`);
+  };
+
+  const noticeList = () => {
+    navigate('/MainNotice');
+  };
+
+  const deleteNotice =() => {
+    const confirmDelete = window.confirm("정말로 글을 삭제하시겠습니까?");
+    if(confirmDelete){
+    axios.delete(`http://localhost:8080/api/Notice/${id}`)
+         .then(() => {
+             setNotice([]);
+             alert('삭제되었습니다.');
+             navigate('/MainNotice');
+           })
+           .catch(error => console.log(error));
+    }
+  };
+
+  return (
+    <div>
     <div class="board_wrap">
       <div class="board_title">
         <strong>공지사항</strong>
@@ -11,82 +48,45 @@ const DetailView = () => {
       <div class="board_view_wrap">
         <div class="board_view">
           <div class="title_back">
-          <div class="title">
-            글 제목이 들어갑니다.
-          </div>
+          <div class="title">{notice.title}</div>
           <div class="info">
             <dl>
               <dt>번호</dt>
-              <dd>1</dd>
+              <dd>{notice.id}</dd>
             </dl>
             <dl>
               <dt>글쓴이</dt>
-              <dd>김영빈</dd>
+              <dd></dd>
             </dl>
             <dl>
               <dt>작성일</dt>
-              <dd>2023.05.09</dd>
+              <dd>{notice.createDate}</dd>
             </dl>
             <dl>
               <dt>수정일</dt>
-              <dd>2023.06.09</dd>
+              <dd>{notice.lastModifiedDate}</dd>
             </dl>
             <dl>
               <dt>조회</dt>
-              <dd>33</dd>
+              <dd>{notice.hits}</dd>
             </dl>
             <dl>
               <dt>첨부파일</dt>
-              <dd>?</dd>
+              <dd>{notice.attach}</dd>
             </dl>
           </div>
           </div>
-          <div class="cont">
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.<br />
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-            글내용이들어갑니다.
-          </div>
+          <div class="cont">{notice.content}</div>
           <div class="btn_wrap">
-            <a href="/MainNotice" class="btn_list">목록</a>
-            <a href="/NoticeEdit" class="btn_update">수정</a>
-            <a href="/NoticeEdit" id="btn_delete">삭제</a>
+            <a onClick={noticeList} class="btn_list">목록</a>
+            <a onClick={updateNotice} class="btn_update">수정</a>
+            <a onClick={deleteNotice} id="btn_delete">삭제</a>
           </div>
         </div>
       </div>
     </div>
+  </div>
   )
 }
 
-export default DetailView;
+export default NoticeView;

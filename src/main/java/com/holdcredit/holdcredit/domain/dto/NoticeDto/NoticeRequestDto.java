@@ -1,26 +1,36 @@
 package com.holdcredit.holdcredit.domain.dto.NoticeDto;
 
-import com.holdcredit.holdcredit.domain.entity.Customer;
+import com.holdcredit.holdcredit.domain.entity.Attach;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import lombok.*;
 
+import java.util.Date;
+import java.util.List;
+
 ////게시글 생성과 수정을 요청
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class NoticeRequestDto {
-    private Customer customerEntity;
+public class NoticeRequestDto extends Date {
+
     private String title;
+    private Long id;
     private String content;
-    private String attach;
+    private String pwd;
+    private java.util.Date createDate;
+    private java.util.Date lasModifiedDate;
+    private List<Attach> attach;
 
-
-//    /* Dto -> Entity 저장 */
-//    public Notice toEntity(){
-//        return Notice.builder().customerEntity(customerEntity).title(title).content(content).attach(attach).build();
-//    }
-
-
-
+    public Notice toEntity(NoticeRequestDto dto) {
+        return Notice.builder()
+                .title(dto.getTitle())
+                .id(dto.getId())
+                .content(dto.getContent())
+                .pwd(dto.getPwd())
+                .createDate(dto.getCreateDate())
+                .lastModifiedDate(dto.getLasModifiedDate())
+                .attach(dto.getAttach())
+                .build();
+    }
 }
+
+

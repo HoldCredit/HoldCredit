@@ -1,15 +1,25 @@
 import axios from 'axios';
 
-const NoticeService = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/Notice');
-    const data = response.data;
-    console.log(data); // 가져온 데이터 활용 예시
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+const NOTICE_API_BASE_URL = "http://localhost:8080/api/Notice";
+
+const getNotice = () => {
+  return axios.get(NOTICE_API_BASE_URL);
 };
+
+const createNotice = (notice) => {
+  return axios.post(NOTICE_API_BASE_URL, notice);
+};
+
+
+
+
+const NoticeService = {
+
+  getNotice,
+  createNotice,
+
+};
+
+
 
 export default NoticeService;
