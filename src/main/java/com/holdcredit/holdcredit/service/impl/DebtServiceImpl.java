@@ -27,7 +27,7 @@ public class DebtServiceImpl implements DebtService{
         Optional<Debt> optionalDebt = debtRepository.findById(id);
         if (optionalDebt.isPresent()) {
             Debt debt = optionalDebt.get();
-            DebtResponseDto debtResponseDto = debt.toDto();
+            DebtResponseDto debtResponseDto = debt.toDto(debt);
             return debtResponseDto;
         } else {
             return null;
