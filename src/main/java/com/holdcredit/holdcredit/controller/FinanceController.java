@@ -18,7 +18,6 @@ public class FinanceController {
     /* 등록 */
     @PostMapping("/save")
     public Finance save(@RequestBody FinanceRequestDto financeRequestDto){
-        Finance finance = financeRequestDto.toEntity();
         return financeService.save(financeRequestDto);
     }
 

@@ -19,7 +19,6 @@ public class CreditCardController {
     /* 등록 */
     @PostMapping("/save")
     public CreditCard save (@RequestBody CreditCardRequestDto creditCardRequestDto){
-        CreditCard creditCard = creditCardRequestDto.toEntity();
         return creditCardService.save(creditCardRequestDto);
     }
 
