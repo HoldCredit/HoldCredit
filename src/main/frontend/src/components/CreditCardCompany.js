@@ -1,6 +1,12 @@
 import React from "react";
+import {Button} from "@mui/material";
 
-export default function CreditCardCompany () {
+export default function CreditCardCompany ( props ) {
+
+  const deleteCreditCard = () => {
+    props.deleteCreditCard(props.i);
+  };
+
   return(
     <>
       <div className="join_row">
@@ -72,7 +78,7 @@ export default function CreditCardCompany () {
       </div>
       <div className="join_row_flex">
           <h3 className="join_title">
-            <label htmlFor="name">연체 횟수</label>
+            <label htmlFor="name">연체 기간</label>
           </h3>
         <div className="ps_box occupation_code">
           <select id="continuousService" name="continuousService" className="sel">
@@ -84,6 +90,15 @@ export default function CreditCardCompany () {
             <option value="5">6개월 이상</option>
             <option value="6">1년 이상</option>
           </select>
+        </div>
+
+        <div className="join_row_flex" style={{margin: "20px"}}>
+          <div className="join_row">
+            <div className="join_row_flex">
+              <Button variant="outlined" onClick={deleteCreditCard}>삭제</Button>
+            </div>
+
+          </div>
         </div>
 
       </div>
