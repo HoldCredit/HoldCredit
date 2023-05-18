@@ -31,7 +31,7 @@ public class Debt {
     @Column(nullable = false)
     private Long loanCount;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt", cascade = CascadeType.REMOVE)
     private Redemption redemption;
 
 

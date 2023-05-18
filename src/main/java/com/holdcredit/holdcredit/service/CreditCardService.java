@@ -8,4 +8,5 @@ public interface CreditCardService {
     CreditCard save(CreditCardRequestDto creditCardRequestDto);
 
     CreditCardResponseDto read(Long id);
+    void delete(Long id);
 }

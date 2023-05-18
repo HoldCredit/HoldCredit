@@ -32,4 +32,11 @@ public class FinanceController {
         }
     }
 
+    /* 삭제 */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Finance> delete(@PathVariable Long id){
+        financeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }

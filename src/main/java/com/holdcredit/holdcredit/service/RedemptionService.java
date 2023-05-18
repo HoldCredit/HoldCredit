@@ -8,4 +8,5 @@ public interface RedemptionService {
     Redemption save(RedemptionRequestDto redemptionRequestDto);
 
     RedemptionResponseDto read(Long id);
+    void delete(Long id);
 }

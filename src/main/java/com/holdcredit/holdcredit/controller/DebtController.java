@@ -2,6 +2,7 @@ package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtRequestDto;
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Debt;
 import com.holdcredit.holdcredit.service.DebtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,11 @@ public class DebtController {
     }
 
     /* 삭제 */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Debt> delete(@PathVariable Long id){
+        debtService.delete(id);
+        return new ResponseEntity<>(NOT_FOUND);
+    }
 
 
 
