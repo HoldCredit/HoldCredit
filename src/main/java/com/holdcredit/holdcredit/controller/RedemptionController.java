@@ -2,6 +2,7 @@ package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionRequestDto;
 import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Debt;
 import com.holdcredit.holdcredit.domain.entity.Redemption;
 import com.holdcredit.holdcredit.repository.RedemptionRepository;
 import com.holdcredit.holdcredit.service.RedemptionService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/redemption")
@@ -21,21 +23,7 @@ public class RedemptionController {
 
     /* 등록*/
     @PostMapping("/save")
-    public Redemption save(@RequestBody RedemptionRequestDto redemptionRequestDto){
-//        Debt debt = redemptionRequestDto.getDebt();
-//        if (debt != null) {
-//            Long debtId = debt.getId();
-//        }
-        Long debtId = redemptionRequestDto.getDebt().getId();
-        Optional<Redemption> existingRedemption = redemptionRepository.findById(debtId);
-
-        if (existingRedemption.isPresent()) {
-            // 이미 해당 debtId를 가진 Redemption이 존재하는 경우 예외 처리
-//            throw new Exception("Redemption with debtId " + debtId + " already exists.");
-        }
-
-        Redemption redemption = redemptionRequestDto.toEntity();
-
+    public Redemption save(@RequestBody RedemptionRequestDto redemptionRequestDto) throws Exception{
         return  redemptionService.save(redemptionRequestDto);
     }
 
@@ -49,6 +37,13 @@ public class RedemptionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    /* 삭제 */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Redemption> delete(@PathVariable Long id){
+        redemptionService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

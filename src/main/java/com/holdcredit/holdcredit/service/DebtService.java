@@ -10,5 +10,6 @@ public interface DebtService  {
     Debt save(DebtRequestDto debtRequestDto);
 
     DebtResponseDto read(Long id);
+    void delete(Long id);
 
 }

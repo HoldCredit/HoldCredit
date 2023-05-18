@@ -33,4 +33,11 @@ public class CreditCardController {
         }
     }
 
+    /* 삭제 */
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<CreditCard> delete(@PathVariable Long id){
+        creditCardService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }

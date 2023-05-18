@@ -9,4 +9,6 @@ public interface FinanceService {
 
     FinanceResponseDto read(Long id);
 
+    void delete(Long id);
+
 }

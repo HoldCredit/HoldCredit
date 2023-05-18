@@ -34,7 +34,11 @@ public class NonFinancialServiceImpl implements NonFinancialService {
         }else {
             return null;
         }
+    }
 
+    @Override
+    public void delete(Long id){
+        nonFinancialRepository.deleteById(id);
     }
 
 

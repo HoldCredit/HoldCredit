@@ -9,4 +9,6 @@ public interface NonFinancialService {
 
     NonFinancialResponseDto read(Long id);
 
+    void delete(Long id);
+
 }

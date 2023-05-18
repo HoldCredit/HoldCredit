@@ -23,7 +23,7 @@ public class Redemption {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "debt_id", referencedColumnName = "debt_id")
+    @JoinColumn(name = "debt_id", referencedColumnName = "debt_id", unique = true)
     private Debt debt;
 
     @Column(nullable = false)

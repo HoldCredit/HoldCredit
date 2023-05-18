@@ -32,10 +32,11 @@ public class DebtServiceImpl implements DebtService{
         } else {
             return null;
         }
-        /*Debt debt = debtRepository.findById(id).get();
-       DebtResponseDto debtResponseDto = debt.toDto();
-       return debtResponseDto;*/
+    }
 
+    @Override
+    public void delete(Long id){
+        debtRepository.deleteById(id);
     }
 
 

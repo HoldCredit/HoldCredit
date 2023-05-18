@@ -29,6 +29,11 @@ public class NonFinancialController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<NonFinancial> delete(@PathVariable Long id){
+        nonFinancialService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

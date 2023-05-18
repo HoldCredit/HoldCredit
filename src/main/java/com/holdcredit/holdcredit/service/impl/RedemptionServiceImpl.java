@@ -34,4 +34,9 @@ public class RedemptionServiceImpl implements RedemptionService {
             return null;
         }
     }
+
+    @Override
+    public void delete(Long id){
+        redemptionRepository.deleteById(id);
+    }
 }

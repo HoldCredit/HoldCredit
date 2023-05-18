@@ -34,4 +34,9 @@ public class FinanceServiceImpl implements FinanceService {
             return null;
         }
     }
+
+    @Override
+    public void delete(Long id){
+        financeRepository.deleteById(id);
+    }
 }

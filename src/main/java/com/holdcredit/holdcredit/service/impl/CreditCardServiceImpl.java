@@ -34,5 +34,10 @@ public class CreditCardServiceImpl implements CreditCardService {
         }
     }
 
+    @Override
+    public void delete(Long id){
+        creditCardRepository.deleteById(id);
+    }
+
 
 }
