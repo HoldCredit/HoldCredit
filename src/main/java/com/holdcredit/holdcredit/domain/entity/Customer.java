@@ -1,5 +1,8 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
@@ -133,6 +136,23 @@ public class Customer {
     private Score scores;
 
 
+    //근쭈 쓸꺼임>> 회원 수정
+    public CustomerDto toDto(){
+        return CustomerDto.builder()
+                .customer_no(id)
+                .customer_id(customerId)
+                .password(password)
+                .customer_name(customerName)
+                .birth(birth)
+                .gender(gender)
+                .phone_num(phoneNum)
+                .email(email)
+                .join_Date(joinDate)
+                .admin_level(adminLevel)
+                .education_level(educationLevel)
+                .job(job)
+                .build();
+    }
 
 }
 
