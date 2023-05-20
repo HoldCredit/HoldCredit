@@ -2,6 +2,7 @@ package com.holdcredit.holdcredit.domain.dto.customerDto;
 
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
 import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
 import lombok.*;
@@ -22,7 +23,7 @@ public class CustomerDto {
     private String password;
     private String customer_name;
     private LocalDate birth;
-    private String gender;
+    private Gender gender;
     private Long phone_num;
     private String email;
     private LocalDateTime join_Date;

@@ -21,7 +21,7 @@ public class Date {
      */
 
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private java.util.Date createDate; //작성일
 
     @LastModifiedDate

@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import NoticeService from '../service/NoticeService';
+import { useNavigate } from 'react-router-dom';
 import './css/Board.css';
 
 function MainNotice(props) {
 
 const[notice, setNotice] = useState([]);
 
- useEffect(() => {
-    const fetchNoticeData = async () => {
-      try {
-        const data = await NoticeService();
-        setNotice(data);
-        console.log(data)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchNoticeData();
+  useEffect(() => {
+    NoticeService.getNotice().then((res) => {
+      setNotice(res.data);
+    });
   }, []);
+
+  const navigate = useNavigate();
+
+  const createNotice = () => {
+    navigate('/NoticeWrite');
+  };
+
+  const readNotice = (id) => {
+    navigate(`/NoticeView/${id}`)
+  }
 
   return (
     <div>
@@ -29,7 +32,7 @@ const[notice, setNotice] = useState([]);
 
         </div>
         <div class="btn_wrap_2">
-          <a href="/NoticeWrite" class="btn_insert">글쓰기</a>
+          <a href="#" class="btn_insert" onClick={createNotice}>글쓰기</a>
           {/* <a href="#" class="btn_update">수정</a> */}
         </div>
         <div className="board_list_wrap">
@@ -42,11 +45,11 @@ const[notice, setNotice] = useState([]);
               <div className="count">조회</div>
             </div>
             {notice.map((item) => (
-            <div className="notice_read" key = {item.notice_no}>
-              <div className="num"><input type ="checkbox" id="check_box" />{item.notice_no}</div>
-              <div className="title"><a href="/NoticeView" class="content">{item.title}</a></div>
+            <div className="notice_read" key = {item.id}>
+              <div className="num"><input type ="checkbox" id="check_box" />{item.id}</div>
+              <div className="title"><a onClick={() => readNotice(item.id)} class="content">{item.title}</a></div>
               <div className="writer">{item.customer_name}</div>
-              <div className="date">{item.reg_date}</div>
+              <div className="date">{item.createDate}</div>
               <div className="count">{item.hits}</div>
             </div>
             ))}

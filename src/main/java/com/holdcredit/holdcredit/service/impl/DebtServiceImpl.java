@@ -27,15 +27,16 @@ public class DebtServiceImpl implements DebtService{
         Optional<Debt> optionalDebt = debtRepository.findById(id);
         if (optionalDebt.isPresent()) {
             Debt debt = optionalDebt.get();
-            DebtResponseDto debtResponseDto = debt.toDto();
+            DebtResponseDto debtResponseDto = debt.toDto(debt);
             return debtResponseDto;
         } else {
             return null;
         }
-        /*Debt debt = debtRepository.findById(id).get();
-       DebtResponseDto debtResponseDto = debt.toDto();
-       return debtResponseDto;*/
+    }
 
+    @Override
+    public void delete(Long id){
+        debtRepository.deleteById(id);
     }
 
 

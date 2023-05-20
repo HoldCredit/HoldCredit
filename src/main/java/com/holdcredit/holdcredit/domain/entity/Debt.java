@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(sequenceName ="DEBT_SEQ", initialValue = 1, allocationSize = 1, name ="DEBT_SEQ_GENERATOR")
+@SequenceGenerator(sequenceName ="DEBT_SEQ", allocationSize = 1, name ="DEBT_SEQ_GENERATOR")
 public class Debt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEBT_SEQ_GENERATOR")
-    @Column(name = "debt_level_no")
+    @Column(name = "debt_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,17 +31,23 @@ public class Debt {
     @Column(nullable = false)
     private Long loanCount;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt", cascade = CascadeType.REMOVE)
     private Redemption redemption;
 
 
-    public DebtResponseDto toDto(){
+    /* RedemptionRequestDto에서 Debt 객체를 역직렬화할 때 debt_level_no 값을 받아서 Debt 객체를 생성 */
+    public Debt(Long debtId) {
+        this.id = debtId;
+    }
+
+
+    public DebtResponseDto toDto(Debt debt){
         return DebtResponseDto.builder()
-                .id(this.getId())
-                .customer(this.getCustomer())
-                .loanAmount(this.getLoanAmount())
-                .loanPeriod(this.getLoanPeriod())
-                .loanCount(this.getLoanCount()).build();
+                .id(debt.getId())
+                .customer(debt.getCustomer())
+                .loanAmount(debt.getLoanAmount())
+                .loanPeriod(debt.getLoanPeriod())
+                .loanCount(debt.getLoanCount()).build();
     }
 
 }
