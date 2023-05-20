@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -24,7 +25,20 @@ public class Score {
     @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "score")
     private ModelingInformation modelingInformation;
+
+    private Integer loanScore;
+
+    private Integer paybackScore;
+
+    private Integer transactionScore;
+
+    private Integer creditTypeScore;
+
+    private Integer nonFinancialScore;
+
+    private LocalDateTime evaluationDate;
+
 
 }
