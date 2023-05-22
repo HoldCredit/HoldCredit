@@ -7,6 +7,7 @@ import com.holdcredit.holdcredit.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -38,6 +39,13 @@ public class CreditCardController {
     public  ResponseEntity<CreditCard> delete(@PathVariable Long id){
         creditCardService.delete(id);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /* 수정 */
+    @PutMapping("/{id}")
+    public ResponseEntity<CreditCardRequestDto> update(@PathVariable Long id, @RequestBody @Validated CreditCardRequestDto creditCardRequestDto){
+        creditCardService.update(id,creditCardRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

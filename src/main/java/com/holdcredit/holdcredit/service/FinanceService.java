@@ -11,4 +11,6 @@ public interface FinanceService {
 
     void delete(Long id);
 
+    void update(Long id, FinanceRequestDto financeRequestDto);
+
 }

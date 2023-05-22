@@ -7,6 +7,7 @@ import com.holdcredit.holdcredit.service.FinanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,6 +38,12 @@ public class FinanceController {
     public ResponseEntity<Finance> delete(@PathVariable Long id){
         financeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FinanceRequestDto> update(@PathVariable Long id, @Validated @RequestBody FinanceRequestDto financeRequestDto){
+        financeService.update(id,financeRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

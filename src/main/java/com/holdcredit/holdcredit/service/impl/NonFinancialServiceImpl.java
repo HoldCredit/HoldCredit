@@ -41,6 +41,13 @@ public class NonFinancialServiceImpl implements NonFinancialService {
         nonFinancialRepository.deleteById(id);
     }
 
+    @Override
+    public void update(Long id, NonFinancialRequestDto nonFinancialRequestDto){
+        NonFinancial nonFinancial = nonFinancialRepository.findById(id).get();
+        nonFinancial.updateNonFinancial(nonFinancialRequestDto);
+        nonFinancialRepository.save(nonFinancial);
+    }
+
 
 
 

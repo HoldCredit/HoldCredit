@@ -1,6 +1,7 @@
 package com.holdcredit.holdcredit.domain.entity;
 
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
+import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionRequestDto;
 import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,12 @@ public class Redemption {
     @Column(nullable = false)
     private Long overduePeriod;
 
+    public void updateRedemption(RedemptionRequestDto redemptionRequestDto){
+        this.debt = redemptionRequestDto.getDebt();
+        this.loanAmount = redemptionRequestDto.getLoanAmount();
+        this.overduePeriod = redemptionRequestDto.getOverduePeriod();
+    }
+
 
     public RedemptionResponseDto toDto() {
         return RedemptionResponseDto.builder()
@@ -41,5 +48,7 @@ public class Redemption {
                 .overduePeriod(this.overduePeriod)
                 .build();
     }
+
+
 
 }

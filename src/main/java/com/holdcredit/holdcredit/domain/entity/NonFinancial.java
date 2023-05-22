@@ -1,6 +1,7 @@
 package com.holdcredit.holdcredit.domain.entity;
 
 import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceResponseDto;
+import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialRequestDto;
 import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import lombok.AllArgsConstructor;
@@ -75,6 +76,17 @@ public class NonFinancial {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 3)    // Y OR N 둘중 하나만 가능!
     private Classification nationalPension = Classification.NO;
+
+    public void updateNonFinancial(NonFinancialRequestDto nonFinancialRequestDto){
+        this.marital = nonFinancialRequestDto.getMarital();
+        this.childrenCnt = nonFinancialRequestDto.getChildrenCnt();
+        this.realestate = nonFinancialRequestDto.getRealestate();
+        this.vehicle = nonFinancialRequestDto.getVehicle();
+        this.healthInsurance = nonFinancialRequestDto.getHealthInsurance();
+        this.phoneBillPayment = nonFinancialRequestDto.getPhoneBillPayment();
+        this.proofOfIncomeAmount = nonFinancialRequestDto.getProofOfIncomeAmount();
+        this.nationalPension = nonFinancialRequestDto.getNationalPension();
+    }
 
     public NonFinancialResponseDto toDto(){
         return NonFinancialResponseDto.builder()

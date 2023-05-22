@@ -9,4 +9,6 @@ public interface CreditCardService {
 
     CreditCardResponseDto read(Long id);
     void delete(Long id);
+
+    void update(Long id, CreditCardRequestDto creditCardRequestDto);
 }
