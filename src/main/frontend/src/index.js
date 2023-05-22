@@ -14,6 +14,9 @@ import MainFaQ from './screens/MainFaQ';
 import NoticeView from './screens/NoticeView';
 import NoticeWrite from './screens/NoticeWrite';
 import NoticeEdit from './screens/NoticeEdit';
+import QnaView from './screens/QnaView';
+import QnaWrite from './screens/QnaWrite';
+import QnaEdit from './screens/QnaEdit';
 import LoginPage from "./login/LoginPage";
 import JoinForm from "./login/JoinForm";
 import FindId from "./login/FindId";
@@ -45,6 +48,9 @@ root.render(
           <Route path="/NoticeView/:id" element = {<NoticeView/>} />
           <Route path="/NoticeWrite" element = {<NoticeWrite/>} />
           <Route path="/NoticeEdit/:id" element ={<NoticeEdit/>} />
+          <Route path="/QnaView/:id" element = {<QnaView/>} />
+          <Route path="/QnaEdit/:id" element ={<QnaEdit/>} />
+          <Route path="/QnaWrite" element = {<QnaWrite/>} />
           <Route path="/LoginPage" element={<LoginPage/>}/>
           <Route path="/JoinForm" element={<JoinForm/>}/>
           <Route path="/FindId" element={<FindId/>}/>

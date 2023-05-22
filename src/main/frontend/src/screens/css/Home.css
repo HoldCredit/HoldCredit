@@ -1,9 +1,10 @@
 .home_page{
-    min-width: 1024px;
+    max-width: 1200px;
 }
 .intro_main_content {
     position: relative;
-    height: 1200px;
+    width: 1580px;
+    height: 1024px;
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url("../../images/main-bg3.png");

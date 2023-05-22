@@ -3,46 +3,46 @@ import {useEffect, useState} from 'react';
 import BoardService from '../service/BoardService';
 import axios from "axios";
 
-const NoticeEdit = () => {
+const QnaEdit = () => {
 
     const {id} = useParams();
     const navigate = useNavigate();
-    const[notice, setNotice] = useState([]);
+    const[qna, setQna] = useState([]);
     const[update, setUpdate] = useState({});
 
 
      useEffect(() => {
-      axios.get(`http://localhost:8080/api/Notice/${id}`)
-        .then(res => setNotice(res.data))
+      axios.get(`http://localhost:8080/api/Qna/${id}`)
+        .then(res => setQna(res.data))
         .catch(error => console.log(error));
      }, [id]);
 
     const changeHandler = (event) => {
       const { name, value } = event.target;
-      setNotice((prevNotice) => ({
-        ...prevNotice,
+      setQna((prevQna) => ({
+        ...prevQna,
         [name]: value
       }));
     };
 
-       const updateNotice = (event) => {
+       const updateQna = (event) => {
                  event.preventDefault();
 
                  const update = {
-                     title: notice.title,
-                     content: notice.content,
-                     pwd: notice.pwd
+                     title: qna.title,
+                     content: qna.content,
+                     pwd: qna.pwd
                  };
 
-                 console.log("notice => " + JSON.stringify(notice));
-                   axios.put(`http://localhost:8080/api/Notice/${id}`, update, {
+                 console.log("notice => " + JSON.stringify(qna));
+                   axios.put(`http://localhost:8080/api/Qna/${id}`, update, {
                     headers:{
                         'Content-type': 'application/json'
                     }
                   })
                    .then(res => {
                    alert('수정되었습니다.');
-                   navigate('/MainNotice');
+                   navigate('/MainQna');
                  });
                };
 
@@ -59,7 +59,7 @@ const NoticeEdit = () => {
                         <div class="title">
                         <dl>
                             <dt>제목</dt>
-                            <dd><input type="text" id="write_input" placeholder="title"  name="title" value={notice.title} onChange={changeHandler}/></dd>
+                            <dd><input type="text" id="write_input" placeholder="title"  name="title" value={qna.title} onChange={changeHandler}/></dd>
                         </dl>
                         </div>
                         </div>
@@ -71,16 +71,16 @@ const NoticeEdit = () => {
                         </dl>
                         <dl>
                             <dt>비밀번호</dt>
-                            <dd><input type="password" id="write_input" placeholder="password" name="pwd" value={notice.pwd} onChange={changeHandler}  /></dd>
+                            <dd><input type="password" id="write_input" placeholder="password" name="pwd" value={qna.pwd} onChange={changeHandler}  /></dd>
                         </dl>
                         </div>
                         </div>
                         <div class="cont">
-                            <textarea placeholder="내용 입력" name="content" value={notice.content} onChange={changeHandler} ></textarea>
+                            <textarea placeholder="내용 입력" name="content" value={qna.content} onChange={changeHandler} ></textarea>
                         </div>
 
                         <div class="btn_wrap">
-                            <a onClick={updateNotice} class="btn_insert">완료</a>
+                            <a onClick={updateQna} class="btn_insert">완료</a>
                             <a href="/MainNotice" class="btn_update">취소</a>
                         </div>
                     </div>
@@ -90,4 +90,4 @@ const NoticeEdit = () => {
     )
 }
 
-export default NoticeEdit
+export default QnaEdit;

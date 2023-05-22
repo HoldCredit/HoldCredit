@@ -365,3 +365,40 @@ a {
    position : relative;
    right : 5px;
 }
+
+.img_search{
+    display: block;
+    overflow: hidden;
+    background: url("../../images/searchlogo.png") no-repeat;
+    text-indent: -9999px ;
+    width: 22px;
+    height: 20px;
+    margin: 0 auto;
+    background-position: -110px -60px;
+}
+
+.search_btn{
+
+    top: 250px;
+    left: 770px;
+    width: 48px;
+    height: 60px;
+    position: absolute;
+    top: -0.65rem;
+    left: -3rem;
+}
+
+.search_form{
+        position: relative;
+        width: 495px;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        display: block;
+}
+
+.notice_search{
+    margin-top: 50px;
+}
+

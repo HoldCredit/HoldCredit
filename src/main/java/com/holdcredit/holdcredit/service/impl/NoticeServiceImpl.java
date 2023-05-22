@@ -1,42 +1,37 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.NoticeDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.NoticeDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Notice;
-import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.NoticeRepository;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
-    private final CustomerRepository customerRepository;
 
-    //게시글 리스트
+    //게시글 리스트, 페이징 처리
     @Override
-    public List<NoticeResponseDto> getAllNotice(){
-        List<Notice> notice = noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        return noticeList(notice);
+    public Page<NoticeResponseDto> list(Pageable pageable) throws Exception {
+        PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
+        Page<Notice> noticePage = noticeRepository.findAll(paging);
+        return noticePage.map(Notice::responseDto);
     }
-    //게시글 리스트 entity => dto 변환
+    //게시글 검색기능
     @Override
-    public List<NoticeResponseDto> noticeList(List<Notice> noticeEntity) {
-        return noticeEntity.stream()
-                .map(entity -> NoticeResponseDto.builder()
-                        .id(entity.getId())
-                        .title(entity.getTitle())
-                        .createDate(entity.getCreateDate())
-                        .hits(entity.getHits())
-                        .attach(entity.getAttach())
-                        .build())
-                .collect(Collectors.toList());
+    public Page<NoticeResponseDto> findByContentContaining(String keyword, Pageable pageable) {
+        PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
+        Page<Notice> noticePage = noticeRepository.findByContentContaining(keyword, paging);
+        return noticePage.map(Notice::responseDto);
     }
 
     //게시글 상세조회
@@ -45,7 +40,17 @@ public class NoticeServiceImpl implements NoticeService {
         Notice notice = noticeRepository.findById(id).get();
         NoticeResponseDto responseDto = notice.responseDto();
         return responseDto;
+
     }
+
+    @Override
+    @Transactional
+    public void updateHits(Long id) {
+        Notice notice = noticeRepository.findById(id).get();
+        notice.countHits(notice.getHits() + 1);
+        noticeRepository.save(notice);
+    }
+
     //등록
     @Override
     public Notice saveNotice(NoticeRequestDto requestDto){
@@ -59,6 +64,7 @@ public class NoticeServiceImpl implements NoticeService {
         notice.updateNotice(requestDto);
         noticeRepository.save(notice);
     }
+
 
     @Override
     public void deleteNotice(Long id) {

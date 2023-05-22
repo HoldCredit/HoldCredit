@@ -5,16 +5,16 @@ import './css/Board.css';
 
 
 
-function NoticeWrite(props) {
+function QnaWrite(props) {
 
-      const[notice, setNotice] = useState([]);
+      const[qna, setQna] = useState([]);
       const[title, setTitle] = useState('');
       const[content, setContent] = useState('');
       const[pwd, setPwd] = useState('');
 
          useEffect(() => {
-            BoardService.getNotice().then((res) => {
-            setNotice(res.data);
+            BoardService.getQna().then((res) => {
+            setQna(res.data);
           });
          }, []);
 
@@ -32,31 +32,31 @@ function NoticeWrite(props) {
 
       const navigate = useNavigate();
 
-      const createNotice = (event) => {
+      const createQna = (event) => {
           event.preventDefault();
-          let notice = {
+          let qna = {
 
             title: title,
             content: content,
             pwd: pwd,
 
           };
-          console.log("notice => " + JSON.stringify(notice));
-            BoardService.createNotice(notice).then(res => {
+          console.log("notice => " + JSON.stringify(qna));
+            BoardService.createQna(qna).then(res => {
             alert('등록되었습니다.');
-            navigate('/MainNotice');
+            navigate('/MainQna');
           });
         };
 
       const cancel = () => {
-        navigate('/MainNotice');
+        navigate('/MainQna');
       }
     return (
         <div>
 
             <div class="board_wrap">
                 <div class="board_title">
-                <strong>공지사항</strong>
+                <strong>Q & A</strong>
             </div>
                 <div class="board_write_wrap">
                     <div class="board_write">
@@ -88,7 +88,7 @@ function NoticeWrite(props) {
                         </div>
 
                         <div className="btn_wrap">
-                            <a href="#" class="btn_insert" onClick={createNotice}>등록</a>
+                            <a href="#" class="btn_insert" onClick={createQna}>등록</a>
                             <a href="#" class="btn_update" onClick={cancel}>취소</a>
                         </div>
                     </div>
@@ -98,4 +98,4 @@ function NoticeWrite(props) {
     )
 }
 
-export default NoticeWrite;
+export default QnaWrite;

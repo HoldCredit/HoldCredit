@@ -1,10 +1,16 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaRequestDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,36 +26,62 @@ public class Qna extends Date {
 
     @Id //QNA 번호
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="QNA_SEQ_GENERATOR")
-    @Column(name = "question_no")
+    @Column(name = "qna_no")
     private Long id;
 
     //회원번호
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_no", nullable = false, updatable = false)
+    @JoinColumn(name = "customer_no", updatable = false)
     private Customer customer;
-
-    //작성자
-    @Column (length=200, nullable = false)
-    private String writer;
 
     //제목
     @Column(length = 500, nullable = false )
     private String title;
 
     //내용
-    @Column(length = 5000, nullable = false)
+    @Column(length = 500, nullable = false)
     private String content;
 
+    @Column
+    private String pwd;
+
     //조회수
-    @Column(nullable = false)
-    private Long hits;
+    @Column(columnDefinition = "NUMBER(19,0) DEFAULT 0", nullable = false)
+    private int hits;
+
+    @CreatedDate
+    @Temporal(TemporalType.DATE)
+    private java.util.Date createDate; //작성일
+
+    @LastModifiedDate
+    @Temporal(TemporalType.DATE)
+    private java.util.Date lastModifiedDate; //수정일
 
     @Builder.Default
     @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
     private List<Reply> reply = new ArrayList<>();
 
 
-
+    public void updateQna(QnaRequestDto requestDto){
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.pwd = requestDto.getPwd();
+        this.lastModifiedDate = requestDto.getLasModifiedDate();
+    }
+    public QnaResponseDto responseDto(){
+        return QnaResponseDto.builder()
+                .id(this.getId())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .hits(this.getHits())
+                .pwd(this.getPwd())
+                .createDate(this.getCreateDate())
+                .lastModifiedDate(this.getLastModifiedDate())
+                .build();
+    }
+    public void countHits(int hits) {
+        this.hits = hits;
+    }
 
 }
 

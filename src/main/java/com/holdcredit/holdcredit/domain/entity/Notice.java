@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.dto.NoticeDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.NoticeDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class Notice extends Date{
     private String content;
 
     //조회수
-    @Column(insertable = false)
-    private Long hits;
+    @Column(columnDefinition = "NUMBER(19,0) DEFAULT 0", nullable = false)
+    private int hits;
 
     @Column
     private String pwd;
@@ -59,7 +57,7 @@ public class Notice extends Date{
     private java.util.Date createDate; //작성일
 
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private java.util.Date lastModifiedDate; //수정일
 
     //첨부파일과 연관관계 설정
@@ -80,7 +78,6 @@ public class Notice extends Date{
         return NoticeResponseDto.builder()
                 .id(this.getId())
                 .title(this.getTitle())
-                .customer_name(this.getCustomer())
                 .content(this.getContent())
                 .pwd(this.getPwd())
                 .hits(this.getHits())
@@ -90,6 +87,7 @@ public class Notice extends Date{
                 .build();
     }
 
-
-
+    public void countHits(int hits) {
+        this.hits = hits;
+    }
 }

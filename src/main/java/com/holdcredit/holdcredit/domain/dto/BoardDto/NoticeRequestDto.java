@@ -1,33 +1,34 @@
-package com.holdcredit.holdcredit.domain.dto.NoticeDto;
+package com.holdcredit.holdcredit.domain.dto.BoardDto;
 
 import com.holdcredit.holdcredit.domain.entity.Attach;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import lombok.*;
 
-import java.util.Date;
+
 import java.util.List;
 
 ////게시글 생성과 수정을 요청
 @Data
 @Builder
-public class NoticeRequestDto extends Date {
+public class NoticeRequestDto {
 
-    private String title;
     private Long id;
+    private String title;
     private String content;
     private String pwd;
+    private int hits;
     private java.util.Date createDate;
     private java.util.Date lasModifiedDate;
     private List<Attach> attach;
 
     public Notice toEntity(NoticeRequestDto dto) {
         return Notice.builder()
-                .title(dto.getTitle())
                 .id(dto.getId())
+                .title(dto.getTitle())
                 .content(dto.getContent())
                 .pwd(dto.getPwd())
+                .hits(dto.getHits())
                 .createDate(dto.getCreateDate())
-                .lastModifiedDate(dto.getLasModifiedDate())
                 .attach(dto.getAttach())
                 .build();
     }
