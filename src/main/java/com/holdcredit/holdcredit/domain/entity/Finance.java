@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceRequestDto;
 import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,12 @@ public class Finance {
 
     @Column(nullable = false)
     private Long extraMonthlyFund;
+
+    public void updateFinance(FinanceRequestDto financeRequestDto){
+        this.annulIncome = financeRequestDto.getAnnulIncome();
+        this.continuousService = financeRequestDto.getContinuousService();
+        this.extraMonthlyFund = financeRequestDto.getExtraMonthlyFund();
+    }
 
     public FinanceResponseDto toDto(){
         return FinanceResponseDto.builder()

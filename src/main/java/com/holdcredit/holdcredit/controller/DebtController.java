@@ -7,6 +7,7 @@ import com.holdcredit.holdcredit.service.DebtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
@@ -47,6 +48,12 @@ public class DebtController {
         return new ResponseEntity<>(NOT_FOUND);
     }
 
+    /* 수정 */
+    @PutMapping("/{id}")
+    public ResponseEntity<DebtRequestDto> update(@PathVariable Long id, @Validated @RequestBody DebtRequestDto debtRequestDto){
+        debtService.update(id, debtRequestDto);
+        return new ResponseEntity<>(OK);
+    }
 
 
 

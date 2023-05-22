@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,5 +36,11 @@ public class NonFinancialController {
     public ResponseEntity<NonFinancial> delete(@PathVariable Long id){
         nonFinancialService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<NonFinancialRequestDto> update(@PathVariable Long id, @Validated @RequestBody NonFinancialRequestDto nonFinancialRequestDto){
+        nonFinancialService.update(id, nonFinancialRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
