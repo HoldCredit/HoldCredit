@@ -69,11 +69,11 @@ public class Customer {
      * */
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private JobDomain job = JobDomain.etc; // 기본값 : '기타'로 저장
+    private JobDomain job = JobDomain.ETC; // 기본값 : '기타'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private EducationLevel educationLevel = EducationLevel.university; // 기본값 : '고졸'로 저장
+    private EducationLevel educationLevel = EducationLevel.UNIVERSITY; // 기본값 : '고졸'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
