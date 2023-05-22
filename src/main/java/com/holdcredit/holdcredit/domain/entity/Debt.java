@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.debtDto.DebtRequestDto;
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
 import lombok.*;
 
@@ -35,10 +36,18 @@ public class Debt {
     private Redemption redemption;
 
 
+    public void updateDebt(DebtRequestDto debtRequestDto){
+        this.customer = debtRequestDto.getCustomer();
+        this.loanAmount = debtRequestDto.getLoanAmount();
+        this.loanPeriod = debtRequestDto.getLoanPeriod();
+        this.loanCount = debtRequestDto.getLoanCount();
+    }
+
     /* RedemptionRequestDto에서 Debt 객체를 역직렬화할 때 debt_level_no 값을 받아서 Debt 객체를 생성 */
     public Debt(Long debtId) {
         this.id = debtId;
     }
+
 
 
     public DebtResponseDto toDto(Debt debt){

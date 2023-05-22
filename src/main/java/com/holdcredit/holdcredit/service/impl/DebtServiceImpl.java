@@ -39,6 +39,22 @@ public class DebtServiceImpl implements DebtService{
         debtRepository.deleteById(id);
     }
 
+    /*@Override
+    public void update(Long id, DebtRequestDto debtRequestDto){
+        Debt debt = debtRepository.findById(id);
+        debt.updateDebt(debtRequestDto);
+        debtRepository.save(debt);
+    }*/
+    @Override
+    public void update(Long id, DebtRequestDto debtRequestDto){
+        Optional<Debt> optionalDebt = debtRepository.findById(id);
+        if (optionalDebt.isPresent()) {
+            Debt debt = optionalDebt.get();
+            debt.updateDebt(debtRequestDto);
+            debtRepository.save(debt);
+        }
+    }
+
 
 
 

@@ -2,6 +2,7 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
+import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialRequestDto;
 import com.holdcredit.holdcredit.domain.entity.CreditCard;
 import com.holdcredit.holdcredit.repository.CreditCardRepository;
 import com.holdcredit.holdcredit.service.CreditCardService;
@@ -37,6 +38,13 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Override
     public void delete(Long id){
         creditCardRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Long id, CreditCardRequestDto creditCardRequestDto){
+        CreditCard creditCard = creditCardRepository.findById(id).get();
+        creditCard.updateCreditCard(creditCardRequestDto);
+        creditCardRepository.save(creditCard);
     }
 
 

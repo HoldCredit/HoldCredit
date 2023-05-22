@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,15 @@ public class CreditCard {
     CreditCardEntity 클래스는 오라클 데이터베이스에서
     overdue_period 필드에 기본값으로 null을 저장할 수 있게 됩니다.*/
     private Long overduePeriod= 0L;    /* 1주일 -> 7 */
+
+
+    public void updateCreditCard (CreditCardRequestDto creditCardRequestDto){
+        this.creditCardCompany = creditCardRequestDto.getCreditCardCompany();
+        this.transactionPeriod = creditCardRequestDto.getTransactionPeriod();
+        this.limit = creditCardRequestDto.getLimit();
+        this.overdueCount = creditCardRequestDto.getOverdueCount();
+        this.overduePeriod = creditCardRequestDto.getOverduePeriod();
+    }
 
     public CreditCardResponseDto toDto(){
         return CreditCardResponseDto.builder()

@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class DebtRequestDto {
-//    private Customer customer;  //회원번호
+    private Customer customer;  //회원번호
     private Long loanAmount;
     private Long loanPeriod;
     private Long loanCount;
@@ -25,7 +25,7 @@ public class DebtRequestDto {
     /* Dto -> Entity 저장 */
     public Debt toEntity() {
         return Debt.builder()
-               // .customer(customer)
+                .customer(customer)
                 .loanAmount(loanAmount)
                 .loanPeriod(loanPeriod)
                 .loanCount(loanCount)

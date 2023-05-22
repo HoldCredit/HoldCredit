@@ -37,6 +37,14 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Override
     public void delete(Long id){
+
         financeRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Long id, FinanceRequestDto financeRequestDto){
+        Finance finance = financeRepository.findById(id).get();
+        finance.updateFinance(financeRequestDto);
+        financeRepository.save(finance);
     }
 }

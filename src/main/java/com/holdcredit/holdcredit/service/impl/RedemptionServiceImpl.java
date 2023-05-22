@@ -39,4 +39,22 @@ public class RedemptionServiceImpl implements RedemptionService {
     public void delete(Long id){
         redemptionRepository.deleteById(id);
     }
+
+    /*@Override
+    public void update(Long debtId, RedemptionRequestDto redemptionRequestDto){
+        Redemption redemption = redemptionRepository.findById(debtId);
+        redemption.updateRedemption(redemptionRequestDto);
+        redemptionRepository.save(redemption);
+    }*/
+
+    @Override
+    public void update(Long debtId, RedemptionRequestDto redemptionRequestDto) {
+        Optional<Redemption> optionalRedemption = redemptionRepository.findById(debtId);
+        if (optionalRedemption.isPresent()) {
+            Redemption redemption = optionalRedemption.get();
+            redemption.updateRedemption(redemptionRequestDto);
+            redemptionRepository.save(redemption);
+        } else {
+        }
+    }
 }

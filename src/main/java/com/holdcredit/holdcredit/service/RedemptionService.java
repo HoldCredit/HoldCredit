@@ -9,4 +9,6 @@ public interface RedemptionService {
 
     RedemptionResponseDto read(Long id);
     void delete(Long id);
+
+    void update(Long id, RedemptionRequestDto redemptionRequestDto);
 }

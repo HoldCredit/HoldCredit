@@ -11,4 +11,6 @@ public interface NonFinancialService {
 
     void delete(Long id);
 
+    void update(Long id, NonFinancialRequestDto nonFinancialRequestDto);
+
 }

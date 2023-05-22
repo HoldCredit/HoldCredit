@@ -9,6 +9,7 @@ import com.holdcredit.holdcredit.service.RedemptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -46,6 +47,12 @@ public class RedemptionController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /* 수정 */
+    @PutMapping("/{id}")
+    public ResponseEntity<RedemptionRequestDto> update(@PathVariable Long id, @RequestBody @Validated RedemptionRequestDto redemptionRequestDto){
+        redemptionService.update(id, redemptionRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 
