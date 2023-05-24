@@ -1,11 +1,14 @@
 package com.holdcredit.holdcredit.controller;
+import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.service.CustomerModifyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,9 +28,11 @@ public class CustomerModifyController {
         }
     }
 
-
-
-
-
+    //회원 정보 수정
+    @PutMapping("/Modify/{id}")
+    public ResponseEntity<?> customerModify(@PathVariable Long id, @Validated @RequestBody CustomerModifyDto requestDto) {
+        customerModifyService.updateCustomer(id, requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

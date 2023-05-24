@@ -29,7 +29,7 @@ public class CustomerDto {
     private LocalDateTime join_Date;
 
     private JobDomain job;
-    private UserLevel admin_level;
+    private UserLevel userLevel;
 
     private EducationLevel education_level;
 

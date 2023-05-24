@@ -77,7 +77,8 @@ public class Customer {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private UserLevel adminLevel = CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
+    private UserLevel userLevel = UserLevel.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
+   // private UserLevel userLevel = AUTHORITY; // AUTHORITY
 
     /*CREATE TABLE "Customer" (
 	"customer_no"	NUMBER		NOT NULL,
@@ -148,15 +149,19 @@ public class Customer {
                 .phone_num(phoneNum)
                 .email(email)
                 .join_Date(joinDate)
-                .admin_level(adminLevel)
+                .userLevel(userLevel)
                 .education_level(educationLevel)
                 .job(job)
                 .build();
     }
 
+    public void updateCustomer(CustomerModifyDto requestDto){
+        this.password = requestDto.getPassword();
+        this.phoneNum = requestDto.getPhone_num();
+        this.email = requestDto.getEmail();
+        this.job = requestDto.getJob();
+        this.userLevel = requestDto.getUserLevel();
+        this.educationLevel = requestDto.getEducation_level();
+    }
 }
-
-
-
-
 
