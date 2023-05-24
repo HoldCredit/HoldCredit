@@ -1,6 +1,10 @@
-import React, { useState } from "react";
 import "../styles/EditMember.css";
 import CheckIcon from '@mui/icons-material/Check';
+
+//근주추가
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import axios from "axios";
 
 
 function EditMember() {
@@ -15,19 +19,6 @@ function EditMember() {
     const [isIdValid, setIsIdValid] = useState(true);
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
 
-    // 아이디
-    const handleIdChange = (e) => {
-        const idValue = e.target.value;
-        if (idValue === "") {
-            setIsIdRequired(true);
-            setIsIdValid(true);
-        } else if (idValue.length <= 5 || !/^[a-z0-9_-]{5,20}$/.test(idValue)) {
-            setIsIdValid(false);
-        } else {
-            setIsIdRequired(false);
-            setIsIdValid(true);
-        }
-    };
 
     // 비밀번호
     const handlePasswordBlur = (e) => {
@@ -77,33 +68,6 @@ function EditMember() {
         }
     };
 
-
-    // 생년 월 일
-    const [message, setMessage] = useState('');
-
-    function handleYearClick() {
-        setMessage('태어난 년도 4자리를 정확하게 입력하세요.');
-    }
-
-    function handleMonthClick() {
-        setMessage('태어난 월을 선택하세요.');
-    }
-
-    function handleDayClick() {
-        setMessage('태어난 일 (날짜) 2자리를 정확하게 입력하세요.');
-    }
-    function handleBlur() {
-        setMessage('');
-    }
-
-    // 성별
-    const [isRequired, setIsRequired] = useState(false);
-
-    const [gender, setGender] = useState('');
-
-    function genderBlur() {
-        setIsRequired(document.querySelector("#gender").value === "");
-    }
 
     // 직업구분
     const [isOccupation, setIsOccupation] = useState(false);
@@ -176,9 +140,8 @@ function EditMember() {
                                         title="ID"
                                         maxLength={20}
                                         disabled
-                                        value={'ID'}
+                                        value={'여기를 바꿔야할듯?'}
                                     />
-                                    <span className="step_url">@holdcredit.com</span>
                                 </span>
 
                             </div>
@@ -195,6 +158,7 @@ function EditMember() {
                                         title="비밀번호"
                                         maxLength={20}
                                         value={password}
+                                        //여기를 바꿔야할듯?
                                         onChange={handlePasswordChange}
                                         onBlur={handlePasswordBlur}
                                     />
@@ -252,7 +216,7 @@ function EditMember() {
                                             title="이름"
                                             className="int"
                                             maxLength="40"
-                                            value={"김창민"}
+                                            value={"여기를 바꿔야할듯?"}
                                             disabled
                                         />
                                     </span>
@@ -260,75 +224,20 @@ function EditMember() {
                                 </div>
                             </div>
 
-                            <div className="join_birthday">
+          <div className="join_birthday">
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
-                                <div className="bir_yy">
+     <div className="birthday">
                                     <span className="edit_box">
                                         <input
                                             type="text"
-                                            id="yy"
-                                            placeholder="년(4자)"
-                                            aria-label="년(4자)"
+                                            id="birthday"
                                             className="int"
-                                            maxLength="4"
+                                            maxLength="8"
                                             disabled
-                                            value={"1997"}
+                                            value={"여기를 바꿔야할듯?"}
                                         />
                                     </span>
                                 </div>
-                                <div className="bir_mm">
-                                    <span className="edit_box">
-                                        <select id="mm"
-                                            className="sel"
-                                            aria-label="월"
-                                            onClick={handleMonthClick}
-                                            disabled
-                                        >
-                                            <option value="" defaultValue>{"3"}</option>
-                                            <option value="01">1</option>
-                                            <option value="02">2</option>
-                                            <option value="03">3</option>
-                                            <option value="04">4</option>
-                                            <option value="05">5</option>
-                                            <option value="06">6</option>
-                                            <option value="07">7</option>
-                                            <option value="08">8</option>
-                                            <option value="09">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    </span>
-                                </div>
-                                <div className="bir_dd">
-                                    <span className="edit_box">
-                                        <input type="text"
-                                            id="dd"
-                                            placeholder="일"
-                                            aria-label="일"
-                                            className="int"
-                                            maxLength="2"
-                                            disabled
-                                            value={"19"}
-                                        />
-                                        <label htmlFor="dd" className="lbl"></label>
-                                    </span>
-                                </div>
-                                <span className="error_next_box" id="birthdayMsg" style={{ display: message ? 'block' : 'none' }} aria-live="assertive">{message}</span>
-                            </div>
-
-                            <div className="join_row join_gender">
-                                <h3 className="join_title">
-                                    <label htmlFor="gender">성별</label>
-                                </h3>
-                                <div
-                                    id="gender"
-                                    name="gender"
-                                    className="edit_box gender_code"
-                                    disabled
-                                    value= {"남"}
-                                    >
-                                    {"남"}
                                 </div>
                                 
                             </div>
@@ -453,7 +362,6 @@ function EditMember() {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 
