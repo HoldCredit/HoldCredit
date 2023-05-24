@@ -1,9 +1,7 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

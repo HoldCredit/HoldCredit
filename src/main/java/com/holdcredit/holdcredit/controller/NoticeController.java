@@ -1,21 +1,17 @@
 package com.holdcredit.holdcredit.controller;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -46,9 +42,9 @@ public class NoticeController {
     }
     //게시글 조회수
     @PutMapping("/hits/{id}")
-        public ResponseEntity<?> updateHits(@PathVariable Long id){
-            noticeService.updateHits(id);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<?> updateHits(@PathVariable Long id){
+        noticeService.updateHits(id);
+        return ResponseEntity.ok().build();
     }
     //등록
     @PostMapping("/Notice")

@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import com.holdcredit.holdcredit.repository.QnaRepository;
 import com.holdcredit.holdcredit.service.QnaService;

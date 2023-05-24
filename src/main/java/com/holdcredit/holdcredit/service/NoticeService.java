@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,8 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,5 +28,6 @@ public interface QnaService {
     //수정
     void updateQna(Long id, QnaRequestDto requestDto);
 
+    //삭제
     void deleteQna(Long id);
 }

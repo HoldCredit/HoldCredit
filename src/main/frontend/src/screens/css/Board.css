@@ -8,6 +8,12 @@ ul, li {
   list-style: none;
 }
 
+h3 {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -50,10 +56,9 @@ a {
 }
 
 .board_wrap{
-  height: 655px;
-  width: 1200px;
+  min-height: 755px;
+  width: 1000px;
   margin: 100px auto;
-
 }
 
 .board_title{
@@ -68,13 +73,16 @@ a {
 .btn_wrap {
   margin-top: 20px;
   text-align: center;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btn_wrap_2 {
-  margin-left: 1090px;
   margin-top: 20px;
   margin-bottom: 5px;
   text-align: center;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btn_wrap a {
@@ -151,6 +159,7 @@ a {
 
 .board_list .writer {
   width: 10%;
+
 }
 
 
@@ -219,17 +228,24 @@ a {
 .board_view {
  width: 100%;
  border-top: 2px solid #ddd;
+ border-radius: 3px;
 }
 
 .board_view .title {
   padding: 20px 15px;
   border-bottom : 1px dashed #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
   font-size: 1.4rem;
 }
 
 .board_view .info {
    padding: 15px;
    border-bottom: 1px solid #ddd;
+   border-right: 1px solid #ddd;
+   border-left: 1px solid #ddd;
 }
 
 .board_view .info dl{
@@ -272,6 +288,10 @@ a {
 .board_view .cont {
   padding: 15px;
   border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
   line-height: 160%;
   font-size: 1.1rem;
 }
@@ -384,13 +404,13 @@ a {
     width: 48px;
     height: 60px;
     position: absolute;
-    top: -0.65rem;
+    top: -0.24rem;
     left: -3rem;
 }
 
 .search_form{
         position: relative;
-        width: 495px;
+        width: 500px;
         margin: 0 auto;
         background-color: #fff;
         box-shadow: 0 1px 3px rgba(0,0,0,.1);
@@ -399,6 +419,212 @@ a {
 }
 
 .notice_search{
+
     margin-top: 50px;
 }
 
+.form-control {
+    height: 55px;
+}
+
+.CommentBox {
+    margin-top: 100px;
+    border-top: 1px solid #ddd;
+}
+
+.comment_option {
+    position: relative;
+    padding-top: 16px;
+    margin-bottom: 11px;
+}
+
+.comment_title {
+    float: left;
+    margin-top: 3px;
+    margin-right: -25px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comment_tab{
+    display: block;
+}
+
+.CommentBox .comment_option .comment_tab .comment_tab_list {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.CommentBox .comment_option .comment_tab .comment_tab_item:first-child {
+    margin-left: 0;
+}
+
+
+.CommentBox .comment_option .comment_tab .comment_tab_item .comment_tab_button[aria-selected=true] {
+    color: var(--skinTextColor);
+}
+
+.CommentBox .comment_option .comment_tab .comment_tab_item {
+    float: left;
+}
+
+.comment_tab_item a{
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+}
+
+.CommentBox .comment_list .CommentItem:first-child {
+    border-top: 0;
+}
+
+.CommentBox .comment_list .CommentItem {
+    position: relative;
+    border-top: 1px solid #ddd;
+}
+
+.CommentBox .comment_list .comment_area {
+    position: relative;
+    padding: 12px 23px 10px 0;
+}
+
+.CommentBox .comment_list+.CommentWriter {
+    margin-top: 10px;
+}
+
+.CommentWriter {
+    margin: 12px 0 29px;
+    padding: 16px 10px 10px 18px;
+    border: 3px solid #b7b7b7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.CommentWriter .comment_inbox {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.blind {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+
+.CommentWriter .comment_inbox_name {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+em {
+    font-style: normal;
+}
+
+textarea.comment_inbox_text {
+    max-height: 500px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    height: 17px;
+}
+
+.CommentWriter .comment_inbox_text {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    padding-right: 1px;
+    border: 0;
+    font-size: 13px;
+    -webkit-appearance: none;
+    resize: none;
+    box-sizing: border-box;
+    background: transparent;
+    color: #000;
+    outline: 0;
+    font-weight: 500;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    width: 777px;
+    height: 17px;
+}
+
+.CommentWriter .comment_attach {
+    position: relative;
+    margin-bottom: 30px
+}
+
+.CommentWriter .attach_box {
+    float: left;
+    padding-top: 20px;
+}
+
+.CommentWriter .register_box {
+    float: right;
+}
+
+.CommentWriter .register_box .btn_register {
+    display: inline-block;
+    min-width: 100px;
+    height: 0;
+    line-height: 0;
+    font-size: 15px;
+    color: #777;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: top;
+    text-decoration: none;
+}
+
+.comment_create {
+    font-size: 13px;
+    color: #979797;
+}
+
+.LayerMore {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.layer_item {
+    display: inline-block;
+    font-size: 13px;
+}
+
+.layer_item a{
+    text-decoration: none;
+    color: #979797;
+    margin-left: 7px;
+}
+
+.comment_inbox_reply{
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    padding-right: 1px;
+    border: 0;
+    font-size: 13px;
+    -webkit-appearance: none;
+    resize: none;
+    box-sizing: border-box;
+    background: transparent;
+    color: #000;
+    outline: 0;
+    font-weight: 500;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    width: 777px;
+    height: 17px;
+}

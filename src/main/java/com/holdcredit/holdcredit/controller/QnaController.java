@@ -1,13 +1,12 @@
 package com.holdcredit.holdcredit.controller;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.QnaResponseDto;
-import com.holdcredit.holdcredit.domain.entity.Notice;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
+import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Qna;
-import com.holdcredit.holdcredit.service.NoticeService;
+import com.holdcredit.holdcredit.domain.entity.Reply;
 import com.holdcredit.holdcredit.service.QnaService;
+import com.holdcredit.holdcredit.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +16,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class QnaController {
     private final QnaService qnaService;
-
+    private final ReplyService replyService;
     //게시글 리스트
     @GetMapping("/Qna")
     public Page<QnaResponseDto> list(Pageable pageable, String keyword) throws Exception {
@@ -42,7 +42,8 @@ public class QnaController {
     @GetMapping("/Qna/{id}")
     public ResponseEntity<QnaResponseDto> getQna(@PathVariable Long id) {
         QnaResponseDto responseDto = qnaService.getQna(id);
-
+        List<ReplyResponseDto> reply = replyService.replyList(id);
+        responseDto.setReply(reply);
         return ResponseEntity.ok(responseDto);
     }
     //게시글 조회수

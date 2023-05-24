@@ -1,6 +1,5 @@
 package com.holdcredit.holdcredit.repository;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

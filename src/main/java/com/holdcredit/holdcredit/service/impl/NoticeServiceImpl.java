@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import com.holdcredit.holdcredit.repository.NoticeRepository;
 import com.holdcredit.holdcredit.service.NoticeService;

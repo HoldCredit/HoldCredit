@@ -1,4 +1,4 @@
-package com.holdcredit.holdcredit.domain.dto.BoardDto;
+package com.holdcredit.holdcredit.domain.dto.boardDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import lombok.*;
 
