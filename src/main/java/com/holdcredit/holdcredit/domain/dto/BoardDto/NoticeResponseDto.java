@@ -2,8 +2,6 @@ package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 
 import com.holdcredit.holdcredit.domain.entity.Attach;
-import com.holdcredit.holdcredit.domain.entity.Customer;
-import com.holdcredit.holdcredit.domain.entity.Notice;
 import lombok.*;
 
 import java.util.Date;
@@ -22,6 +20,5 @@ public class NoticeResponseDto {
     private Date createDate;
     private Date lastModifiedDate;
     private List<Attach> attach;
-
 
 }

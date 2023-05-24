@@ -75,6 +75,7 @@ public class Qna extends Date {
                 .pwd(this.getPwd())
                 .createDate(this.getCreateDate())
                 .lastModifiedDate(this.getLastModifiedDate())
+                .reply(this.responseDto().getReply())
                 .build();
     }
     public void countHits(int hits) {

@@ -44,6 +44,11 @@ const[notice, setNotice] = useState({});
     <div class="board_wrap">
       <div class="board_title">
         <strong>공지사항</strong>
+          <div class="btn_wrap">
+            <a onClick={noticeList} class="btn_list">목록</a>
+            <a onClick={updateNotice} class="btn_update">수정</a>
+            <a onClick={deleteNotice} id="btn_delete">삭제</a>
+          </div>
       </div>
       <div class="board_view_wrap">
         <div class="board_view">
@@ -77,11 +82,7 @@ const[notice, setNotice] = useState({});
           </div>
           </div>
           <div class="cont">{notice.content}</div>
-          <div class="btn_wrap">
-            <a onClick={noticeList} class="btn_list">목록</a>
-            <a onClick={updateNotice} class="btn_update">수정</a>
-            <a onClick={deleteNotice} id="btn_delete">삭제</a>
-          </div>
+
         </div>
       </div>
     </div>

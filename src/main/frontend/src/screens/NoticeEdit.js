@@ -42,7 +42,7 @@ const NoticeEdit = () => {
                   })
                    .then(res => {
                    alert('수정되었습니다.');
-                   navigate('/MainNotice');
+                   navigate(`/NoticeView/${id}`);
                  });
                };
 

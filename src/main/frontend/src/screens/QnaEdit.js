@@ -42,7 +42,7 @@ const QnaEdit = () => {
                   })
                    .then(res => {
                    alert('수정되었습니다.');
-                   navigate('/MainQna');
+                   navigate(`/QnaView/${id}`);
                  });
                };
 

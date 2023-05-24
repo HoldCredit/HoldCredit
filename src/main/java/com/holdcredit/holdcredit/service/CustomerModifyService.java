@@ -1,6 +1,6 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.BoardDto.NoticeRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;

@@ -137,6 +137,7 @@ function QnaView(props) {
     }
   };
 
+ const [like, setLike] = useState(0);
 
   return (
     <div>
@@ -184,7 +185,32 @@ function QnaView(props) {
             </div>
             <div className="cont">
               {qna.content}
+
               <div className="CommentBox">
+                <div class="ReplyBox">
+                    <div class="box_left">
+                        <div class="like_article">
+                            <h5>💛<a onClick={()=>{setLike(like+1)}} className="like">좋아요 <em className="like_count">{like}</em></a></h5>
+                        </div>
+                    </div>
+                    <div class="box_right">
+                    </div>
+                </div>
+              <div class="comment_option">
+                  <h3 class="comment_title">
+                      댓글
+                  </h3>
+                  <div class="comment_tab">
+                      <ul class="comment_tab_list">
+                          <li class="comment_tab_item"><a href="#" role="button" aria-selected="true" class="comment_tab_button">
+                                  등록순
+                              </a></li>
+                          <li class="comment_tab_item"><a href="#" role="button" aria-selected="false" class="comment_tab_button">
+                                  최신순
+                              </a></li>
+                      </ul><button type="button" class="comment_refresh_button"><span class="blind">새로고침</span></button>
+                  </div>
+              </div>
                 <ul className="comment_list">
                   {replyList.map((list) => (
                     <li className="CommentItem" key={list.id}>
@@ -192,6 +218,7 @@ function QnaView(props) {
                         {editMode[list.id] ? (
                           <form onSubmit={(e) => updateReply(e, list.id)}>
                             <div className="CommentWriter">
+                            <div>User Name</div>
                               <div className="comment_inbox">
                                 {editMode[list.id] ? (
                                   <textarea
@@ -211,12 +238,16 @@ function QnaView(props) {
                                   <button type="submit" className="btn_register">
                                     등록
                                   </button>
+                                  <button type="submit" className="btn_register">
+                                    취소
+                                  </button>
                                 </div>
                               </div>
                             </div>
                           </form>
                         ) : (
-                        <div>{list.reply}
+
+                        <div style={{fontSize: '15px'}}><div style={{fontWeight:'bold'}}>User Name</div>{list.reply}
                           <ul className="LayerMore">
                             <li className="layer_item">
                               <a className="layer_item" role="button"

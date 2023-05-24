@@ -429,7 +429,6 @@ a {
 
 .CommentBox {
     margin-top: 100px;
-    border-top: 1px solid #ddd;
 }
 
 .comment_option {
@@ -627,4 +626,35 @@ textarea.comment_inbox_text {
     overflow-wrap: break-word;
     width: 777px;
     height: 17px;
+}
+
+.ReplyBox {
+
+    border-top: 1px solid #ddd;
+
+}
+
+.like_article{
+    margin-top: 20px;
+}
+
+.like {
+    font-size: 13px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.like:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.like:active{
+        position: relative;
+        left: 2px;;
+}
+
+.like_count{
+    font-size: 15px;
+    font-weight: bold;
 }
