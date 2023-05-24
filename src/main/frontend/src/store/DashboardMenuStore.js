@@ -1,5 +1,4 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit";
-import {BoardData} from "./BoardData";
 
 const DashboardMenu = createSlice({
   name: 'menu',
@@ -22,6 +21,5 @@ export const {handleMenu} = DashboardMenu.actions
 export default configureStore({
   reducer: {
     'selectMenu' : DashboardMenu.reducer,
-    'getData' : BoardData.reducer
   }
 })
