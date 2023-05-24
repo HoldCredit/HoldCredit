@@ -2,7 +2,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Board from "../components/Board";
+import BoardList from "../components/BoardList";
 import DashboardFooter from "../DashboardFooter";
 import * as React from "react";
 
@@ -16,7 +16,7 @@ export default function FAQ() {
           {/* FAQ 내용 */}
           <Grid item xs={12}>
             <Paper sx={{p: 2, display: 'flex', flexDirection: 'column', height:'74vh'}}>
-              <Board/>
+              <BoardList/>
             </Paper>
           </Grid>
 
