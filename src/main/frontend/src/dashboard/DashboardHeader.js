@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import {SidebarMainMenus, SidebarSubMenus} from "./DashboardSidebar";
+import {SidebarMenus} from "./DashboardSidebar";
 import "../styles/dashboard.css"
 import LogoutIcon from '@mui/icons-material/Logout';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
@@ -114,9 +114,7 @@ function DashBoardHeader() {
 
         <Divider />
         <List component="nav">
-          <SidebarMainMenus />
-          <Divider sx={{ my: 1 }} />
-          <SidebarSubMenus />
+          <SidebarMenus />
         </List>
       </Drawer>
     </>

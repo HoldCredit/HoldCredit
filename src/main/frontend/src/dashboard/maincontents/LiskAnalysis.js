@@ -6,7 +6,7 @@ import Chart from "../components/Chart";
 import Deposits from "../components/Deposits";
 import DashboardFooter from "../DashboardFooter";
 import * as React from "react";
-import Board from "../components/Board";
+import BoardList from "../components/BoardList";
 
 export default function LiskAnalysis() {
   return (
@@ -14,8 +14,6 @@ export default function LiskAnalysis() {
       <Toolbar/>
       <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
         <Grid container spacing={3}>
-
-          LiskAnalysis 입니다.
 
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
@@ -48,7 +46,7 @@ export default function LiskAnalysis() {
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-              <Board />
+              <BoardList />
             </Paper>
           </Grid>
         </Grid>

@@ -9,8 +9,9 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        #        show_sql: true
+#        show_sql: true
         format_sql: true
+        highlight_sql: true
         default_batch_fetch_size: 100
       # ddl -auto
       # create -> 실행 시 테이블 drop 후 테이블 create.
@@ -19,13 +20,12 @@ spring:
       # validate -> 엔티티와 테이블이 정상 매핑 되었는지 확인
       # none -> 사용 안함.
 
-
 thymeleaf:
   enabled: true
 
-  logging.level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace          #스프링 부트 2.x, hibernate5
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type.descriptor.sql: trace          #스프링 부트 2.x, hibernate5
 #  org.hibernate.orm.jdbc.bind: trace #스프링 부트 3.x, hibernate6
 
 
