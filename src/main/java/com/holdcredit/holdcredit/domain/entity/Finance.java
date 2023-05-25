@@ -41,14 +41,14 @@ public class Finance {
         this.extraMonthlyFund = financeRequestDto.getExtraMonthlyFund();
     }
 
-    public FinanceResponseDto toDto(){
+    public FinanceResponseDto toDto(Finance finance){
         return FinanceResponseDto.builder()
-                .id(this.id)
-                .customer(this.customer)
-                .annulIncome(this.annulIncome)
-                .continuousService(this.continuousService)
-                .extraMonthlyFund(this.extraMonthlyFund).build();
+                .id(finance.getId())
+                .customerNo(finance.getCustomer().getId())
+                .annulIncome(finance.getAnnulIncome())
+                .continuousService(finance.getContinuousService())
+                .extraMonthlyFund(finance.getExtraMonthlyFund()).build();
     }
-
-
+    public void setCustomer(Customer customer) { this.customer = customer;
+    }
 }

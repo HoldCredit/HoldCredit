@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
@@ -16,7 +17,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @SequenceGenerator(sequenceName = "CREDITCARD_SEQ", initialValue = 1, allocationSize = 1, name = "CREDITCARD_SEQ_GENERATOR")
-//@Table(name = "CreditCard")
 public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CREDITCARD_SEQ_GENERATOR")
@@ -25,6 +25,7 @@ public class CreditCard {
 
     @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
     @JoinColumn (name = "customer_no", /*nullable = false,*/ updatable = false) //readonly
+    @JsonIgnore
     private Customer customer; //userNo
 //    @JsonIgnore //response에 해당 필드 제외
 
@@ -58,16 +59,19 @@ public class CreditCard {
         this.overduePeriod = creditCardRequestDto.getOverduePeriod();
     }
 
-    public CreditCardResponseDto toDto(){
+    public CreditCardResponseDto toDto(CreditCard creditCard){
         return CreditCardResponseDto.builder()
-                .id(this.id)
-                .customer(this.customer)
-                .creditCardCompany(this.creditCardCompany)
-                .transactionPeriod(this.transactionPeriod)
-                .limit(this.limit)
-                .overdueCount(this.overdueCount)
-                .overduePeriod(this.overduePeriod).build();
+                .id(creditCard.getId())
+                .customerNo(creditCard.getCustomer().getId())
+                .creditCardCompany(creditCard.getCreditCardCompany())
+                .transactionPeriod(creditCard.getTransactionPeriod())
+                .limit(creditCard.getLimit())
+                .overdueCount(creditCard.getOverdueCount())
+                .overduePeriod(creditCard.getOverduePeriod()).build();
     }
 
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

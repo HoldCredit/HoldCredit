@@ -20,6 +20,10 @@ public class DebtController {
     /* 등록*/
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody DebtRequestDto debtRequestDto) { //HTTP 요청 -> 자바 객체 변환
+        // 회원 번호 확인
+        Long customerNo = debtRequestDto.getCustomerNo();
+        System.out.println("전달된 회원 번호: " + customerNo);
+
         debtService.save(debtRequestDto);
         return new ResponseEntity<>(CREATED);
     }

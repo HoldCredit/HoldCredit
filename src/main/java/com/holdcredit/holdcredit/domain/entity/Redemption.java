@@ -50,5 +50,7 @@ public class Redemption {
     }
 
 
-
+    public void setDebt(Debt debt) { this.debt = debt;
+    }
 }
+

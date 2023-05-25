@@ -10,7 +10,8 @@ import lombok.*;
 @Builder
 public class NonFinancialResponseDto {
     private Long id;
-    private Customer customer;
+//    private Customer customer;
+    private Long customerNo; //먉
     private Classification marital;
     private Long childrenCnt;
     private Classification realestate;

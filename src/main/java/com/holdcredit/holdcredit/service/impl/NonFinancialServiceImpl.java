@@ -1,10 +1,17 @@
 package com.holdcredit.holdcredit.service.impl;
 
+import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
 import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialRequestDto;
 import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.NonFinancial;
+import com.holdcredit.holdcredit.domain.entity.Score;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
+import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
 import com.holdcredit.holdcredit.repository.CreditCardRepository;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.NonFinancialRepository;
+import com.holdcredit.holdcredit.repository.ScoreRepository;
 import com.holdcredit.holdcredit.service.NonFinancialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +25,62 @@ import java.util.Optional;
 @Transactional
 public class NonFinancialServiceImpl implements NonFinancialService {
     private final NonFinancialRepository nonFinancialRepository;
+    private final ScoreRepository scoreRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public NonFinancial save(NonFinancialRequestDto nonFinancialRequestDto){
+        Customer customer = customerRepository.findById(nonFinancialRequestDto.getCustomerNo())
+                .orElseThrow(() -> new IllegalArgumentException("회원번호를 찾을 수 없습니다"));
         NonFinancial nonFinancial = nonFinancialRequestDto.toEntity();
+        nonFinancial.setCustomer(customer);
+
+        /* 비금융 점수 (일단 계산식에서 결혼여부, 자녀수 뺌)*/
+        int nonFinancialScore = totalNonFinancialScore(nonFinancial.getRealestate(),nonFinancial.getVehicle(),nonFinancial.getHealthInsurance(),nonFinancial.getPhoneBillPayment(),nonFinancial.getProofOfIncomeAmount(),nonFinancial.getNationalPension());
+
+        Score score = scoreRepository.findByCustomer(customer)
+                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+        score.setNonFinancialScore(nonFinancialScore);
+        score.setCustomer(nonFinancial.getCustomer());
+        scoreRepository.save(score);
+
         return nonFinancialRepository.save(nonFinancial);
+    }
+
+    private int totalNonFinancialScore(Classification realestate,Classification vehicle,Classification healthInsurance,Classification phoneBillPayment,Classification proofOfIncomeAmount, Classification nationalPension) {
+        int nonFinancialScore = 0;
+        //주택 소유
+        if (realestate == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        //자동차 소유
+        if (vehicle == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        //건강보험 납부
+        if (healthInsurance == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        //통신요금 납부
+        if (phoneBillPayment == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        //소득금액 납부
+        if (proofOfIncomeAmount == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        //국민연금 납부
+        if (nationalPension == Classification.YES) {
+            nonFinancialScore += 10;
+        } else nonFinancialScore += 5;
+
+        return nonFinancialScore;
     }
 
     @Override
@@ -30,7 +88,9 @@ public class NonFinancialServiceImpl implements NonFinancialService {
         Optional<NonFinancial> optionalNonFinancial = nonFinancialRepository.findById(id);
         if (optionalNonFinancial.isPresent()){
             NonFinancial nonFinancial = optionalNonFinancial.get();
-            return  nonFinancial.toDto();
+            NonFinancialResponseDto nonFinancialResponseDto = nonFinancial.toDto(nonFinancial); //먉
+            nonFinancialResponseDto.setCustomerNo(nonFinancial.getCustomer().getId()); //먉
+            return  nonFinancialResponseDto;
         }else {
             return null;
         }
