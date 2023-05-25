@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.dto.nonFinancialDto;
 
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.NonFinancial;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NonFinancialRequestDto {
+    private Long customerNo; //먉
     private Classification marital;
     private Long childrenCnt;
     private Classification realestate;
@@ -23,6 +25,7 @@ public class NonFinancialRequestDto {
 
     public NonFinancial toEntity(){
         return NonFinancial.builder()
+                .customer(Customer.builder().id(customerNo).build())//먉
                 .marital(marital)
                 .childrenCnt(childrenCnt)
                 .realestate(realestate)

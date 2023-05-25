@@ -37,7 +37,7 @@ public class Debt {
 
 
     public void updateDebt(DebtRequestDto debtRequestDto){
-        this.customer = debtRequestDto.getCustomer();
+//        this.customer = debtRequestDto.getCustomer();
         this.loanAmount = debtRequestDto.getLoanAmount();
         this.loanPeriod = debtRequestDto.getLoanPeriod();
         this.loanCount = debtRequestDto.getLoanCount();
@@ -48,15 +48,25 @@ public class Debt {
         this.id = debtId;
     }
 
+    public Debt(Customer customer) {
+        this.customer = customer;}
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    } //먉
 
-    public DebtResponseDto toDto(Debt debt){
+    public static DebtResponseDto toDto(Debt debt){
         return DebtResponseDto.builder()
                 .id(debt.getId())
-                .customer(debt.getCustomer())
+                .customerNo(debt.getCustomer().getId()) //먉
                 .loanAmount(debt.getLoanAmount())
                 .loanPeriod(debt.getLoanPeriod())
                 .loanCount(debt.getLoanCount()).build();
     }
+
+
+
+
+
 
 }

@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreditCardResponseDto {
     private Long id;
-    private Customer customer;
+//    private Customer customer;
+    private Long customerNo; //먉
     private CreditCardCompany creditCardCompany;
     private Long transactionPeriod;
     private Long limit;
