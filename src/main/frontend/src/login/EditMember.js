@@ -19,6 +19,20 @@ function EditMember() {
     const [isIdValid, setIsIdValid] = useState(true);
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
 
+    const navigate = useNavigate();
+        const [memberInfo, setMemberInfo] = useState({});
+
+    useEffect(() => {
+     axios.get(`/customerModify/${21}`)
+     .then((res) => {
+        console.log(res.data);
+        setMemberInfo(res.data);
+     })
+     .catch((error) => {
+        console.log('회원수정 페이지 에러:' + error);
+     });
+    }, []);
+
 
     // 비밀번호
     const handlePasswordBlur = (e) => {
@@ -108,8 +122,29 @@ function EditMember() {
 
     const isValidEmail = (email) => {
         // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
+
+    //아래는 작업중 비번만 바꿔볼까?
+                                 const updateCustomer = (event) => {
+                                                 event.preventDefault();
+
+                                                 const update = {
+                                                     password: memberInfo.password
+                                                 };
+
+                                                 console.log("customer 수정하는부분이야 => " + JSON.stringify(memberInfo));
+                                                   axios.put(`/customerModify/Modify/21`, update, {
+                                                    headers:{
+                                                        'Content-type': 'application/json'
+                                                    }
+                                                  })
+                                                   .then(res => {
+                                                   alert('수정되었습니다.');
+                                                           navigate(`/customerModify/21`); // 수정
+
+                                                 });
+                                               };
 
 
 
@@ -140,7 +175,7 @@ function EditMember() {
                                         title="ID"
                                         maxLength={20}
                                         disabled
-                                        value={'여기를 바꿔야할듯?'}
+                                        value={memberInfo.customer_id}
                                     />
                                 </span>
 
@@ -216,7 +251,7 @@ function EditMember() {
                                             title="이름"
                                             className="int"
                                             maxLength="40"
-                                            value={"여기를 바꿔야할듯?"}
+                                            value={memberInfo.customer_name}
                                             disabled
                                         />
                                     </span>
@@ -234,7 +269,7 @@ function EditMember() {
                                             className="int"
                                             maxLength="8"
                                             disabled
-                                            value={"여기를 바꿔야할듯?"}
+                                            value={memberInfo.birth}
                                         />
                                     </span>
                                 </div>
@@ -353,11 +388,18 @@ function EditMember() {
                             </div>
                             
 
-
+//알단 수정하기 누르면 서비스페이지로 가게끔 한다음에 어디로 보내지고 싶은지 생각하기~
                             <div className="btn_area">
                                 <button type="button" id="btnJoin" className="btn_type1 btn_primary1"><span>수정</span></button>
                                 <button type="button" id="btnJoin" className="btn_type2 btn_primary2"><span>삭제</span></button>
                             </div>
+
+
+                        <div class="btn_wrap">
+                            <a onClick={updateCustomer} class="btn_insert">완료</a>
+                            <a href="/MainNotice" class="btn_update">취소</a>
+                        </div>
+
                         </div>
                     </div>
                 </div>
