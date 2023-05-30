@@ -139,6 +139,7 @@ function QnaView(props) {
 
  const [like, setLike] = useState(0);
 
+
   return (
     <div>
       <div className="board_wrap">
@@ -216,58 +217,58 @@ function QnaView(props) {
                     <li className="CommentItem" key={list.id}>
                       <div className="comment_area">
                         {editMode[list.id] ? (
-                          <form onSubmit={(e) => updateReply(e, list.id)}>
-                            <div className="CommentWriter">
+                          <div className="CommentWriter">
                             <div>User Name</div>
-                              <div className="comment_inbox">
-                                {editMode[list.id] ? (
-                                  <textarea
-                                    rows="1"
-                                    className="comment_inbox_text"
-                                    name="reply"
-                                    value={update[list.id]?.reply || list.reply}
-                                    onChange={(e) => changeHandler(e, list.id)}
-                                  ></textarea>
-                                ) : (
-                                  <div>{list.reply}</div>
-                                )}
-                              </div>
-                              <div className="comment_attach">
-                                <div className="attach_box"></div>
-                                <div className="register_box">
-                                  <button type="submit" className="btn_register">
-                                    등록
-                                  </button>
-                                  <button type="submit" className="btn_register">
-                                    취소
-                                  </button>
-                                </div>
+                            <div className="comment_inbox">
+                              {editMode[list.id] ? (
+                                <textarea
+                                  rows="1"
+                                  className="comment_inbox_text"
+                                  name="reply"
+                                  value={update[list.id]?.reply || list.reply}
+                                  onChange={(e) => changeHandler(e, list.id)}
+                                ></textarea>
+                              ) : (
+                                <div>{list.reply}</div>
+                              )}
+                            </div>
+                            <div className="comment_attach">
+                              <div className="attach_box"></div>
+                              <div className="register_box">
+                                <a href="#" className="btn_commit" onClick={(e) => updateReply(e, list.id)}>
+                                  등록
+                                </a>
+                                <a href="#" className="btn_cancel" onClick={() => toggleEditMode(list.id)}>
+                                  취소
+                                </a>
                               </div>
                             </div>
-                          </form>
+                          </div>
                         ) : (
-
-                        <div style={{fontSize: '15px'}}><div style={{fontWeight:'bold'}}>User Name</div>{list.reply}
-                          <ul className="LayerMore">
-                            <li className="layer_item">
-                              <a className="layer_item" role="button"
-                                onClick={() => toggleEditMode(list.id)}
-                              >
-                                수정
-                              </a>
-                              <a onClick={() => deleteReply(list.id)} role="button">
-                                삭제
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
+                          <div style={{ fontSize: '15px' }}>
+                            <div style={{ fontWeight: 'bold' }}>User Name</div>
+                            {list.reply}
+                            <ul className="LayerMore">
+                              <li className="layer_item">
+                                <a
+                                  className="layer_item"
+                                  role="button"
+                                  onClick={() => toggleEditMode(list.id)}
+                                >
+                                  수정
+                                </a>
+                                <a onClick={() => deleteReply(list.id)} role="button">
+                                  삭제
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
                         )}
                       </div>
                       <div className="comment_create">{list.createDate}</div>
                     </li>
                   ))}
                 </ul>
-
                 <form onSubmit={handleSubmitReply}>
                   <div className="CommentWriter">
                     <div className="comment_inbox">

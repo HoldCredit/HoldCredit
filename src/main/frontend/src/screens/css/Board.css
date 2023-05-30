@@ -570,9 +570,25 @@ textarea.comment_inbox_text {
     float: right;
 }
 
-.CommentWriter .register_box .btn_register {
+.CommentWriter .register_box a{
     display: inline-block;
-    min-width: 100px;
+    min-width: 50px;
+    height: 0;
+    line-height: 0;
+    font-size: 15px;
+    color: #777;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: top;
+    text-decoration: none;
+}
+
+
+.btn_register{
+    display: inline-block;
+    min-width: 50px;
     height: 0;
     line-height: 0;
     font-size: 15px;
