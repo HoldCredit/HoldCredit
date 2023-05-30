@@ -3,14 +3,11 @@ import Title from './Title';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {Button, Pagination, Stack, TableContainer, TextField, Typography} from "@mui/material";
+import {Button, Pagination, Stack, TableContainer, TextField, Typography, Box} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import Divider from "@mui/material/Divider";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
+import IconButton from "@mui/material/IconButton";
 
 
 export default function BoardDetail() {
@@ -44,30 +41,75 @@ export default function BoardDetail() {
   return (
     <>
       <Title>{menu.name}</Title>
-      <Grid item sx={{display: "flex", margin: "10px", paddingTop: "50px"}}>
-        <Typography variant="h5" sx={{paddingLeft: '30px'}}>제목</Typography>
-        <Typography variant="h5" sx={{paddingLeft: '25px'}}>{data.title}</Typography>
-      </Grid>
-      <Divider/>
-      <Table size="large">
-        <TableRow>
-          <TableCell>번호</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.id}</TableCell>
-          <TableCell>작성자</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.customer_name}</TableCell>
-          <TableCell>작성일</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.createDate}</TableCell>
-          <TableCell>수정일</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.lastModifiedDate}</TableCell>
-          <TableCell>조회수</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.hits}</TableCell>
-          <TableCell>첨부파일</TableCell>
-          <TableCell sx={{paddingLeft:'0',paddingRight:'60px'}}>{data.attach}</TableCell>
-        </TableRow>
-      </Table>
-      <Grid item>
+      <Box sx={{display: "flex", marginBottom: '10px'}}>
+        <Typography variant="h2" sx={{fontSize: '20px', fontWeight: '600', paddingLeft: '10px'}}>제목</Typography>
+        <Typography variant="h3" sx={{paddingLeft: '25px', fontSize: '20px', fontWeight: '500'}}>{data.title}</Typography>
+      </Box>
+      <Box className="table_custom">
+        <table>
+          <colgroup>
+            <col width="5%" />
+            <col width="5%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="8%" />
+            <col width="10%" />
+            <col width="8%" />
+            <col width="10%" />
+            <col width="8%" />
+            <col width="5%" />
+            <col width="11%" />
+            <col width="14%" />
+          </colgroup>
+          <tbody>
+          <tr>
+            <th>번호</th>
+            <td>{data.id}</td>
+            <th>작성자</th>
+            <td>{data.customer_name}아아아</td>
+            <th>작성일</th>
+            <td>{data.createDate}</td>
+            <th>수정일</th>
+            <td>{data.lastModifiedDate}</td>
+            <th>조회수</th>
+            <td>{data.hits}</td>
+            <th>첨부파일</th>
+            <td>{data.attach}다운로드</td>
+          </tr>
+          </tbody>
+        </table>
+      </Box>
+
+      <Box sx={{border: '1px solid #ddd', borderRadius: '10px', minHeight: '300px', mt: 4, mb: 4, color: '#444'}}>
         <Typography variant="body1" sx={{margin: '15px'}}>{data.content}</Typography>
-      </Grid>
+      </Box>
+
+      <Box  style={{borderTop: '1px solid #ddd', padding: '30px 0'}}>
+        <Box className="flex" sx={{mb: 1}}>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
+          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
+          <IconButton><CloseRoundedIcon/></IconButton>
+        </Box>
+        <Box className="flex" sx={{mb: 1}}>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
+          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
+          <IconButton><CloseRoundedIcon/></IconButton>
+        </Box>
+        <Box className="flex" sx={{mb: 1}}>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
+          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
+          <IconButton><CloseRoundedIcon/></IconButton>
+        </Box>
+      </Box>
+
+      <Box className="flex" sx={{mb: 3}}>
+        <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓰기</Typography>
+        <textarea style={{ border: '1px solid #ddd',borderRadius: '10px', padding: '15px', fontSize: '16px', color: '#333', minHeight: '100px', width: 'calc( 100% - 100px)'}} />
+        <Button variant="outlined" sx={{ml: 5}}>등록</Button>
+      </Box>
 
       <Stack spacing={2} direction="row" justifyContent="center" alignItem="" marginTop="auto">
         <Button fontColor="" variant="outlined" color="warning" size="large"

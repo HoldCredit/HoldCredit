@@ -18,7 +18,7 @@ export default function BoardPost() {
       <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
         {/* 공지사항 ,QnA 내용 */}
         <Grid item xs={12}>
-          <Paper sx={{p: 2, display: 'flex', flexDirection: 'column', height: '74vh'}}>
+          <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
             {
               id == null ? <BoardWrite/> : <BoardEdit/>
             }
