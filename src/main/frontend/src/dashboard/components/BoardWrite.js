@@ -2,15 +2,12 @@ import * as React from 'react';
 import Title from './Title';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
-import {Button, Input, Pagination, Stack, TableContainer, TextareaAutosize, TextField, Typography} from "@mui/material";
+import {Button, Input, Stack, TextField, Typography, Box} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import Divider from "@mui/material/Divider";
 import BoardService from "../../service/BoardService";
 
 const ariaLabel = {'aria-label': 'description'};
@@ -97,13 +94,13 @@ export default function BoardWrite() {
           </TableCell>
         </TableRow>
       </Table>
-      <Grid item>
+      <Box className="write_textfield">
         <Typography variant="body1" sx={{margin: '15px'}}>
         </Typography>
-        <TextField multiline fullWidth rows={14} name="content" value={content}
-                   variant="outlined" onChange={changeContentHandler}/>
+        <TextField multiline fullWidth name="content" value={content}
+                   variant="outlined" onChange={changeContentHandler} />
 
-      </Grid>
+      </Box>
 
       <Stack spacing={2} direction="row" justifyContent="center" alignItem="" marginTop="auto">
         <Button fontColor="" variant="outlined" color="warning" size="large"
