@@ -3,7 +3,7 @@ package com.holdcredit.holdcredit.domain.dto.customerDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
 
 @Data
@@ -19,7 +19,7 @@ public class CustomerModifyDto {
     private Long phone_num;
     private String email;
     private JobDomain job;
-    private UserLevel userLevel;
+    private Authority authority;
     private EducationLevel education_level;
 
 
@@ -29,7 +29,7 @@ public class CustomerModifyDto {
                 .phoneNum(phone_num)
                 .email(email)
                 .job(job)
-                .userLevel(userLevel)
+                .authority(authority)
                 .educationLevel(education_level)
                 .build();
     }

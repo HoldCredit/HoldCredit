@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.service.impl;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.CustomerService;
@@ -26,4 +27,17 @@ public class CustomerServiceImpl implements CustomerService {
     return null;
     }
 
+    @Override
+    public CustomerResponseDto findCustomerInfoById(String customer_id) {
+        return customerRepository.findByEmail(String.valueOf(customer_id))
+                .map(CustomerResponseDto::of)
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+    }
+
+    @Override
+    public CustomerResponseDto findCustomerInfoByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .map(CustomerResponseDto::of)
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+    }
 }
