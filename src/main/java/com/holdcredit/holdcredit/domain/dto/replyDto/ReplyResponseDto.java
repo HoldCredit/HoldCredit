@@ -13,6 +13,4 @@ public class ReplyResponseDto {
     private java.util.Date createDate;
     private java.util.Date lasModifiedDate;
 
-
-
 }

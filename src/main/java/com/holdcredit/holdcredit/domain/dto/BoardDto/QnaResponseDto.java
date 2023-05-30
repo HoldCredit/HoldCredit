@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.dto.boardDto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
 import lombok.*;
 
@@ -17,7 +18,6 @@ public class QnaResponseDto {
     private int hits;
     private java.util.Date createDate;
     private java.util.Date lastModifiedDate;
-
     private List<ReplyResponseDto> reply;
 
 }

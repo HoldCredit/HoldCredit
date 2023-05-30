@@ -17,7 +17,7 @@ const Home = () => {
           <li><button class="button">평가하기</button></li>
         </ul>
       </div>
-      <div class = "row">
+      <div class = "">
       <div class="intro_cont">
         <div class="cont_img">
           (예시)

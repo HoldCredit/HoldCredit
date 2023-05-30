@@ -1,12 +1,11 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel.CUSTOMER;
 
 @Entity
 @Getter
@@ -36,7 +33,7 @@ public class Customer {
     @Column(nullable = false, length = 20)
     private String customerId;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 500)
     private String password;
 
     @Column(nullable = false, length = 20)
@@ -77,7 +74,7 @@ public class Customer {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private UserLevel userLevel = UserLevel.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
+    private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
    // private UserLevel userLevel = AUTHORITY; // AUTHORITY
 
     /*CREATE TABLE "Customer" (
@@ -149,7 +146,7 @@ public class Customer {
                 .phone_num(phoneNum)
                 .email(email)
                 .join_Date(joinDate)
-                .userLevel(userLevel)
+                .authority(authority)
                 .education_level(educationLevel)
                 .job(job)
                 .build();
@@ -160,8 +157,15 @@ public class Customer {
         this.phoneNum = requestDto.getPhone_num();
         this.email = requestDto.getEmail();
         this.job = requestDto.getJob();
-        this.userLevel = requestDto.getUserLevel();
+        this.authority = requestDto.getAuthority();
         this.educationLevel = requestDto.getEducation_level();
+    }
+
+    @Builder
+    public Customer(String email, String password, Authority authority) {
+        this.email = email;
+        this.password = password;
+        this.authority = authority;
     }
 }
 

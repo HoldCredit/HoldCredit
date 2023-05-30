@@ -1,10 +1,9 @@
 package com.holdcredit.holdcredit.domain.dto.customerDto;
 
-import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ public class CustomerDto {
     private LocalDateTime join_Date;
 
     private JobDomain job;
-    private UserLevel userLevel;
+    private Authority authority;
 
     private EducationLevel education_level;
 

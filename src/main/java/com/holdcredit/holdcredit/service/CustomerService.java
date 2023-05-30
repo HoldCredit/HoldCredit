@@ -1,6 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,4 +16,7 @@ public  interface CustomerService {
 
     //고객정보 가져오기
     CustomerDto getCustomer(CustomerDto customerDto);
+
+    CustomerResponseDto findCustomerInfoById(String customerId);
+    CustomerResponseDto findCustomerInfoByEmail(String email);
 }
