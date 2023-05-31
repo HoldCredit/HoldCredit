@@ -1,20 +1,16 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
 import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialRequestDto;
 import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.NonFinancial;
 import com.holdcredit.holdcredit.domain.entity.Score;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
-import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
-import com.holdcredit.holdcredit.repository.CreditCardRepository;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.NonFinancialRepository;
 import com.holdcredit.holdcredit.repository.ScoreRepository;
 import com.holdcredit.holdcredit.service.NonFinancialService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,8 +99,21 @@ public class NonFinancialServiceImpl implements NonFinancialService {
 
     @Override
     public void update(Long id, NonFinancialRequestDto nonFinancialRequestDto){
-        NonFinancial nonFinancial = nonFinancialRepository.findById(id).get();
+//        NonFinancial nonFinancial = nonFinancialRepository.findById(id).get();
+        NonFinancial nonFinancial = nonFinancialRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 비금융 정보를 찾을 수 없습니다"));
+
+        // 비금융 정보 업데이트
         nonFinancial.updateNonFinancial(nonFinancialRequestDto);
+        nonFinancialRepository.save(nonFinancial);
+
+        // Score 엔티티에서 비금융 점수 업데이트
+        Score score = scoreRepository.findByCustomer(nonFinancial.getCustomer())
+                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+        int nonFinancialScore = totalNonFinancialScore(nonFinancial.getRealestate(), nonFinancial.getVehicle(), nonFinancial.getHealthInsurance(), nonFinancial.getPhoneBillPayment(), nonFinancial.getProofOfIncomeAmount(), nonFinancial.getNationalPension());
+
+        score.setNonFinancialScore(nonFinancialScore);
         nonFinancialRepository.save(nonFinancial);
     }
 

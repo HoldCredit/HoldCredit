@@ -44,9 +44,7 @@ public class RedemptionServiceImpl implements RedemptionService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
 
         score.setPaybackScore(paybackScore);
-
         scoreRepository.save(score);
-
         return redemptionRepository.save(redemption);
     }
 
@@ -86,21 +84,32 @@ public class RedemptionServiceImpl implements RedemptionService {
         redemptionRepository.deleteById(id);
     }
 
-    /*@Override
-    public void update(Long debtId, RedemptionRequestDto redemptionRequestDto){
-        Redemption redemption = redemptionRepository.findById(debtId);
-        redemption.updateRedemption(redemptionRequestDto);
-        redemptionRepository.save(redemption);
-    }*/
+
 
     @Override
     public void update(Long debtId, RedemptionRequestDto redemptionRequestDto) {
         Optional<Redemption> optionalRedemption = redemptionRepository.findById(debtId);
+        //Redemption 엔티티에 업데이트
         if (optionalRedemption.isPresent()) {
             Redemption redemption = optionalRedemption.get();
             redemption.updateRedemption(redemptionRequestDto);
             redemptionRepository.save(redemption);
+
+            //Score 엔티티에 업데이트
+            Debt debt = debtRepository.findById(debtId) //debt id를 찾아
+                    .orElseThrow(() -> new IllegalArgumentException("해당 부채 정보를 찾을 수 없습니다"));
+
+            Customer customer = debt.getCustomer(); // customer 정보를 불러와
+
+            Score score = scoreRepository.findByCustomer(customer) // 해당 customer id에 score 저장
+                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+            int paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
+            score.setPaybackScore(paybackScore);
+            scoreRepository.save(score);
         } else {
+            throw new IllegalArgumentException("해당 ID의 상환 정보를 찾을 수 없습니다.");
         }
+
     }
 }

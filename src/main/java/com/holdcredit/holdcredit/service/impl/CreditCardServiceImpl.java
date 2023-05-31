@@ -2,8 +2,6 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
-import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
-import com.holdcredit.holdcredit.domain.dto.nonFinancialDto.NonFinancialRequestDto;
 import com.holdcredit.holdcredit.domain.entity.CreditCard;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Score;
@@ -107,8 +105,20 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public void update(Long id, CreditCardRequestDto creditCardRequestDto){
-        CreditCard creditCard = creditCardRepository.findById(id).get();
+        CreditCard creditCard = creditCardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 신용카드형태의 정보를 찾을 수 없습니다"));
+
+        // CreditCard 엔티티에 업데이트
         creditCard.updateCreditCard(creditCardRequestDto);
+        creditCardRepository.save(creditCard);
+
+        // Score 엔티티에 업데이트
+        Score score = scoreRepository.findByCustomer(creditCard.getCustomer())
+                        .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+        int creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
+
+        score.setCreditTypeScore(creditTypeScore);
         creditCardRepository.save(creditCard);
     }
 
