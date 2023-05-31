@@ -1,6 +1,5 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
 import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceRequestDto;
 import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
@@ -11,7 +10,6 @@ import com.holdcredit.holdcredit.repository.FinanceRepository;
 import com.holdcredit.holdcredit.repository.ScoreRepository;
 import com.holdcredit.holdcredit.service.FinanceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,8 +92,21 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Override
     public void update(Long id, FinanceRequestDto financeRequestDto){
-        Finance finance = financeRepository.findById(id).get();
+//        Finance finance = financeRepository.findById(id).get();
+        Finance finance = financeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 비금융 정보를 찾을 수 없습니다"));
+
+        //Finance 엔티티에 업데이트
         finance.updateFinance(financeRequestDto);
+        financeRepository.save(finance);
+
+        //Score 엔티티에 업데이트
+        Score score = scoreRepository.findByCustomer(finance.getCustomer())
+                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+        int transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
+
+        score.setTransactionScore(transactionScore);
         financeRepository.save(finance);
     }
 }

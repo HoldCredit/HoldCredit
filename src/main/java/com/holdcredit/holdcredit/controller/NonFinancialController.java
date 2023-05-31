@@ -18,8 +18,9 @@ public class NonFinancialController {
      private final NonFinancialService nonFinancialService;
 
     @PostMapping("/save")
-    public NonFinancial save(@RequestBody NonFinancialRequestDto nonFinancialRequestDto) {
-        return nonFinancialService.save(nonFinancialRequestDto);
+    public ResponseEntity<NonFinancial> save(@RequestBody NonFinancialRequestDto nonFinancialRequestDto) {
+        NonFinancial save = nonFinancialService.save(nonFinancialRequestDto);
+        return new ResponseEntity<>(save ,HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

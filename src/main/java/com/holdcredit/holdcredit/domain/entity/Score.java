@@ -51,14 +51,6 @@ public class Score {
     /* 평가일 */
     private LocalDateTime evaluationDate;
 
-    public void setLoanScore(Integer loanScore) {
-        this.loanScore = loanScore;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
 
     public ScoreDto toDto(Score score) {
         return ScoreDto.builder()
@@ -73,15 +65,16 @@ public class Score {
                 .build();
     }
 
-    public void setPaybackScore(int paybackScore) { this.paybackScore = paybackScore;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+    public void setLoanScore(Integer loanScore) {
+        this.loanScore = loanScore;
+    }
+    public void setPaybackScore(int paybackScore) { this.paybackScore = paybackScore;}
+    public void setCreditTypeScore(int creditTypeScore) { this.creditTypeScore = creditTypeScore;}
+    public void setTransactionScore(int transactionScore) { this.transactionScore = transactionScore;}
+    public void setNonFinancialScore(int nonFinancialScore) { this.nonFinancialScore = nonFinancialScore;}
 
-    public void setCreditTypeScore(int creditTypeScore) { this.creditTypeScore = creditTypeScore;
-    }
 
-    public void setTransactionScore(int transactionScore) { this.transactionScore = transactionScore;
-    }
-
-    public void setNonFinancialScore(int nonFinancialScore) { this.nonFinancialScore = nonFinancialScore;
-    }
 }
