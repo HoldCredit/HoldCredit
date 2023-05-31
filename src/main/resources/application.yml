@@ -6,7 +6,7 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
 #        show_sql: true
@@ -19,6 +19,9 @@ spring:
       # update -> 실행 시 변경된 것만 반영
       # validate -> 엔티티와 테이블이 정상 매핑 되었는지 확인
       # none -> 사용 안함.
+  sql:
+    init:
+      mode: embedded
 
 thymeleaf:
   enabled: true
