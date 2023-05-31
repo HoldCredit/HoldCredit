@@ -87,13 +87,14 @@ dl, ul, ol, menu, li {
 .cont_img {
     font-size: 10px;
     position: relative;
-    color : #c0bdbd;
+    color: #c0bdbd;
     width: 60%;
     height: 100%;
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url("../../images/data.png");
     z-index: 1;
+}
 
 .cont_txt{
     width: 40%;
