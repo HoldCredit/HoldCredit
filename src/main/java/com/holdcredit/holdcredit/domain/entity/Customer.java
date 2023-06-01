@@ -140,7 +140,6 @@ public class Customer {
     public CustomerDto toDto(){
         return CustomerDto.builder()
                 .customer_no(id)
-                .customer_id(customerId)
                 .password(password)
                 .customer_name(customerName)
                 .birth(birth)
@@ -169,7 +168,5 @@ public class Customer {
         this.password = password;
         this.authority = authority;
     }
-
-
 }
 

@@ -20,7 +20,6 @@ public class CustomerRequestDto {
     private String email;
     private String password;
     private LocalDate birth;
-    private String customer_id;
     private String customer_name;
     private Gender gender;
     private Long phone_num;
@@ -31,7 +30,6 @@ public class CustomerRequestDto {
                 .password(passwordEncoder.encode(password))
                 .birth(birth)
                 .authority(Authority.CUSTOMER)
-                .customerId(customer_id)
                 .customerName(customer_name)
                 .gender(gender)
                 .phoneNum(phone_num)
