@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.dto.customerDto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
@@ -16,9 +17,13 @@ import lombok.*;
 public class CustomerModifyDto {
     //회원정보 수정 목록, 아래 그 외는 수정 금지!
     private String password;
+    @JsonProperty(value="phoneNo")
     private Long phone_num;
     private String email;
+    @JsonProperty(value = "occupation")
     private JobDomain job;
+
+  @JsonProperty(value="education")
     private Authority authority;
     private EducationLevel education_level;
 

@@ -17,9 +17,10 @@ public  interface CustomerModifyService {
     CustomerDto read(Long id);
 
 
-    //회원정보 수정
+    //회원 정보 수정
     void updateCustomer(Long id, CustomerModifyDto requestDto);
 
-
+    //회원 정보 삭제
+    void deleteCustomer(Long id);
 
 }

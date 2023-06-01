@@ -37,11 +37,17 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
         }
     }
 
-    // 회원정보 수정
+    // 회원 정보 수정
     @Override
     public void updateCustomer(Long id, CustomerModifyDto requestDto) {
         Customer customer = customerRepository.findById(id).get();
         customer.updateCustomer(requestDto);
         customerModifyRepository.save(customer);
+    }
+
+    //회원 정보 삭제
+    @Override
+    public void deleteCustomer(Long id){
+            customerModifyRepository.deleteById(id);
     }
 }
