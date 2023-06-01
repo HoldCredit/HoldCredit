@@ -37,8 +37,15 @@ function LoginPage() {
                 sessionStorage.setItem("loginData", JSON.stringify(data));
                 const storedToken = sessionStorage.getItem("loginData");
                 const decodedToken = jwtDecode(storedToken);
-                const customerName = decodedToken.sub;
-                dispatch(setName(customerName));
+                const customerNo = decodedToken.sub;
+
+                const res = await axios.post("http://localhost:8080/auth/customer/", {
+                    customerNo
+                },{
+                    headers:{"Content-Type": "application/json"},
+                });
+
+                dispatch(setName(res.data.customerName));
                 navigate('/');
             }
         } catch (error) {

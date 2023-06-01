@@ -18,7 +18,7 @@ export default function Board() {
       <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
         {/* 공지사항 ,QnA 내용 */}
         <Grid item xs={12}>
-          <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+          <Paper sx={{p: 2, display: 'flex', flexDirection: 'column', minHeight: '660px' }}>
             {
               id != null ? <BoardDetail/> : <BoardList/>
             }

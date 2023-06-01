@@ -15,7 +15,7 @@ export default function FAQ() {
 
           {/* FAQ 내용 */}
           <Grid item xs={12}>
-            <Paper sx={{p: 2, display: 'flex', flexDirection: 'column', height:'74vh'}}>
+            <Paper sx={{p: 2, display: 'flex', flexDirection: 'column',  minHeight: '660px'}}>
               <BoardList/>
             </Paper>
           </Grid>

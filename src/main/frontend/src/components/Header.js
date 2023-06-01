@@ -47,6 +47,7 @@ const Header = () => {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => navigate('/EditMember')}>회원정보수정</Dropdown.Item>
+                      <Dropdown.Item onClick={() => navigate('/creditform')}>금융정보입력</Dropdown.Item>
                       <Dropdown.Item onClick={() => navigate('/Dashboard')}>대시보드</Dropdown.Item>
                       <Dropdown.Item onClick={doLogout}>로그아웃</Dropdown.Item>
                     </Dropdown.Menu>
