@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -51,10 +52,18 @@ public class NoticeServiceImpl implements NoticeService {
         if (noticeOptional.isPresent()) {
             Notice notice = noticeOptional.get();
             NoticeResponseDto responseDto = notice.responseDto(notice);
+
+            List<Attach> attachList = notice.getAttach();
+
+            for (Attach attach : attachList) {
+                attach.setPath("C:\\upload\\" + attach.getStoredFileName());
+            }
+
+            responseDto.setAttach(attachList);
+
             return responseDto;
         } else {
-            // Handle the case when notice with the given id is not found
-            // You can throw an exception or return an appropriate response
+
             throw new NoSuchElementException("Notice not found with id: " + id);
         }
     }
@@ -83,7 +92,7 @@ public class NoticeServiceImpl implements NoticeService {
 
                 String originFilename = file.getOriginalFilename();
                 String storedFileName = System.currentTimeMillis() + "_" + originFilename;
-                String savePath = "C:/upload/" + storedFileName;
+                String savePath = "C:\\upload\\" + storedFileName;
                 file.transferTo(new File(savePath));
 
                 if (board != null) {
@@ -93,7 +102,7 @@ public class NoticeServiceImpl implements NoticeService {
             }
         }
     }
-    //수정
+    //게시글 수정
     @Override
     public void updateNotice(Long id, NoticeRequestDto requestDto) {
         Notice notice = noticeRepository.findById(id).get();
@@ -101,7 +110,7 @@ public class NoticeServiceImpl implements NoticeService {
         noticeRepository.save(notice);
     }
 
-
+    //게시글 삭제
     @Override
     public void deleteNotice(Long id) {
         noticeRepository.deleteById(id);

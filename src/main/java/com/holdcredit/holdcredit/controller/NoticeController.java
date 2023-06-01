@@ -50,7 +50,7 @@ public class NoticeController {
         noticeService.updateHits(id);
         return ResponseEntity.ok().build();
     }
-    //등록
+    //게시글 등록
 
     @PostMapping("/Notice")
     public void saveNotice(@ModelAttribute NoticeRequestDto noticeRequestDto, @RequestPart(name = "file", required = false) List<MultipartFile> file) throws IOException {
@@ -60,14 +60,14 @@ public class NoticeController {
         noticeService.saveNotice(noticeRequestDto);
 
     }
-    //수정
+    //게시글 수정
     @PutMapping("/Notice/{id}")
     public ResponseEntity<?> updateNotice(@PathVariable Long id, @Validated @RequestBody NoticeRequestDto requestDto) {
         noticeService.updateNotice(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //삭제
+    //게시글 삭제
     @DeleteMapping("/Notice/{id}")
     public ResponseEntity<?> deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);

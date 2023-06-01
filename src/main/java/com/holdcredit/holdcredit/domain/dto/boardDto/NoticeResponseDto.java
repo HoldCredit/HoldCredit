@@ -19,5 +19,6 @@ public class NoticeResponseDto {
     private int hits;
     private Date createDate;
     private Date lastModifiedDate;
+    private String path;
     private List<Attach> attach;
 }
