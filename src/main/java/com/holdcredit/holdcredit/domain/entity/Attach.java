@@ -2,15 +2,13 @@ package com.holdcredit.holdcredit.domain.entity;
 
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,7 +38,7 @@ public class Attach extends Date {
     private String path;
 
     //확장자
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)
     private String ext;
 
     //삭제 구분 (YES,NO)
@@ -48,4 +46,14 @@ public class Attach extends Date {
     @Column(length = 1, nullable = false)
     private Classification isDelete = Classification.NO;
 
+    public static Attach toEntity(Notice notice, String originFileName, String storedFileName, String path){
+
+        Attach attach = new Attach();
+        attach.setOriginFileName(originFileName);
+        attach.setStoredFileName(storedFileName);
+        attach.setPath(path);
+
+        attach.setNotice(notice);
+        return attach;
+    }
 }

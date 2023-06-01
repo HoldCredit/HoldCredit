@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
 
 @Data
@@ -23,8 +23,8 @@ public class CustomerModifyDto {
     @JsonProperty(value = "occupation")
     private JobDomain job;
 
-    private UserLevel userLevel;
-    @JsonProperty(value="education")
+  @JsonProperty(value="education")
+    private Authority authority;
     private EducationLevel education_level;
 
 
@@ -34,7 +34,7 @@ public class CustomerModifyDto {
                 .phoneNum(phone_num)
                 .email(email)
                 .job(job)
-                .userLevel(userLevel)
+                .authority(authority)
                 .educationLevel(education_level)
                 .build();
     }

@@ -137,7 +137,7 @@ function MainNotice(props) {
                     {item.title}
                   </a>
                 </div>
-                <div className="writer">{item.customer_name}</div>
+                <div className="writer">{item.customer}</div>
                 <div className="date">{item.createDate}</div>
                 <div className="count">{item.hits}</div>
               </div>

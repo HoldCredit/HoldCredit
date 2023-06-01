@@ -61,7 +61,7 @@ const[notice, setNotice] = useState({});
             </dl>
             <dl>
               <dt>글쓴이</dt>
-              <dd></dd>
+              <dd>{notice.customer}</dd>
             </dl>
             <dl>
               <dt>작성일</dt>

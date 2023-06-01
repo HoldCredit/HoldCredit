@@ -75,7 +75,7 @@ export default function BoardList() {
             </TableHead>
             <TableBody>
               {data.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} style={{cursor: 'pointer'}}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.title}</TableCell>
                   <TableCell

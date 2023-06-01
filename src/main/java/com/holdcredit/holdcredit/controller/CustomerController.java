@@ -2,8 +2,11 @@
 package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
 import com.holdcredit.holdcredit.service.CustomerService;
+import com.holdcredit.holdcredit.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,5 +30,15 @@ public class CustomerController {
         customerDto = customerService.getCustomer(customerDto); // 서비스에서 고객 정보를 가져옴
         model.addAttribute("customerDto", customerDto); // 모델에 고객 정보를 추가
         return "customer"; // Thymeleaf 템플릿 이름을 반환하여 해당 템플릿을 렌더링
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<CustomerResponseDto> findCustomerInfoById() {
+        return ResponseEntity.ok(customerService.findCustomerInfoById(SecurityUtil.getCurrentCustomerId()));
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<CustomerResponseDto> findCustomerInfoByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(customerService.findCustomerInfoByEmail(email));
     }
 }

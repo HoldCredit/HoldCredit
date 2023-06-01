@@ -1,15 +1,14 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,16 +41,18 @@ public class Notice extends Date{
     @Column(length = 500, nullable = false)
     private String content;
 
+    //비밀번호
+    @Column
+    private String pwd;
+
     //조회수
     @Column(columnDefinition = "NUMBER(19,0) DEFAULT 0", nullable = false)
     private int hits;
 
-    @Column
-    private String pwd;
+
     //첨부파일 구분
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    private Classification attachClassification = Classification.NO;
+    @Column(columnDefinition = "NUMBER(19,0) DEFAULT 0")
+    private int fileAttached; // 1파일있음 0파일없음
 
     @CreatedDate
     @Temporal(TemporalType.DATE)
@@ -61,11 +63,39 @@ public class Notice extends Date{
     private java.util.Date lastModifiedDate; //수정일
 
     //첨부파일과 연관관계 설정
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE)
     private List<Attach> attach = new ArrayList<>();
 
-    // 공지사항에서 첨부파일이 YES인 경우에만  첨부파일 테이블에  db가 저장되도록
+    public static Notice toEntity(NoticeRequestDto dto) {
+
+        Notice notice = new Notice();
+
+        notice.setId(dto.getId());
+        notice.setTitle(dto.getTitle());
+        notice.setContent(dto.getContent());
+        notice.setPwd(dto.getPwd());
+        notice.setHits(dto.getHits());
+        notice.setCreateDate(dto.getCreateDate());
+        notice.setLastModifiedDate(dto.getLasModifiedDate());
+        notice.setFileAttached(0);
+        return notice;
+    }
+
+    public static Notice toSaveAttach(NoticeRequestDto dto) {
+        Notice notice = new Notice();
+
+        notice.setId(dto.getId());
+        notice.setTitle(dto.getTitle());
+        notice.setContent(dto.getContent());
+        notice.setPwd(dto.getPwd());
+        notice.setHits(dto.getHits());
+        notice.setCreateDate(dto.getCreateDate());
+        notice.setLastModifiedDate(dto.getLasModifiedDate());
+        notice.setFileAttached(1);
+        return notice;
+    }
 
     public void updateNotice(NoticeRequestDto requestDto){
         this.title = requestDto.getTitle();
@@ -74,18 +104,20 @@ public class Notice extends Date{
         this.lastModifiedDate = requestDto.getLasModifiedDate();
     }
 
-    public NoticeResponseDto responseDto(){
-        return NoticeResponseDto.builder()
-                .id(this.getId())
-                .title(this.getTitle())
-                .content(this.getContent())
-                .pwd(this.getPwd())
-                .hits(this.getHits())
-                .createDate(this.getCreateDate())
-                .lastModifiedDate(this.getLastModifiedDate())
-                .attach(this.getAttach())
-                .build();
+    public static NoticeResponseDto responseDto(Notice notice) {
+        NoticeResponseDto responseDto = new NoticeResponseDto();
+        responseDto.setId(notice.getId());
+        responseDto.setTitle(notice.getTitle());
+        responseDto.setContent(notice.getContent());
+        responseDto.setPwd(notice.getPwd());
+        responseDto.setHits(notice.getHits());
+        responseDto.setCreateDate(notice.getCreateDate());
+        responseDto.setLastModifiedDate(notice.getLastModifiedDate());
+        responseDto.setAttach(notice.getAttach());
+
+        return responseDto;
     }
+
 
     public void countHits(int hits) {
         this.hits = hits;

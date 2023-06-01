@@ -87,23 +87,26 @@ public class DebtServiceImpl implements DebtService{
         debtRepository.deleteById(id);
     }
 
-    /*@Override
-    public void update(Long id, DebtRequestDto debtRequestDto){
-        Debt debt = debtRepository.findById(id);
-        debt.updateDebt(debtRequestDto);
-        debtRepository.save(debt);
-    }*/
+
     @Override
-    public void update(Long id, DebtRequestDto debtRequestDto){
+    public void update(Long id, DebtRequestDto debtRequestDto) {
         Optional<Debt> optionalDebt = debtRepository.findById(id);
+        //debt 엔티티에 부채수준 업데이트
         if (optionalDebt.isPresent()) {
             Debt debt = optionalDebt.get();
             debt.updateDebt(debtRequestDto);
             debtRepository.save(debt);
+
+            // Score 엔티티에 부채수준 업데이트
+            Customer customer = debt.getCustomer();
+            Score score = scoreRepository.findByCustomer(customer)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+            int loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
+            score.setLoanScore(loanScore);
+            scoreRepository.save(score);
+        } else {
+            throw new IllegalArgumentException("해당 ID의 대출 정보를 찾을 수 없습니다.");
         }
     }
-
-
-
-
 }

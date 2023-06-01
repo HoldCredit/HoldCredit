@@ -3,13 +3,13 @@ package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 import com.holdcredit.holdcredit.domain.entity.Attach;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
 
 /* 게시글 정보를 리턴*/
 @Data
-@Builder
 public class NoticeResponseDto {
 
     private Long id;
@@ -20,5 +20,4 @@ public class NoticeResponseDto {
     private Date createDate;
     private Date lastModifiedDate;
     private List<Attach> attach;
-
 }

@@ -67,7 +67,7 @@ const NoticeEdit = () => {
                         <div class="info">
                         <dl>
                             <dt>글쓴이</dt>
-                            <dd><input type="text" id="write_input" placeholder="write"/></dd>
+                            <dd>{/*<input type="text" id="write_input" placeholder="write"/>*/}{notice.customer}</dd>
                         </dl>
                         <dl>
                             <dt>비밀번호</dt>
