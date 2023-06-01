@@ -7,7 +7,7 @@ import axios from "axios";
 function DeleteMember() {
     const navigate = useNavigate();
     const [memberInfo, setMemberInfo] = useState({});
-//일단 이름을 가져와보자
+//일단 이름을 가져와보자ㄴ
 useEffect(() => {
      axios.get(`/customerModify/${21}`)
      .then((res) => {
