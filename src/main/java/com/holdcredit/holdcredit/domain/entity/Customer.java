@@ -31,9 +31,6 @@ public class Customer {
     @Column(name ="customer_no")
     private Long id;
 
-    @Column(nullable = false, length = 20)
-    private String customerId;
-
     @Column(nullable = false, length = 500)
     private String password;
 
@@ -77,22 +74,6 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
    // private UserLevel userLevel = AUTHORITY; // AUTHORITY
-
-    /*CREATE TABLE "Customer" (
-	"customer_no"	NUMBER		NOT NULL,
-	"customer_id"	VARCHAR2(20)		NOT NULL,
-	"password"	VARCHAR2(30)		NOT NULL,
-	"customer_name"	VARCHAR2(20)		NOT NULL,
-	"birth" DATE		NOT NULL,
-	"sex"	CHAR(1)		NOT NULL,
-	"phone_num"	NUMBER		NOT NULL,
-	"email"	VARCHAR2(30)		NOT NULL,
-	"join_date"	DATE		NOT NULL,
-	"admin_level"	NUMBER	DEFAULT customer	NOT NULL,
-	"job"	NUMBER	DEFAULT 기타	NOT NULL,
-	"education_level"	NUMBER	DEFAULT 고등졸	NOT NULL
-);
-    }*/
 
     /* ================================================================================= */
     /* 연관 관계 설정 */
