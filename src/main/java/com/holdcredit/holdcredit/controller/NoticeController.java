@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -47,9 +51,14 @@ public class NoticeController {
         return ResponseEntity.ok().build();
     }
     //등록
+
     @PostMapping("/Notice")
-    public Notice saveNotice(@RequestBody NoticeRequestDto noticeRequestDto){
-        return noticeService.saveNotice(noticeRequestDto);
+    public void saveNotice(@ModelAttribute NoticeRequestDto noticeRequestDto, @RequestPart(name = "file", required = false) List<MultipartFile> file) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            noticeRequestDto.setAttach(file);
+        }
+        noticeService.saveNotice(noticeRequestDto);
+
     }
     //수정
     @PutMapping("/Notice/{id}")

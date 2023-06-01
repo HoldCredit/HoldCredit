@@ -2,31 +2,33 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.entity.Customer;
+import com.holdcredit.holdcredit.domain.entity.Attach;
 import com.holdcredit.holdcredit.domain.entity.Notice;
-import com.holdcredit.holdcredit.repository.CustomerRepository;
+import com.holdcredit.holdcredit.repository.AttachRepository;
 import com.holdcredit.holdcredit.repository.NoticeRepository;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
-    private final CustomerRepository customerRepository;
-
+    private final AttachRepository attachRepository;
     //게시글 리스트, 페이징 처리
     @Override
+    @Transactional
     public Page<NoticeResponseDto> list(Pageable pageable) throws Exception {
         PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
         Page<Notice> noticePage = noticeRepository.findAll(paging);
@@ -34,6 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
     //게시글 검색기능
     @Override
+    @Transactional
     public Page<NoticeResponseDto> findByContentContaining(String keyword, Pageable pageable) {
         PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
         Page<Notice> noticePage = noticeRepository.findByContentContaining(keyword, paging);
@@ -42,12 +45,18 @@ public class NoticeServiceImpl implements NoticeService {
 
     //게시글 상세조회
     @Override
+    @Transactional
     public NoticeResponseDto getNotice(Long id) {
-        Notice notice = noticeRepository.findById(id).get();
-        NoticeResponseDto responseDto = notice.responseDto();
-        System.out.println("===============" + responseDto.getCustomer());
-        return responseDto;
-
+        Optional<Notice> noticeOptional = noticeRepository.findById(id);
+        if (noticeOptional.isPresent()) {
+            Notice notice = noticeOptional.get();
+            NoticeResponseDto responseDto = notice.responseDto(notice);
+            return responseDto;
+        } else {
+            // Handle the case when notice with the given id is not found
+            // You can throw an exception or return an appropriate response
+            throw new NoSuchElementException("Notice not found with id: " + id);
+        }
     }
 
     @Override
@@ -58,14 +67,31 @@ public class NoticeServiceImpl implements NoticeService {
         noticeRepository.save(notice);
     }
 
-    //등록
+    //게시글 등록, 첨부파일 업로드
     @Override
-    public Notice saveNotice(NoticeRequestDto requestDto){
-        Notice notice = requestDto.toEntity(requestDto);
-        Customer findCustomer = customerRepository.findByCustomerName(requestDto.getCustomer())
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + requestDto.getCustomer()));
-        notice.setCustomer(findCustomer);
-        return noticeRepository.save(notice);
+    public void saveNotice(NoticeRequestDto requestDto) throws IOException {
+        if (requestDto.getAttach() == null || requestDto.getAttach().isEmpty()) {
+            Notice notice = Notice.toEntity(requestDto);
+            noticeRepository.save(notice);
+        } else {
+
+            Notice notice = Notice.toSaveAttach(requestDto);
+            Long noticeNo = noticeRepository.save(notice).getId();
+            Notice board = noticeRepository.findById(noticeNo).orElse(null);
+
+            for(MultipartFile file: requestDto.getAttach()) {
+
+                String originFilename = file.getOriginalFilename();
+                String storedFileName = System.currentTimeMillis() + "_" + originFilename;
+                String savePath = "C:/upload/" + storedFileName;
+                file.transferTo(new File(savePath));
+
+                if (board != null) {
+                    Attach attach = Attach.toEntity(board, originFilename, storedFileName, savePath);
+                    attachRepository.save(attach);
+                }
+            }
+        }
     }
     //수정
     @Override

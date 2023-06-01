@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 
 public interface NoticeService {
@@ -24,7 +25,7 @@ public interface NoticeService {
     void updateHits(Long id);
 
     //글 등록
-    Notice saveNotice(NoticeRequestDto requestDto);
+    void saveNotice(NoticeRequestDto requestDto) throws IOException;
 
     //글 수정
     void updateNotice(Long id, NoticeRequestDto requestDto);
