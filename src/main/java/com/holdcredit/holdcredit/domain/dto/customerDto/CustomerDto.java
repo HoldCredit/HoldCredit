@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @Getter
 public class CustomerDto {
     private Long customer_no;
-    private String customer_id;
     private String password;
     private String customer_name;
     private LocalDate birth;
@@ -32,21 +31,4 @@ public class CustomerDto {
 
     private EducationLevel education_level;
 
-//    //dto를 엔터티로 변경하는 작업
-//    public Customer toEntity(){
-//        return Customer.builder()
-//                .id(customer_no)
-//                .customerId(customer_id)
-//                .password(password)
-//                .customerName(customer_name)
-//                .birth(birth)
-//                .gender(gender)
-//                .phone_num(phone_num)
-//                .email(email)
-//                .join_Date(join_Date)
-//                .admin_level(admin_level)
-//                .education_level(education_level)
-//                .job(job)
-//                .build();
-//    }
 }
