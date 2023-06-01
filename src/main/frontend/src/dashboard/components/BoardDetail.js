@@ -8,22 +8,39 @@ import {useNavigate, useParams} from "react-router-dom";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import IconButton from "@mui/material/IconButton";
+import '../../screens/css/Board.css'
 
 
 export default function BoardDetail() {
 
   const menu = useSelector((state) => state.selectMenu);
   const {id} = useParams();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const navigate = useNavigate();
-  console.log(id)
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/${menu.menuName}/${id}`)
-      .then(res => setData(res.data))
+    axios
+      .get(`http://localhost:8080/api/${menu.menuName}/${id}`)
+      .then((res) => setData(res.data))
       .catch(error => console.log(error));
   }, [id]);
 
+  const downloadAttachment = (id, path) => {
+    axios({
+      url: `http://localhost:8080/attachments/${id}?path=${encodeURIComponent(path)}`,
+      method: 'GET',
+      responseType: 'blob', // Receive the file data as 'blob'
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', path.substring(path.lastIndexOf('/') + 1));
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => console.log(error));
+  };
 
   const deleteData = () => {
     const confirmDelete = window.confirm("정말로 글을 삭제하시겠습니까?");
@@ -58,8 +75,6 @@ export default function BoardDetail() {
             <col width="10%" />
             <col width="8%" />
             <col width="5%" />
-            <col width="11%" />
-            <col width="14%" />
           </colgroup>
           <tbody>
           <tr>
@@ -73,16 +88,32 @@ export default function BoardDetail() {
             <td>{data.lastModifiedDate}</td>
             <th>조회수</th>
             <td>{data.hits}</td>
-            <th>첨부파일</th>
-            <td>{data.attach}다운로드</td>
           </tr>
           </tbody>
         </table>
       </Box>
 
       <Box sx={{border: '1px solid #ddd', borderRadius: '10px', minHeight: '300px', mt: 4, mb: 4, color: '#444'}}>
-        <Typography variant="body1" sx={{margin: '15px'}}>{data.content}</Typography>
+        <Typography variant="body1" sx={{margin: '15px'}}>
+          {data.content}
+        </Typography>
       </Box>
+      <div className="cont">
+        {data.attach &&
+          data.attach.map((attachment, index) => (
+            <div className="se-module" key={index} style={{marginTop:"0px"}}>
+              <span className="se-file-icon">
+                <strong className="se-blind"/>
+              </span>
+              <div className="file">
+                <a href="#" onClick={() => downloadAttachment(attachment.id, attachment.path)}
+                >
+                  {attachment.originFileName}
+                </a>
+              </div>
+            </div>
+          ))}
+      </div>
 
       <Box  style={{borderTop: '1px solid #ddd', padding: '30px 0'}}>
         <Box className="flex" sx={{mb: 1, display:'flex'}}>
