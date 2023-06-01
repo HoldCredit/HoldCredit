@@ -1,8 +1,8 @@
-import {configureStore, createSlice} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const DashboardMenu = createSlice({
   name: 'menu',
-  initialState: { name: 'Reports Summary', menuName: 'Reports Summary', currentPage:0},
+  initialState: { name: 'Reports Summary', menuName: 'Reports Summary'},
   reducers: {
     handleMenu(state, action) {
       state.name = action.payload;
@@ -18,8 +18,4 @@ const DashboardMenu = createSlice({
 
 export const {handleMenu} = DashboardMenu.actions
 
-export default configureStore({
-  reducer: {
-    'selectMenu' : DashboardMenu.reducer,
-  }
-})
+export default DashboardMenu;

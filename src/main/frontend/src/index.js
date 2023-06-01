@@ -33,12 +33,14 @@ import FAQ from "./dashboard/subcontents/FAQ";
 import Error404 from "./pages/Error404";
 import CreditForm from "./pages/CreditForm";
 import {Provider} from "react-redux";
-import DashboardMenu from "./store/DashboardMenuStore";
+import Store from "./store/Store";
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={DashboardMenu}>
+    <Provider store={Store}>
       <BrowserRouter>
         <Routes>
           <Route element={<App/>}>

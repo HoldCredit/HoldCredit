@@ -2,16 +2,17 @@ import React, {useEffect, useState} from "react";
 import '../styles/Login.css';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import Cookies from 'js-cookie';
+import jwtDecode from "jwt-decode";
+import {useDispatch, useSelector} from "react-redux";
+import {setName} from "../store/CustomerNameStore";
 
 function LoginPage() {
 
     const navigate = useNavigate();
 
-
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const [data, setData] = useState('')
 
     const emailHandler = (event) => {
         setEmail(event.target.value);
@@ -33,7 +34,11 @@ function LoginPage() {
             const data = response.data;
 
             if (response.status == 200) {
-                sessionStorage.setItem("loginData", JSON.stringify(data));
+                localStorage.setItem("loginData", JSON.stringify(data));
+                const storedToken = localStorage.getItem("loginData");
+                const decodedToken = jwtDecode(storedToken);
+                const customerName = decodedToken.sub;
+                dispatch(setName(customerName));
                 navigate('/');
             }
         } catch (error) {
