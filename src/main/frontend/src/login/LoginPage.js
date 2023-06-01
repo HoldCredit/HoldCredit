@@ -2,31 +2,49 @@ import React, {useEffect, useState} from "react";
 import '../styles/Login.css';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
+import {useDispatch, useSelector} from "react-redux";
+import {setName} from "../store/CustomerNameStore";
 
 function LoginPage() {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     return () => {
-    //         axios.post('http://localhost:8080/auth/login')
-    //
-    //     };
-    // }, []);
-
-    const [loginId, setId] = useState('')
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const idHandler = (event) => {
-        setId(event.target.value);
+    const emailHandler = (event) => {
+        setEmail(event.target.value);
     }
     const passwordHandler = (event) => {
         setPassword(event.target.value);
     }
 
-    console.log(loginId);
-    console.log(password);
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:8080/auth/login", {
+                  email,
+                  password,
+              },
+              {
+                  headers: {"Content-Type": "application/json"},
+              });
+            const data = response.data;
 
+            if (response.status == 200) {
+                localStorage.setItem("loginData", JSON.stringify(data));
+                const storedToken = localStorage.getItem("loginData");
+                const decodedToken = jwtDecode(storedToken);
+                const customerName = decodedToken.sub;
+                dispatch(setName(customerName));
+                navigate('/');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div className="container-doc">
@@ -45,7 +63,7 @@ function LoginPage() {
                                 <form>
                                     <div className="box_Id">
                                     <label className="screen_out">계정정보 입력</label>
-                                        <input type="text" onChange={idHandler} value={loginId} placeholder="ID" className="tf_g" />
+                                        <input type="email" onChange={emailHandler} value={email} placeholder="email" className="tf_g" />
                                     </div>
                                     
                                     <div className="box_Pwd">
@@ -61,7 +79,7 @@ function LoginPage() {
                                         </div>
                                     </div>
                                     <div className="login_btn">
-                                        <button type="submit" className="btn_submit">
+                                        <button type="submit" className="btn_submit" onClick={handleLogin}>
                                             로그인
                                         </button>
                                     </div>
