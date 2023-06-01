@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardService from '../service/BoardService';
 import './css/Board.css';
+import {useSelector} from "react-redux";
 
 
 
@@ -11,6 +12,8 @@ function NoticeWrite(props) {
       const[title, setTitle] = useState('');
       const[content, setContent] = useState('');
       const[pwd, setPwd] = useState('');
+
+      const customer = useSelector((state) => state.customerName);
 
          useEffect(() => {
             BoardService.getNotice().then((res) => {
@@ -35,7 +38,7 @@ function NoticeWrite(props) {
       const createNotice = (event) => {
           event.preventDefault();
           let notice = {
-
+            customer: customer,
             title: title,
             content: content,
             pwd: pwd,
@@ -73,7 +76,7 @@ function NoticeWrite(props) {
                         <div className="info">
                         <dl>
                             <dt>글쓴이</dt>
-                            <dd></dd>
+                            <dd>{customer}</dd>
                         </dl>
                         <dl>
                             <dt>비밀번호</dt>

@@ -20,5 +20,6 @@ public class NoticeResponseDto {
     private Date createDate;
     private Date lastModifiedDate;
     private List<Attach> attach;
+    private String customer;
 
 }

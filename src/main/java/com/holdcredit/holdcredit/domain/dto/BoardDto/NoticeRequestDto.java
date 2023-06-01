@@ -20,6 +20,7 @@ public class NoticeRequestDto {
     private java.util.Date createDate;
     private java.util.Date lasModifiedDate;
     private List<Attach> attach;
+    private String customer;
 
     public Notice toEntity(NoticeRequestDto dto) {
         return Notice.builder()

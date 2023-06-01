@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
@@ -84,10 +85,16 @@ public class Notice extends Date{
                 .createDate(this.getCreateDate())
                 .lastModifiedDate(this.getLastModifiedDate())
                 .attach(this.getAttach())
+                .customer(getCustomer().getCustomerName())
                 .build();
     }
 
     public void countHits(int hits) {
         this.hits = hits;
+    }
+
+    public void setCustomer(Customer customer) {
+       this.customer = customer;
+        customer.getNotices().add(this);
     }
 }

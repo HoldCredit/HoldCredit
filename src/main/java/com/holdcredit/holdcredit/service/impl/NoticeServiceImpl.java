@@ -2,22 +2,28 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Notice;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.NoticeRepository;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
+    private final CustomerRepository customerRepository;
 
     //게시글 리스트, 페이징 처리
     @Override
@@ -39,6 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
     public NoticeResponseDto getNotice(Long id) {
         Notice notice = noticeRepository.findById(id).get();
         NoticeResponseDto responseDto = notice.responseDto();
+        System.out.println("===============" + responseDto.getCustomer());
         return responseDto;
 
     }
@@ -54,8 +61,11 @@ public class NoticeServiceImpl implements NoticeService {
     //등록
     @Override
     public Notice saveNotice(NoticeRequestDto requestDto){
-
-        return noticeRepository.save(requestDto.toEntity(requestDto));
+        Notice notice = requestDto.toEntity(requestDto);
+        Customer findCustomer = customerRepository.findByCustomerName(requestDto.getCustomer())
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + requestDto.getCustomer()));
+        notice.setCustomer(findCustomer);
+        return noticeRepository.save(notice);
     }
     //수정
     @Override

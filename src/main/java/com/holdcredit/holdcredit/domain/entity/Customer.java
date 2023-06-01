@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
@@ -104,6 +105,7 @@ public class Customer {
     // Notice
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Notice> notices = new ArrayList<>();
 
     // QNA
@@ -167,5 +169,7 @@ public class Customer {
         this.password = password;
         this.authority = authority;
     }
+
+
 }
 
