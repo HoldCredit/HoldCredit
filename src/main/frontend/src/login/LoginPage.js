@@ -34,8 +34,8 @@ function LoginPage() {
             const data = response.data;
 
             if (response.status == 200) {
-                localStorage.setItem("loginData", JSON.stringify(data));
-                const storedToken = localStorage.getItem("loginData");
+                sessionStorage.setItem("loginData", JSON.stringify(data));
+                const storedToken = sessionStorage.getItem("loginData");
                 const decodedToken = jwtDecode(storedToken);
                 const customerName = decodedToken.sub;
                 dispatch(setName(customerName));
