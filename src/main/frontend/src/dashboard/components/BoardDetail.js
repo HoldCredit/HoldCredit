@@ -66,7 +66,7 @@ export default function BoardDetail() {
             <th>번호</th>
             <td>{data.id}</td>
             <th>작성자</th>
-            <td>{data.customer_name}아아아</td>
+            <td>{data.customer}</td>
             <th>작성일</th>
             <td>{data.createDate}</td>
             <th>수정일</th>
@@ -85,30 +85,30 @@ export default function BoardDetail() {
       </Box>
 
       <Box  style={{borderTop: '1px solid #ddd', padding: '30px 0'}}>
-        <Box className="flex" sx={{mb: 1}}>
+        <Box className="flex" sx={{mb: 1, display:'flex'}}>
           <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
           <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
           <IconButton><CloseRoundedIcon/></IconButton>
         </Box>
-        <Box className="flex" sx={{mb: 1}}>
+        <Box className="flex" sx={{mb: 1, display:'flex', alignItem:'center'}}>
           <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
           <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
           <IconButton><CloseRoundedIcon/></IconButton>
         </Box>
-        <Box className="flex" sx={{mb: 1}}>
+        <Box className="flex" sx={{mb: 1, display:'flex', alignItem:'center'}}>
           <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="h3" component="h3" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
+          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
           <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
           <IconButton><CloseRoundedIcon/></IconButton>
         </Box>
       </Box>
 
-      <Box className="flex" sx={{mb: 3}}>
+      <Box className="flex" sx={{mb: 3, display:'flex', alignItem:'center', justifyContent:'center'}}>
         <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓰기</Typography>
         <textarea style={{ border: '1px solid #ddd',borderRadius: '10px', padding: '15px', fontSize: '16px', color: '#333', minHeight: '100px', width: 'calc( 100% - 100px)'}} />
-        <Button variant="outlined" sx={{ml: 5}}>등록</Button>
+        <Button variant="outlined" sx={{ml: 5, height:'40px', width:'70px'}}>등록</Button>
       </Box>
 
       <Stack spacing={2} direction="row" justifyContent="center" alignItem="" marginTop="auto">
