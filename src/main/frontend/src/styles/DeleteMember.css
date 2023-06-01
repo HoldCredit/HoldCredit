@@ -168,7 +168,20 @@ fieldset {
     border-radius: 30px;
     box-sizing: border-box;
 }
+.btn_g3 {
+    display: inline-block;
+    height: 42px;
+    padding: 0 31px;
+    color: #252525;
+    border: 1px solid #dbdbdb;
+    border-radius: 30px;
+    box-sizing: border-box;
+}
 
 .tf_g3:focus-within {
     border-color: black;
+}
+
+.bold {
+  font-weight: bold;
 }
