@@ -2,11 +2,10 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtRequestDto;
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
-import com.holdcredit.holdcredit.domain.entity.Customer;
-import com.holdcredit.holdcredit.domain.entity.Debt;
-import com.holdcredit.holdcredit.domain.entity.Score;
+import com.holdcredit.holdcredit.domain.entity.*;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.DebtRepository;
+import com.holdcredit.holdcredit.repository.RedemptionRepository;
 import com.holdcredit.holdcredit.repository.ScoreRepository;
 import com.holdcredit.holdcredit.service.DebtService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import java.util.Optional;
 @Transactional
 public class DebtServiceImpl implements DebtService{
     private final DebtRepository debtRepository;
+    private final RedemptionRepository redemptionRepository;
     private final ScoreRepository scoreRepository;
     private final CustomerRepository customerRepository;
 
@@ -32,7 +32,7 @@ public class DebtServiceImpl implements DebtService{
 
         /* 부채점수 */
         // loanAmount, loanPeriod, loanCount를 기반으로 대출 점수 계산
-        int loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
+        Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
 
         Score score = new Score();
         score.setLoanScore(loanScore);
@@ -43,9 +43,13 @@ public class DebtServiceImpl implements DebtService{
     }
 
     /* 대출점수 계산 로직 */
-    private int totalLoanScore(Long loanAmount, Long loanPeriod, Long loanCount) {
+    private Integer totalLoanScore(Long loanAmount, Long loanPeriod, Long loanCount) {
         // 대출금액
-        int loanScore = 0;
+        Integer loanScore = 0;
+        if (loanAmount == null || loanPeriod == null ||  loanCount == null) {
+            return loanScore;
+        }
+
         if (loanAmount >= 1000) {
             loanScore += 5;
         } else if (loanAmount >= 100) {
@@ -84,7 +88,30 @@ public class DebtServiceImpl implements DebtService{
 
     @Override
     public void delete(Long id){
-        debtRepository.deleteById(id);
+        Optional<Debt> optionalDebt = debtRepository.findById(id);
+        if (optionalDebt.isPresent()){
+            Debt debt = optionalDebt.get();
+            Redemption redemption = debt.getRedemption();
+            Customer customer = debt.getCustomer();
+
+            //부채수준 정보 초기화
+            DebtRequestDto debtRequestDto = DebtRequestDto.builder().loanAmount(null).loanPeriod(null).loanCount(null).build();
+            debt.updateDebt(debtRequestDto);
+            debtRepository.save(debt);
+
+            //Redemption 정보 초기화
+            redemption.resetRedemption();
+            redemptionRepository.save(redemption);
+
+            //Score 엔티티 loanScore 초기화
+            Score score = scoreRepository.findByCustomer(customer)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
+            score.setLoanScore(loanScore);
+            scoreRepository.save(score);
+        } else {
+            throw new IllegalStateException("해당 ID의 부채수준 정보를 찾을 수 없습니다.");
+        }
     }
 
 
@@ -102,7 +129,7 @@ public class DebtServiceImpl implements DebtService{
             Score score = scoreRepository.findByCustomer(customer)
                     .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
 
-            int loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
+            Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
             score.setLoanScore(loanScore);
             scoreRepository.save(score);
         } else {

@@ -34,13 +34,13 @@ public class FinanceController {
     }
 
     /* 삭제 */
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Finance> delete(@PathVariable Long id){
         financeService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<FinanceRequestDto> update(@PathVariable Long id, @Validated @RequestBody FinanceRequestDto financeRequestDto){
         financeService.update(id,financeRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);

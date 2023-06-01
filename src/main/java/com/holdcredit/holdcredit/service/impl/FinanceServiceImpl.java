@@ -33,7 +33,7 @@ public class FinanceServiceImpl implements FinanceService {
         finance.setCustomer(customer);
 
         /* 개인금융(거래점수) */
-        int transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
+        Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
 
         Score score = scoreRepository.findByCustomer(customer)
                 .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
@@ -45,30 +45,34 @@ public class FinanceServiceImpl implements FinanceService {
         return financeRepository.save(finance);
     }
 
-    private  int totalTransactionScore(Long annulIncome, Long continuousService, Long extraMonthlyFund){
-        int transactionScore = 0;
-        //연봉
-        if (annulIncome >= 10) {
-            transactionScore += 10;
-        } else if (annulIncome >= 5) {
-            transactionScore += 5;
-        }
+    private  Integer totalTransactionScore(Long annulIncome, Long continuousService, Long extraMonthlyFund){
+        Integer transactionScore = 0;
+        //연봉: **천만원
+        if (annulIncome >= 5) {
+            transactionScore += 2;
+        } else if (annulIncome >= 1) {
+            transactionScore += 1;
+        } else  transactionScore += 0;
 
         //근속년수
-        if (continuousService >= 10) {
-            transactionScore += 10;
-        } else if (continuousService >= 5) {
-            transactionScore += 5;
-        }
+        if (continuousService >= 3) {
+            transactionScore += 2;
+        } else if (continuousService >= 1) {
+            transactionScore += 1;
+        } else transactionScore += 0;
 
-        //매달 여유자금
-        if (extraMonthlyFund >= 10) {
-            transactionScore += 10;
-        } else if (extraMonthlyFund >= 5) {
-            transactionScore += 5;
-        }
+        //매달 여유자금: **만원
+        if (extraMonthlyFund >= 300) {
+            transactionScore += 4;
+        } else if (extraMonthlyFund >= 200) {
+            transactionScore += 3;
+        } else if (extraMonthlyFund >= 100) {
+            transactionScore += 2;
+        } else if (extraMonthlyFund >= 50) {
+            transactionScore += 1;
+        } else transactionScore += 0;
+
         return transactionScore;
-
     }
 
     @Override
@@ -86,8 +90,25 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Override
     public void delete(Long id){
+        Optional<Finance> optionalFinance = financeRepository.findById(id);
+        if (optionalFinance.isPresent()){
+            Finance finance = optionalFinance.get();
+            Customer customer = finance.getCustomer();
 
-        financeRepository.deleteById(id);
+            //개인금융 정보 초기화
+            FinanceRequestDto financeRequestDto = FinanceRequestDto.builder().annulIncome(0L).continuousService(0L).extraMonthlyFund(0L).build();
+            finance.updateFinance(financeRequestDto);
+            financeRepository.save(finance);
+
+            //Score 엔티티 TransactionScore 초기화
+            Score score = scoreRepository.findByCustomer(customer)
+                            .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
+            score.setTransactionScore(transactionScore);
+            scoreRepository.save(score);
+        } else {
+            throw new IllegalStateException("해당 ID의 개인금융 정보를 찾을 수 없습니다.");
+        }
     }
 
     @Override
@@ -104,7 +125,7 @@ public class FinanceServiceImpl implements FinanceService {
         Score score = scoreRepository.findByCustomer(finance.getCustomer())
                 .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
 
-        int transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
+        Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
 
         score.setTransactionScore(transactionScore);
         financeRepository.save(finance);

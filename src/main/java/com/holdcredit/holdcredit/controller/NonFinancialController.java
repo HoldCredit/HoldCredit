@@ -33,13 +33,13 @@ public class NonFinancialController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<NonFinancial> delete(@PathVariable Long id){
         nonFinancialService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<NonFinancialRequestDto> update(@PathVariable Long id, @Validated @RequestBody NonFinancialRequestDto nonFinancialRequestDto){
         nonFinancialService.update(id, nonFinancialRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);

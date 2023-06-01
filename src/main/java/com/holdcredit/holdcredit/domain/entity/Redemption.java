@@ -27,14 +27,14 @@ public class Redemption {
     @JoinColumn(name = "debt_id", referencedColumnName = "debt_id", unique = true)
     private Debt debt;
 
-    @Column(nullable = false)
+    @Column
     private Long loanAmount;
 
-    @Column(nullable = false)
+    @Column
     private Long overduePeriod;
 
     public void updateRedemption(RedemptionRequestDto redemptionRequestDto){
-        this.debt = redemptionRequestDto.getDebt();
+//        this.debt = redemptionRequestDto.getDebt();
         this.loanAmount = redemptionRequestDto.getLoanAmount();
         this.overduePeriod = redemptionRequestDto.getOverduePeriod();
     }
@@ -51,6 +51,11 @@ public class Redemption {
 
 
     public void setDebt(Debt debt) { this.debt = debt;
+    }
+
+    public void resetRedemption() {
+        this.loanAmount = null;
+        this.overduePeriod = null;
     }
 }
 

@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequestMapping("/redemption")
 public class RedemptionController {
     private final RedemptionService redemptionService;
-    private final RedemptionRepository redemptionRepository;
 
     /* 등록*/
     @PostMapping("/save")
@@ -41,14 +40,14 @@ public class RedemptionController {
     }
 
     /* 삭제 */
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Redemption> delete(@PathVariable Long id){
         redemptionService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /* 수정 */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<RedemptionRequestDto> update(@PathVariable Long id, @RequestBody @Validated RedemptionRequestDto redemptionRequestDto){
         redemptionService.update(id, redemptionRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);

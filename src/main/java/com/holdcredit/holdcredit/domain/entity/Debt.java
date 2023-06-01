@@ -23,13 +23,13 @@ public class Debt {
     @JoinColumn(name = "customer_no", /*nullable = false,*/ updatable = false)
     private Customer customer;
 
-    @Column(nullable = false)
+    @Column
     private Long loanAmount;
 
-    @Column(nullable = false)
+    @Column
     private Long loanPeriod;
 
-    @Column(nullable = false)
+    @Column
     private Long loanCount;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt", cascade = CascadeType.REMOVE)
