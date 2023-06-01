@@ -33,7 +33,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         creditCard.setCustomer(customer);
 
         /* 신용 형태 점수 */
-        int creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
+        Integer creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
 
         Score score = scoreRepository.findByCustomer(customer)
                 .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
@@ -45,8 +45,8 @@ public class CreditCardServiceImpl implements CreditCardService {
         return creditCardRepository.save(creditCard);
     }
 
-    private int totalCreditTypeScore(CreditCardCompany creditCardCompany, Long transactionPeriod, Long limit, Long overdueCount, Long overduePeriod) {
-        int creditTypeScore = 0;
+    private Integer totalCreditTypeScore(CreditCardCompany creditCardCompany, Long transactionPeriod, Long limit, Long overdueCount, Long overduePeriod) {
+        Integer creditTypeScore = 0;
         //신용카드 회사
         if (creditCardCompany == CreditCardCompany.FIRST) {
             creditTypeScore += 15;
@@ -100,7 +100,27 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public void delete(Long id){
-        creditCardRepository.deleteById(id);
+        Optional<CreditCard> optionalCreditCard = creditCardRepository.findById(id);
+        if (optionalCreditCard.isPresent()){
+            CreditCard creditCard = optionalCreditCard.get();
+            Customer customer = creditCard.getCustomer();
+
+            //신용카드 정보 초기화
+            CreditCardRequestDto creditCardRequestDto = CreditCardRequestDto.builder().creditCardCompany(null).transactionPeriod(null).limit(null).overdueCount(null).overduePeriod(null).build();
+            creditCard.updateCreditCard(creditCardRequestDto);
+            creditCardRepository.save(creditCard);
+
+            //Score 엔티티 CreditTypeScore 초기화
+            Score score = scoreRepository.findByCustomer(customer)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Integer creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
+            score.setCreditTypeScore(creditTypeScore);
+            scoreRepository.save(score);
+        } else {
+            throw new IllegalStateException("해당 ID의 신용카드형태 정보를 찾을 수 없습니다.");
+        }
+
+
     }
 
     @Override
@@ -116,7 +136,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         Score score = scoreRepository.findByCustomer(creditCard.getCustomer())
                         .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
 
-        int creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
+        Integer creditTypeScore = totalCreditTypeScore(creditCard.getCreditCardCompany(),creditCard.getTransactionPeriod(),creditCard.getLimit(),creditCard.getOverdueCount(),creditCard.getOverduePeriod());
 
         score.setCreditTypeScore(creditTypeScore);
         creditCardRepository.save(creditCard);

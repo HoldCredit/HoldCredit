@@ -35,14 +35,14 @@ public class CreditCardController {
     }
 
     /* 삭제 */
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public  ResponseEntity<CreditCard> delete(@PathVariable Long id){
         creditCardService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /* 수정 */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<CreditCardRequestDto> update(@PathVariable Long id, @RequestBody @Validated CreditCardRequestDto creditCardRequestDto){
         creditCardService.update(id,creditCardRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);

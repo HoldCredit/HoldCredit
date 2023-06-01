@@ -37,7 +37,7 @@ public class RedemptionServiceImpl implements RedemptionService {
 
         /* 상환점수 */
         // loanAmount, loanPeriod, loanCount를 기반으로 대출 점수 계산
-        int paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
+        Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
 
         Customer customer = debt.getCustomer();
         Score score = scoreRepository.findByCustomer(customer)
@@ -48,22 +48,43 @@ public class RedemptionServiceImpl implements RedemptionService {
         return redemptionRepository.save(redemption);
     }
 
-    private int totalPaybackScore(Long loanAmount, Long OverduePeriod) {
-        // 대출금액
-        int paybackScore = 0;
+    private Integer totalPaybackScore(Long loanAmount, Long overduePeriod) {
+        Integer paybackScore = 15;
+        // 대출금액(**만원)에 따른 연체기간(**개월)
+        if (loanAmount == null || overduePeriod == null) {
+            return paybackScore;
+        }
         if (loanAmount >= 1000) {
-            paybackScore += 5;
-        } else if (loanAmount >= 100) {
-            paybackScore += 10;
+            if (overduePeriod >= 18) {
+                paybackScore += 0;
+            } else if (overduePeriod <= 18) {
+                paybackScore += 5;
+            } else if (overduePeriod <= 12) {
+                paybackScore += 10;
+            } else if (overduePeriod <= 0) {
+                paybackScore += 15;
+            }
+        } else if (loanAmount <= 1000) {
+            if (overduePeriod >= 12) {
+                paybackScore += 0;
+            } else if (overduePeriod <= 12) {
+                paybackScore += 5;
+            } else if (overduePeriod <= 6) {
+                paybackScore += 10;
+            } else if (overduePeriod <= 0) {
+                paybackScore += 15;
+            }
+        } else if (loanAmount <= 500) {
+            if (overduePeriod >= 6) {
+                paybackScore += 0;
+            } else if (overduePeriod <= 6) {
+                paybackScore += 5;
+            } else if (overduePeriod <= 3) {
+                paybackScore += 10;
+            } else if (overduePeriod <= 0) {
+                paybackScore += 15;
+            }
         }
-
-        //연체기간
-        if (OverduePeriod >= 10) {
-            paybackScore += 5;
-        } else if (OverduePeriod >= 5) {
-            paybackScore += 10;
-        }
-
         return paybackScore;
     }
 
@@ -81,13 +102,55 @@ public class RedemptionServiceImpl implements RedemptionService {
 
     @Override
     public void delete(Long id){
-        redemptionRepository.deleteById(id);
+        Optional<Redemption> optionalRedemption = redemptionRepository.findById(id);
+        if (optionalRedemption.isPresent()){
+            Redemption redemption = optionalRedemption.get();
+            Customer customer = redemption.getDebt().getCustomer();
+
+            //상환내역 정보 초기화
+            RedemptionRequestDto redemptionRequestDto = RedemptionRequestDto.builder().loanAmount(null).overduePeriod(null).build();
+            redemption.updateRedemption(redemptionRequestDto);
+            redemptionRepository.save(redemption);
+
+            //Score 엔티티 paybackScore 초기화
+            Score score = scoreRepository.findByCustomer(customer)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
+            score.setPaybackScore(paybackScore);
+            scoreRepository.save(score);
+        } else {
+            throw new IllegalStateException("해당 ID의 상환이력 정보를 찾을 수 없습니다.");
+        }
     }
 
 
 
     @Override
     public void update(Long debtId, RedemptionRequestDto redemptionRequestDto) {
+        /*Optional<Debt> optionalDebt = debtRepository.findById(debtId);
+        if (optionalDebt.isPresent()) {
+            Debt debt = optionalDebt.get();
+
+            Optional<Redemption> optionalRedemption = redemptionRepository.findById(debtId);
+            if (optionalRedemption.isPresent()) {
+                Redemption redemption = optionalRedemption.get();
+                redemption.updateRedemption(redemptionRequestDto);
+                redemptionRepository.save(redemption);
+
+                Customer customer = debt.getCustomer();
+                Score score = scoreRepository.findByCustomer(customer)
+                        .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+
+                Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
+                score.setPaybackScore(paybackScore);
+                scoreRepository.save(score);
+            } else {
+                throw new IllegalArgumentException("해당 ID의 상환 정보를 찾을 수 없습니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("해당 ID의 부채 정보를 찾을 수 없습니다.");
+        }
+    }*/
         Optional<Redemption> optionalRedemption = redemptionRepository.findById(debtId);
         //Redemption 엔티티에 업데이트
         if (optionalRedemption.isPresent()) {
@@ -104,12 +167,11 @@ public class RedemptionServiceImpl implements RedemptionService {
             Score score = scoreRepository.findByCustomer(customer) // 해당 customer id에 score 저장
                     .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
 
-            int paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
+            Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
             score.setPaybackScore(paybackScore);
             scoreRepository.save(score);
         } else {
             throw new IllegalArgumentException("해당 ID의 상환 정보를 찾을 수 없습니다.");
         }
-
     }
 }
