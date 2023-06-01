@@ -45,7 +45,7 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
         customerModifyRepository.save(customer);
     }
 
-    //회원 정보 삭제
+    //회원 정보 삭제 ㅇ
     @Override
     public void deleteCustomer(Long id){
             customerModifyRepository.deleteById(id);

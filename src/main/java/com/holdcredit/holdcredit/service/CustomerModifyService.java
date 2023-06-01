@@ -20,7 +20,7 @@ public  interface CustomerModifyService {
     //회원 정보 수정
     void updateCustomer(Long id, CustomerModifyDto requestDto);
 
-    //회원 정보 삭제
+    //회원 정보 삭제 ㅇ
     void deleteCustomer(Long id);
 
 }

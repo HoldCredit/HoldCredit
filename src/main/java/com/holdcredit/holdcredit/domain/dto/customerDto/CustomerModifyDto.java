@@ -41,7 +41,7 @@ public class CustomerModifyDto {
 
     //private Long customer_no;
     //private String customer_id;
-    //private String customer_name;
+    //private String customer_name;ㄴ
     //private LocalDate birth;
     //private String gender;
     //private LocalDateTime join_Date;

@@ -40,7 +40,7 @@ public class CustomerModifyController {
     }
 
     //회원 정보 삭제
-    //삭제
+    //삭제ㄴ
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         customerModifyService.deleteCustomer(id);
