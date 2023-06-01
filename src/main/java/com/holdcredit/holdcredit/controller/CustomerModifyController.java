@@ -1,6 +1,4 @@
 package com.holdcredit.holdcredit.controller;
-import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
@@ -10,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +34,16 @@ public class CustomerModifyController {
     @PutMapping("/Modify/{id}")
     public ResponseEntity<?> customerModify(@PathVariable Long id, @Validated @RequestBody CustomerModifyDto requestDto) {
         customerModifyService.updateCustomer(id, requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "JJU 성공");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    //회원 정보 삭제
+    //삭제
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+        customerModifyService.deleteCustomer(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

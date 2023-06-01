@@ -18,9 +18,11 @@ function EditMember() {
     const [isIdLengthValid, setIsIdLengthValid] = useState(true);
     const [isIdValid, setIsIdValid] = useState(true);
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
+     const[update, setUpdate] = useState({});
 
     const navigate = useNavigate();
         const [memberInfo, setMemberInfo] = useState({});
+
 
     useEffect(() => {
      axios.get(`/customerModify/${21}`)
@@ -51,6 +53,7 @@ function EditMember() {
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
+        setMemberInfo({...memberInfo, password: e.target.value})
         if (e.target.value.length > 0) {
             setIsPasswordRequired(false);
         }
@@ -104,49 +107,83 @@ function EditMember() {
 
 
     // 메일
-    const [email, setEmail] = useState("");
+//    const [email, setEmail] = useState("");
     const [emailErrorMsg, setEmailErrorMsg] = useState("");
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+//    const handleEmailChange = (e) => {
+//        setEmail(e.target.value);
+//    };
 
-    const handleEmailBlur = () => {
-        if (!isValidEmail(email)) {
-            setEmailErrorMsg("이메일 주소를 다시 확인해주세요.");
-        } else {
-            setEmailErrorMsg("");
-        }
-    };
+//    const handleEmailBlur = () => {
+//        if (!isValidEmail(email)) {
+//            setEmailErrorMsg("이메일 주소를 다시 확인해주세요.");
+//        } else {
+//            setEmailErrorMsg("");
+//        }
+//    };
 
 
     const isValidEmail = (email) => {
         // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
-         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
+    // 휴대폰
+      const [mobileNumber, setMobileNumber] = useState("");
+      const [isMobileNumberValid, setIsMobileNumberValid] = useState(true);
+      const [isMobileNumberRequired, setIsMobileNumberRequired] = useState(false);
+
+      const handleMobileNumberBlur = (e) => {
+        const mobileNumberValue = e.target.value;
+        const pattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+        if (mobileNumberValue.length === 0) {
+          setIsMobileNumberValid(true);
+          setIsMobileNumberRequired(true);
+        } else if (!pattern.test(mobileNumberValue)) {
+          setIsMobileNumberValid(false);
+          setIsMobileNumberRequired(false);
+        } else {
+          setIsMobileNumberValid(true);
+          setIsMobileNumberRequired(false);
+        }
+      };
+
+      const handleMobileNumberChange = (e) => {
+        setMobileNumber(e.target.value);
+        setIsMobileNumberRequired(false);
+      };
+
+
     //아래는 작업중 비번만 바꿔볼까?
-                                 const updateCustomer = (event) => {
-                                                 event.preventDefault();
+ // 수정
+const updateCustomer = (event) => {
+  // Send updated memberInfo to server
 
-                                                 const update = {
-                                                     password: memberInfo.password
-                                                 };
+  event.preventDefault();
+  const update = {
+    password: memberInfo.password,
+    occupation: memberInfo.occupation,
+    education: memberInfo.education_level,
+    phoneNo: memberInfo.phone_num,
+    email: memberInfo.email
+  };
 
-                                                 console.log("customer 수정하는부분이야 => " + JSON.stringify(memberInfo));
-                                                   axios.put(`/customerModify/Modify/21`, update, {
-                                                    headers:{
-                                                        'Content-type': 'application/json'
-                                                    }
-                                                  })
-                                                   .then(res => {
-                                                   alert('수정되었습니다.');
-                                                           navigate(`/customerModify/21`); // 수정
+  console.log("근주지금해봄 memberInfo 다 나와=> " + memberInfo);
+    axios.put(`/customerModify/Modify/21`, update)
+    .then(res => {
+        alert('수정되었습니다.');
+        console.log(res);
+        navigate(`/`);
+  });
+};
 
-                                                 });
-                                               };
-
-
+  // 회원 수정시 콘솔에 찍어봄
+  const changeHandler = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setMemberInfo({...memberInfo, education_level: value});
+  };
 
     return (
         <div id="wrap">
@@ -190,10 +227,9 @@ function EditMember() {
                                         id="password"
                                         name="password"
                                         className="edit"
-                                        title="비밀번호"
+                                        placeholder="변경하고자 하는 비밀번호를 입력해주세요."
                                         maxLength={20}
                                         value={password}
-                                        //여기를 바꿔야할듯?
                                         onChange={handlePasswordChange}
                                         onBlur={handlePasswordBlur}
                                     />
@@ -203,9 +239,9 @@ function EditMember() {
                                         필수 정보입니다.
                                     </span>
                                 )}
-                                {password.length > 0 && password.length < 8 && (
+                                {password.length > 0 && password.length < 4 && (
                                     <span className="error_next_box" id="passwordMsg">
-                                        8자 이상 입력해주세요.
+                                        일단 4자 이상 입력해주세요. 귀차나 나중에 바꿀꺼임
                                     </span>
                                 )}
                             </div>
@@ -219,7 +255,7 @@ function EditMember() {
                                         id="passwordCheck"
                                         name="passwordCheck"
                                         className="edit"
-                                        title="비밀번호 확인"
+                                        placeholder="변경하고자 하는 비밀번호를 입력해주세요."
                                         maxLength={20}
                                         value={passwordCheck}
                                         onChange={handlePasswordCheckChange}
@@ -252,8 +288,9 @@ function EditMember() {
                                             className="int"
                                             maxLength="40"
                                             value={memberInfo.customer_name}
-                                            disabled
-                                        />
+                                             disabled
+                                             onChange={changeHandler}
+                                           />
                                     </span>
 
                                 </div>
@@ -274,7 +311,7 @@ function EditMember() {
                                     </span>
                                 </div>
                                 </div>
-                                
+
                             </div>
                             <div className="join_row join_occupation">
                                 <h3 className="join_title">
@@ -285,17 +322,20 @@ function EditMember() {
                                         id="occupation"
                                         name="occupation"
                                         className="sel1"
+                                        className={`int${isOccupation ? " required" : ""}`}
+                                        value={memberInfo.job}
                                         aria-label="직업구분"
                                         onBlur={occupationBlur}
+                                        // onChange={changeHandler}
+                                        onChange={(e) => setMemberInfo({ ...memberInfo, occupation: e.target.value})}
                                     >
                                         <option value="" defaultValue>
                                             직업구분
                                         </option>
-                                        <option value="1">개인사업자</option>
-                                        <option value="2">법인사업자</option>
-                                        <option value="3">공무원</option>
-                                        <option value="4">회사원</option>
-                                        <option value="5">기타</option>
+                                        <option value="ENTREPRENEUR">개인사업자</option>
+                                        <option value="PUBLICOFFICIAL">공무원</option>
+                                        <option value="WORKER">회사원</option>
+                                        <option value="ETC">기타</option>
                                     </select>
                                 </div>
                                 {isOccupation && (
@@ -312,17 +352,20 @@ function EditMember() {
                                     <select
                                         id="education"
                                         name="education"
-                                        className="sel1"
                                         aria-label="교육 수준"
+                                        className={`int${isEducation ? " required" : ""}`}
+                                        value={memberInfo.education_level}
                                         onBlur={educationBlur}
+                                        onChange={changeHandler}
                                     >
-                                        <option value="" defaultValue>
+                                        <option value="memberInfo.education_level" defaultValue>
                                             교육 수준
                                         </option>
-                                        <option value="1">중학교 졸업</option>
-                                        <option value="2">고등학교 졸업</option>
-                                        <option value="3">대학교 졸업</option>
-                                        <option value="4">석박사 졸업</option>
+                                        <option value="ELEMENTARY">초졸</option>
+                                          <option value="MIDDLE">중졸</option>
+                                          <option value="HIGH">고졸</option>
+                                          <option value="UNIVERSITY">대졸</option>
+                                          <option value="DOCTORATE">석박사</option>
                                     </select>
                                 </div>
                                 {isEducation && (
@@ -331,15 +374,14 @@ function EditMember() {
                                     </span>
                                 )}
                             </div>
-                          
 
 
                             <div>
                                 <div className="join_row join_email">
                                     <h3 className="join_title">
                                         <label htmlFor="email">
-                                            본인 확인 이메일
-                                            <span className="terms_choice">(선택)</span>
+                                            본인 이메일
+                                            <span className="terms_choice"></span>
                                         </label>
                                     </h3>
                                     <span className="edit_box int_email box_right_space">
@@ -347,13 +389,12 @@ function EditMember() {
                                             type="text"
                                             id="email"
                                             name="email"
-                                            placeholder="선택입력"
-                                            aria-label="선택입력"
                                             className="int"
                                             maxLength="100"
-                                            value={email}
-                                            onChange={handleEmailChange}
-                                            onBlur={handleEmailBlur}
+                                            value={memberInfo.email}
+//                                            onChange={handleEmailChange}
+                                            onChange={(e) => setMemberInfo({ ...memberInfo, email: e.target.value})}
+//                                            onBlur={handleEmailBlur}
                                         />
                                     </span>
                                 </div>
@@ -371,7 +412,8 @@ function EditMember() {
                                     </h3>
                                     <div className="int_mobile_area1">
                                         <span className="edit_box int_mobile1">
-                                            <input type="tel" id="pphoneNo" name="pphoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력" className="int" maxLength="16" />
+                                            <input type="tel" id="phoneNo" name="phoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력"  value={memberInfo.phone_num}
+                                            className="int" maxLength="16" onChange={(e) => setMemberInfo({ ...memberInfo, phone_num: e.target.value})} />
                                         </span>
                                         <a href="#" className="btn_verify1 btn_primary1" id="btnPrtsSend" role="button">
                                             <span>인증번호 받기</span>
@@ -386,20 +428,12 @@ function EditMember() {
                                     </div>
                                 </div>
                             </div>
-                            
 
 //알단 수정하기 누르면 서비스페이지로 가게끔 한다음에 어디로 보내지고 싶은지 생각하기~
                             <div className="btn_area">
-                                <button type="button" id="btnJoin" className="btn_type1 btn_primary1"><span>수정</span></button>
-                                <button type="button" id="btnJoin" className="btn_type2 btn_primary2"><span>삭제</span></button>
+                                <button type="button" id="btnJoin" className="btn_type1 btn_primary1" onClick={updateCustomer}><span>수정</span></button>
+                                <a href="/DeleteMember" id="btnJoin" className="btn_type2 btn_primary2" class="btn_delete">취소</a>
                             </div>
-
-
-                        <div class="btn_wrap">
-                            <a onClick={updateCustomer} class="btn_insert">완료</a>
-                            <a href="/MainNotice" class="btn_update">취소</a>
-                        </div>
-
                         </div>
                     </div>
                 </div>
