@@ -6,6 +6,7 @@ import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 //@NoArgsConstructor
@@ -22,15 +23,14 @@ public class CustomerModifyDto {
     private String email;
     @JsonProperty(value = "occupation")
     private JobDomain job;
-
-  @JsonProperty(value="education")
     private Authority authority;
+    @JsonProperty(value="education")
     private EducationLevel education_level;
 
 
- public Customer toEntity(CustomerModifyDto dto) {
+ public Customer toEntity(CustomerModifyDto dto, PasswordEncoder passwordEncoder) {
         return Customer.builder()
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .phoneNum(phone_num)
                 .email(email)
                 .job(job)
