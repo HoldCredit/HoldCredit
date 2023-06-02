@@ -3,13 +3,25 @@ import '../styles/DeleteMember.css';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import axios from "axios";
+//jwt
+import jwtDecode from "jwt-decode";
+import {useDispatch, useSelector} from "react-redux";
+import {setName} from "../store/CustomerNameStore";
+
+
 
 function DeleteMember() {
     const navigate = useNavigate();
     const [memberInfo, setMemberInfo] = useState({});
-//일단 이름을 가져와보자ㄴ
+     // 세션에 저장된 토큰값 가져오기
+     const storedToken = sessionStorage.getItem("loginData");
+     // 토큰값 해석
+     const decodedToken = jwtDecode(storedToken);
+     // 해석한 정보에서 회원번호만 추출
+     const customerNo = decodedToken.sub;
+//일단 이름을 가져와보자
 useEffect(() => {
-     axios.get(`/customerModify/${21}`)
+     axios.get(`/customerModify/${customerNo}`)
      .then((res) => {
         console.log(res.data);
         setMemberInfo(res.data);
@@ -21,28 +33,35 @@ useEffect(() => {
 
 // 비밀번호 확인
 // 비밀번호 확인
-const [password, setPassword] = useState('');
-const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const [password, setPassword] = useState("");
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
 
-const handleDeleteMember = () => {
-  // 비밀번호가 일치하는지 확인
-  if (password === memberInfo.password) {
-    // 일치하는 경우 회원 삭제 처리
-    axios
-      .delete(`/customerModify/delete/${21}`)
-      .then((res) => {
-        // 회원 삭제 성공 처리
-        navigate('/memberList');
-      })
-      .catch((error) => {
-        console.log('회원 삭제 에러: ' + error);
-      });
-  } else {
-    // 비밀번호가 일치하지 않는 경우
-    setIsPasswordMatch(false);
+const handleDeleteMember = async (event) => {
+ event.preventDefault();
+  if (!memberInfo) {
+    console.log("회원 정보를 가져오는 중입니다...");
+    return;
   }
-};
 
+  console.log("비밀번호 :" + memberInfo.password);
+  console.log("입력한 비번 : "+password);
+
+    // 비밀번호가 일치하는지 확인
+    if (password === memberInfo.password) {
+      try {
+        // 일치하는 경우 회원 삭제 처리
+        await axios.delete(`/customerModify/delete/${customerNo}`);
+        // 회원 삭제 성공 처리
+        navigate("/");
+      } catch (error) {
+        console.log("회원 삭제 에러: " + error);
+      }
+    } else {
+      //비밀번호가 일치하지 않는 경우
+      setIsPasswordMatch(false);
+        console.log("비번일치하지않음 에러: " );
+    }
+  };
 
 
     return (
@@ -66,7 +85,7 @@ const handleDeleteMember = () => {
                                 <br/>
                                 삭제하려면 비밀번호를 입력하시오.
                             </p>
-                            <form id="DeleteByPassword" onSubmit={handleDeleteMember}>
+                            <form id="DeleteByPassword">
                                 <fieldset className="fld_apply">
                                     <legend className="screen_out3">정보입력 폼</legend>
                                     <strong className="tf_required3">비밀번호 입력</strong>
@@ -84,7 +103,7 @@ const handleDeleteMember = () => {
                                         </div>
                                     </div>
                                     <div className="wrap_btn3 wrap_btn4">
-                                        <button type="submit" className="btn_g3">회원 계정 삭제</button>
+                                        <button type="submit" className="btn_g3" onClick={handleDeleteMember}>회원 계정 삭제</button>
                                         <button type="submit" className="btn_g4">다른 서비스 둘러보기</button>
                                     </div>
                                 </fieldset>
