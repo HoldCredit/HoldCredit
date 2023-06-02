@@ -21,7 +21,6 @@ public class CustomerModifyController {
     //원하는 회원의 고객 번호를 일단 주소창에 치면 그 회원의 정보를 다 가져올 수 있도록 1차 설계 진행.
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> read(@PathVariable Long id){
-        System.out.println("id = " + id);
         CustomerDto customerDto = customerModifyService.read(id);
         if (customerDto != null){
             return new ResponseEntity<>(customerDto, HttpStatus.OK);
@@ -38,6 +37,7 @@ public class CustomerModifyController {
         map.put("message", "JJU 성공");
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
 
     //회원 정보 삭제
     @DeleteMapping("/delete/{id}")

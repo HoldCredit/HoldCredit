@@ -5,7 +5,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import axios from "axios";
-
+import jwtDecode from "jwt-decode";
+import {useDispatch, useSelector} from "react-redux";
+import {setName} from "../store/CustomerNameStore";
 
 function EditMember() {
     const [isIdRequired, setIsIdRequired] = useState(false);
@@ -20,12 +22,21 @@ function EditMember() {
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
      const[update, setUpdate] = useState({});
 
-    const navigate = useNavigate();
+    // 세션에 저장된 토큰값 가져오기
+     const storedToken = sessionStorage.getItem("loginData");
+     // 토큰값 해석
+     const decodedToken = jwtDecode(storedToken);
+     // 해석한 정보에서 회원번호만 추출
+     const customerNo = decodedToken.sub;
+
+        const navigate = useNavigate();
         const [memberInfo, setMemberInfo] = useState({});
 
+            const dispatch = useDispatch();
+            const [email, setEmail] = useState('')
 
     useEffect(() => {
-     axios.get(`/customerModify/${21}`)
+     axios.get(`/customerModify/${customerNo}`)
      .then((res) => {
         console.log(res.data);
         setMemberInfo(res.data);
@@ -86,14 +97,14 @@ function EditMember() {
     };
 
 
-    // 직업구분
-    const [isOccupation, setIsOccupation] = useState(false);
+   // 직업구분
+      const [isOccupation, setIsOccupation] = useState(false);
 
-    const [occupation, setOccupation] = useState('');
+      const [occupation, setOccupation] = useState('');
 
-    function occupationBlur() {
-        setIsOccupation(document.querySelector("#occupation").value === "");
-    }
+      function occupationBlur() {
+          setIsOccupation(document.querySelector("#occupation").value === "");
+      }
 
     // 교육 수준
     const [isEducation, setIsEducation] = useState(false);
@@ -108,25 +119,13 @@ function EditMember() {
 
     // 메일
 //    const [email, setEmail] = useState("");
-    const [emailErrorMsg, setEmailErrorMsg] = useState("");
-
-//    const handleEmailChange = (e) => {
-//        setEmail(e.target.value);
-//    };
-
-//    const handleEmailBlur = () => {
-//        if (!isValidEmail(email)) {
-//            setEmailErrorMsg("이메일 주소를 다시 확인해주세요.");
-//        } else {
-//            setEmailErrorMsg("");
-//        }
-//    };
+  /*  const [emailErrorMsg, setEmailErrorMsg] = useState("");
 
 
     const isValidEmail = (email) => {
         // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
+    };*/
 
     // 휴대폰
       const [mobileNumber, setMobileNumber] = useState("");
@@ -163,18 +162,18 @@ const updateCustomer = (event) => {
   event.preventDefault();
   const update = {
     password: memberInfo.password,
-    occupation: memberInfo.occupation,
+    occupation: memberInfo.job,
     education: memberInfo.education_level,
     phoneNo: memberInfo.phone_num,
     email: memberInfo.email
   };
-
+    console.log(update);
   console.log("근주지금해봄 memberInfo 다 나와=> " + memberInfo);
-    axios.put(`/customerModify/Modify/21`, update)
+    axios.put(`/customerModify/Modify/${customerNo}`, update)
     .then(res => {
         alert('수정되었습니다.');
         console.log(res);
-        navigate(`/`);
+//        navigate(`/`);
   });
 };
 
@@ -200,21 +199,25 @@ const updateCustomer = (event) => {
                     <div className="join_content">
                         <div className="row_group1">
                             <div className="join_row">
-                                <h3 className="join_title1">
-                                    <label htmlFor="id">아이디</label>
-                                </h3>
-                                <span className="edit_box int_id">
-                                    <input
-                                        type="text"
-                                        id="id"
-                                        name="id"
-                                        className="edit1"
-                                        title="ID"
-                                        maxLength={20}
-                                        disabled
-                                        value={memberInfo.customer_id}
-                                    />
-                                </span>
+                                <h3 className="join_title">
+                                                                        <label htmlFor="email">
+                                                                            본인 이메일
+                                                                            <span className="terms_choice"></span>
+                                                                        </label>
+                                                                    </h3>
+                                                                    <span className="edit_box int_email box_right_space">
+                                                                        <input
+                                                                            type="text"
+                                                                            id="email"
+                                                                            name="email"
+                                                                            className="int"
+                                                                            maxLength="100"
+                                                                            value={memberInfo.email}
+                                //                                            onChange={handleEmailChange}
+                                                                            onChange={(e) => setMemberInfo({ ...memberInfo, email: e.target.value})}
+                                //                                            onBlur={handleEmailBlur}
+                                                                        />
+                                                                    </span>
 
                             </div>
                             <div className="join_row">
@@ -295,6 +298,22 @@ const updateCustomer = (event) => {
 
                                 </div>
                             </div>
+                             <h3 className="join_title1">
+
+                                                                <label htmlFor="id">성별</label>
+                                                            </h3>
+                                                            <span className="edit_box int_id">
+                                                                <input
+                                                                    type="text"
+                                                                    id="gender"
+                                                                    name="gender"
+                                                                    className="edit1"
+                                                                    title="gender"
+                                                                    maxLength={20}
+                                                                    disabled
+                                                                    value={memberInfo.gender}
+                                                                />
+                                                            </span>
 
           <div className="join_birthday">
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
@@ -313,34 +332,34 @@ const updateCustomer = (event) => {
                                 </div>
 
                             </div>
-                            <div className="join_row join_occupation">
-                                <h3 className="join_title">
-                                    <label htmlFor="occupation">직업구분</label>
-                                </h3>
-                                <div className="edit_box occupation_code">
-                                    <select
-                                        id="occupation"
-                                        name="occupation"
-                                        className="sel1"
-                                        className={`int${isOccupation ? " required" : ""}`}
-                                        value={memberInfo.job}
-                                        aria-label="직업구분"
-                                        onBlur={occupationBlur}
-                                        // onChange={changeHandler}
-                                        onChange={(e) => setMemberInfo({ ...memberInfo, occupation: e.target.value})}
-                                    >
-                                        <option value="" defaultValue>
-                                            직업구분
-                                        </option>
-                                        <option value="ENTREPRENEUR">개인사업자</option>
-                                        <option value="PUBLICOFFICIAL">공무원</option>
-                                        <option value="WORKER">회사원</option>
-                                        <option value="ETC">기타</option>
-                                    </select>
-                                </div>
-                                {isOccupation && (
-                                    <span className="error_next_box" id="occupationMsg">
-                                        필수 정보입니다.
+                          <div className="join_row join_occupation">
+                                                          <h3 className="join_title">
+                                                              <label htmlFor="occupation">직업구분</label>
+                                                          </h3>
+                                                          <div className="edit_box occupation_code">
+                                                              <select
+                                                                  id="occupation"
+                                                                  name="occupation"
+                                                                  className="sel1"
+                                                                  className={`int${isOccupation ? " required" : ""}`}
+                                                                  value={memberInfo.job}
+                                                                  aria-label="직업구분"
+                                                                  onBlur={occupationBlur}
+                                                                  // onChange={changeHandler}
+                                                                  onChange={(e) => setMemberInfo({ ...memberInfo, job: e.target.value})}
+                                                              >
+                                                                  <option value="" defaultValue>
+                                                                      직업구분
+                                                                  </option>
+                                                                  <option value="ENTREPRENEUR">개인사업자</option>
+                                                                  <option value="PUBLICOFFICIAL">공무원</option>
+                                                                  <option value="WORKER">회사원</option>
+                                                                  <option value="ETC">기타</option>
+                                                              </select>
+                                                          </div>
+                                                          {isOccupation && (
+                                                              <span className="error_next_box" id="occupationMsg">
+                                                                  필수 정보입니다.
                                     </span>
                                 )}
                             </div>
@@ -378,29 +397,8 @@ const updateCustomer = (event) => {
 
                             <div>
                                 <div className="join_row join_email">
-                                    <h3 className="join_title">
-                                        <label htmlFor="email">
-                                            본인 이메일
-                                            <span className="terms_choice"></span>
-                                        </label>
-                                    </h3>
-                                    <span className="edit_box int_email box_right_space">
-                                        <input
-                                            type="text"
-                                            id="email"
-                                            name="email"
-                                            className="int"
-                                            maxLength="100"
-                                            value={memberInfo.email}
-//                                            onChange={handleEmailChange}
-                                            onChange={(e) => setMemberInfo({ ...memberInfo, email: e.target.value})}
-//                                            onBlur={handleEmailBlur}
-                                        />
-                                    </span>
+
                                 </div>
-                                <span className="error_next_box" id="emailMsg" aria-live="assertive">
-                                    {emailErrorMsg}
-                                </span>
                             </div>
                             <div>
 
