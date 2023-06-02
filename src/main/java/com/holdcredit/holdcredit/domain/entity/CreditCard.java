@@ -30,25 +30,25 @@ public class CreditCard {
 //    @JsonIgnore //response에 해당 필드 제외
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,length = 30)
+    @Column(length = 30)
     private CreditCardCompany creditCardCompany;
 
-    @Column(nullable = false)
+    @Column
     private Long transactionPeriod;
 
-    @Column(nullable = false)
+    @Column
     private Long limit;
 
     @Builder.Default
-    @Column(nullable = false)
+    @Column
     private Long overdueCount = 0L;//0으로 디폴트값 줌
 
-    @Column(nullable = false)
+    @Column
     /*columnDefinition = "DATE DEFAULT NULL"을 사용하여
     overdue_period 필드의 기본값을 null로 설정합니다.
     CreditCardEntity 클래스는 오라클 데이터베이스에서
     overdue_period 필드에 기본값으로 null을 저장할 수 있게 됩니다.*/
-    private Long overduePeriod= 0L;    /* 1주일 -> 7 */
+    private Long overduePeriod;    /* 1주일 -> 7 */
 
 
     public void updateCreditCard (CreditCardRequestDto creditCardRequestDto){

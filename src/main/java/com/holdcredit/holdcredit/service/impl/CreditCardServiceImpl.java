@@ -46,41 +46,51 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     private Integer totalCreditTypeScore(CreditCardCompany creditCardCompany, Long transactionPeriod, Long limit, Long overdueCount, Long overduePeriod) {
-        Integer creditTypeScore = 0;
+        Integer creditTypeScore = 15;
+        if (creditCardCompany == null || transactionPeriod == null ||  limit == null ||  overdueCount == null || overduePeriod == null) {
+            return creditTypeScore;
+        }
+
         //신용카드 회사
         if (creditCardCompany == CreditCardCompany.FIRST) {
-            creditTypeScore += 15;
+            creditTypeScore += 3;
         } else if (creditCardCompany == CreditCardCompany.SECOND) {
-            creditTypeScore += 10;
-        } else creditTypeScore += 5;
+            creditTypeScore += 2;
+        } else creditTypeScore += 1;
 
-        //거래기간
-        if (transactionPeriod >= 10) {
-            creditTypeScore += 10;
-        } else if (transactionPeriod >= 5) {
-            creditTypeScore += 5;
-        }
-
-        //한도
-        if (limit >= 10) {
-            creditTypeScore += 10;
+        //한도 :**천만원
+        if (limit >= 7) {
+            creditTypeScore += 3;
         } else if (limit >= 5){
-            creditTypeScore += 5;
+            creditTypeScore += 2;
+        } else if (limit >= 3) {
+            creditTypeScore += 1;
         }
-
         //연체횟수
-        if(overdueCount >= 10){
-            creditTypeScore += 10;
-        }  else if (overdueCount >= 5) {
+        if(overdueCount == 0){
             creditTypeScore += 5;
+        }  else if (overdueCount == 1) {
+            creditTypeScore += 4;
+        }  else if (overdueCount == 2) {
+            creditTypeScore += 3;
+        }  else if (overdueCount == 3) {
+            creditTypeScore += 2;
+        } else if (overdueCount == 4) {
+            creditTypeScore += 1;
+        }
+        //연체기간 **개월
+        if(overduePeriod == 0){
+            creditTypeScore += 5;
+        } else if (overduePeriod <= 3) {
+            creditTypeScore += 4;
+        } else if (overduePeriod <= 6) {
+            creditTypeScore += 3;
+        } else if (overduePeriod <= 9) {
+            creditTypeScore += 2;
+        } else if (overduePeriod <= 12) {
+            creditTypeScore += 1;
         }
 
-        //연체기간
-        if(overduePeriod >= 10){
-            creditTypeScore += 10;
-        }  else if (overduePeriod >= 5) {
-            creditTypeScore += 5;
-        }
         return creditTypeScore;
     }
 

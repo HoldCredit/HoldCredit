@@ -54,7 +54,7 @@ public class RedemptionServiceImpl implements RedemptionService {
         if (loanAmount == null || overduePeriod == null) {
             return paybackScore;
         }
-        if (loanAmount >= 1000) {
+        if (loanAmount > 1000) {
             if (overduePeriod >= 18) {
                 paybackScore += 0;
             } else if (overduePeriod <= 18) {
