@@ -44,33 +44,48 @@ public class DebtServiceImpl implements DebtService{
 
     /* 대출점수 계산 로직 */
     private Integer totalLoanScore(Long loanAmount, Long loanPeriod, Long loanCount) {
-        // 대출금액
-        Integer loanScore = 0;
+        Integer loanScore = 15;
         if (loanAmount == null || loanPeriod == null ||  loanCount == null) {
             return loanScore;
         }
 
-        if (loanAmount >= 1000) {
-            loanScore += 5;
-        } else if (loanAmount >= 100) {
-            loanScore += 10;
+        // 대출금액에 따른 남은 대출기간
+        if (loanAmount > 1000) {
+            if (loanPeriod <= 18) {
+                loanScore += 2;
+            } else if (loanPeriod <= 12) {
+                loanScore += 3;
+            } else if (loanPeriod == 0) {
+                loanScore += 5;
+            }
+        } else if (loanAmount <= 1000) {
+            if (loanPeriod <= 12) {
+                loanScore += 2;
+            } else if (loanPeriod <= 6) {
+                loanScore += 3;
+            } else if (loanPeriod == 0) {
+                loanScore += 5;
+            }
+        } else if (loanAmount <= 500) {
+            if (loanPeriod <= 6) {
+                loanScore += 2;
+            } else if (loanPeriod <= 3) {
+                loanScore += 3;
+            } else if (loanPeriod == 0) {
+                loanScore += 5;
+            }
         }
-        //남은대출기간
-        if (loanPeriod >= 12) {
-            loanScore += 5;
-        } else if (loanPeriod >= 6) {
-            loanScore += 10;
-        }
+
         //대출횟수
-        if (loanCount >= 5) {
+        if (loanCount <= 1) {
             loanScore += 5;
-        } else if (loanCount >= 2) {
-            loanScore += 10;
+        } else if (loanCount <= 3) {
+            loanScore += 3;
+        } else if (loanCount <= 5) {
+            loanScore += 1;
         }
         return loanScore;
     }
-
-
 
 
     @Override
