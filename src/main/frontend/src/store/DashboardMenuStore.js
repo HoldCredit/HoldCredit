@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const DashboardMenu = createSlice({
   name: 'menu',
-  initialState: { name: 'Reports Summary', menuName: 'Reports Summary'},
+  initialState: { name: '공지사항', menuName: '공지사항'},
   reducers: {
     handleMenu(state, action) {
       state.name = action.payload;
@@ -10,6 +10,8 @@ const DashboardMenu = createSlice({
         state.menuName = 'Notice';
       } else if (state.name === 'Q & A') {
         state.menuName = 'Qna';
+      } else if (state.name === '자주 묻는 질문') {
+        state.menuName = 'Faq';
       }
     },
 

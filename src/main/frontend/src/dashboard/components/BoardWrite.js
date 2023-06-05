@@ -35,6 +35,10 @@ export default function BoardWrite() {
           const qnaData = await BoardService.getQna();
           setData(qnaData.data);
           break;
+        case 'Faq':
+          const faqData = await BoardService.getFaq();
+          setData(faqData.data);
+          break;
       }
     };
     fetchData();
@@ -89,6 +93,17 @@ export default function BoardWrite() {
           alert('등록되었습니다.');
           navigate(-1);
         });
+
+      case 'Faq' :
+        let faqData = {
+          name: writer,
+          title: title,
+          content: content
+        };
+        return BoardService.createFaq(faqData).then(res => {
+          alert('등록되었습니다.');
+          navigate(-1);
+        })
     }
   };
 

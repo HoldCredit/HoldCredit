@@ -3,21 +3,26 @@ import Title from './Title';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {Button, Pagination, Stack, TableContainer, TextField, Typography, Box} from "@mui/material";
+import {Button, Stack, Typography, Box} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import IconButton from "@mui/material/IconButton";
 import '../../screens/css/Board.css'
-
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function BoardDetail() {
 
   const menu = useSelector((state) => state.selectMenu);
   const {id} = useParams();
   const [data, setData] = useState({});
+  const [reply, setReply] = useState('');
+  const [replyList, setReplyList] = useState([]);
+  const [update, setUpdate] = useState({});
+  const [editMode, setEditMode] = useState({});
   const navigate = useNavigate();
 
+  // 게시글
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/${menu.menuName}/${id}`)
@@ -52,6 +57,98 @@ export default function BoardDetail() {
           navigate(-1);
         })
         .catch(error => console.log(error));
+    }
+  };
+
+  // 댓글 목록
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/${menu.menuName}/${id}`)
+      .then((res) => setReplyList(res.data.reply))
+      .catch((error) => console.log(error));
+  }, [id]);
+
+  //댓글 등록
+  const handleSubmitReply = (e) => {
+    e.preventDefault();
+
+    let replyData = {
+      reply: reply,
+    };
+
+    axios
+      .post(`http://localhost:8080/api/${menu.menuName}/${id}/Reply`, replyData)
+      .then((res) => {
+        console.log('Comment submitted successfully');
+        setReply('');
+        axios
+          .get(`http://localhost:8080/api/${menu.menuName}/${id}`)
+          .then((res) => setReplyList(res.data.reply))
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // 댓글 수정
+  const changeHandler = (event, replyId) => {
+    const { name, value } = event.target;
+    setUpdate((prevUpdate) => ({
+      ...prevUpdate,
+      [replyId]: {
+        ...prevUpdate[replyId],
+        [name]: value,
+      },
+    }));
+  };
+
+  const toggleEditMode = (replyId) => {
+    setEditMode((prevEditMode) => ({
+      ...prevEditMode,
+      [replyId]: !prevEditMode[replyId],
+    }));
+  };
+
+  const updateReply = (event, replyId) => {
+    event.preventDefault();
+
+    const updatedReply = {
+      reply: update[replyId]?.reply,
+    };
+    console.log(updatedReply)
+
+    axios
+      .put(`http://localhost:8080/api/${menu.menuName}/${id}/Reply/${replyId}`, updatedReply)
+      .then((res) => {
+        alert('댓글이 수정되었습니다.');
+        axios
+          .get(`http://localhost:8080/api/${menu.menuName}/${id}`)
+          .then((res) => setReplyList(res.data.reply))
+          .catch((error) => console.log(error));
+
+        // Reset edit mode and clear update state
+        setEditMode((prevEditMode) => ({
+          ...prevEditMode,
+          [replyId]: false,
+        }));
+        setUpdate((prevUpdate) => ({
+          ...prevUpdate,
+          [replyId]: {},
+        }));
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // 댓글 삭제
+  const deleteReply = (replyId) => {
+    const confirmDelete = window.confirm('댓글을 삭제하시겠습니까?');
+    if (confirmDelete) {
+      axios
+        .delete(`http://localhost:8080/api/Qna/${id}/Reply/${replyId}`)
+        .then(() => {
+          setReplyList((prevReplyList) => prevReplyList.filter(reply => reply.id !== replyId));
+          alert('댓글이 삭제되었습니다.');
+        })
+        .catch((error) => console.log(error));
     }
   };
 
@@ -115,32 +212,49 @@ export default function BoardDetail() {
           ))}
       </div>
 
-      <Box  style={{borderTop: '1px solid #ddd', padding: '30px 0'}}>
-        <Box className="flex" sx={{mb: 1, display:'flex'}}>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
-          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
-          <IconButton><CloseRoundedIcon/></IconButton>
-        </Box>
-        <Box className="flex" sx={{mb: 1, display:'flex', alignItem:'center'}}>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
-          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
-          <IconButton><CloseRoundedIcon/></IconButton>
-        </Box>
-        <Box className="flex" sx={{mb: 1, display:'flex', alignItem:'center'}}>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓴이</Typography>
-          <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬댓글댓글대슬</Typography>
-          <IconButton sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
-          <IconButton><CloseRoundedIcon/></IconButton>
-        </Box>
-      </Box>
+      {
+        replyList?.map((list) => (
+          <Box className="flex" key={list.id} sx={{mb: 1, display:'flex'}}>
+            {editMode[list.id] ? (
+              <>
+                <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>작성자명</Typography>
+                  {editMode[list.id] ? (
+                    <textarea value={update[list.id]?.reply || list.reply}
+                              rows="1" onChange={(e) => changeHandler(e, list.id)} name="reply"
+                              style={{ border: '1px solid #ddd',borderRadius: '10px', padding: '15px', fontSize: '16px', color: '#333', minHeight: '100px', width: 'calc( 100% - 100px)'}}>
+                    </textarea>
+                    ) : (
+                    <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>{list.reply}</Typography>
+                    )}
+                  <IconButton onClick={(e) => updateReply(e, list.id)} sx={{ml: 5}}><CheckIcon/></IconButton>
+                  <IconButton onClick={() => toggleEditMode(list.id)}><CloseRoundedIcon/></IconButton>
+              </>
+          ) : (
+              <>
+                <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>작성자명</Typography>
+                <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'normal', width: 'calc( 100% - 100px) '}}>{list.reply}</Typography>
+                <IconButton onClick={() => toggleEditMode(list.id)} sx={{ml: 5}}><ConstructionRoundedIcon/></IconButton>
+                <IconButton onClick={() => deleteReply(list.id)}><CloseRoundedIcon/></IconButton>
+              </>
+              )
+            }
+          </Box>
+        ))
+      }
 
-      <Box className="flex" sx={{mb: 3, display:'flex', alignItem:'center', justifyContent:'center'}}>
-        <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>댓글쓰기</Typography>
-        <textarea style={{ border: '1px solid #ddd',borderRadius: '10px', padding: '15px', fontSize: '16px', color: '#333', minHeight: '100px', width: 'calc( 100% - 100px)'}} />
-        <Button variant="outlined" sx={{ml: 5, height:'40px', width:'70px'}}>등록</Button>
-      </Box>
+      {
+        menu.name == "Q & A" ?
+          <form onSubmit={handleSubmitReply}>
+            <Box className="flex" sx={{mb: 3, display:'flex', alignItem:'center', justifyContent:'center'}}>
+              <Typography variant="span" component="span" sx={{fontSize: '16px', color: '#222', fontWeight: 'bold', width: '100px'}}>작성자명</Typography>
+              <textarea value={reply} onChange={(e) => setReply(e.target.value)}
+                style={{ border: '1px solid #ddd',borderRadius: '10px', padding: '15px', fontSize: '16px', color: '#333', minHeight: '100px', width: 'calc( 100% - 100px)'}} />
+              <Button type="submit" variant="outlined"
+                      sx={{ml: 5, height:'40px', width:'70px'}}>등록</Button>
+            </Box>
+          </form>
+        : null
+      }
 
       <Stack spacing={2} direction="row" justifyContent="center" alignItem="" marginTop="auto">
         <Button fontColor="" variant="outlined" color="warning" size="large"

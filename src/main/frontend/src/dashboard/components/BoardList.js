@@ -8,10 +8,17 @@ import Title from './Title';
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import axios from "axios";
-import {Button, Pagination, Stack} from "@mui/material";
+import {Accordion, AccordionSummary, Button, Pagination, Stack} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid"
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton from "@mui/material/IconButton";
+import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import '../../screens/css/Board.css'
 
 export default function BoardList() {
 
@@ -24,12 +31,10 @@ export default function BoardList() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    switch (menu.name) {
-      case '공지사항' :
-        return getNotice()
-      case 'Q & A' :
-        return getQna()
-    }
+    setData([]);
+    if (menu.name == '공지사항') getNotice();
+    else if (menu.name == 'Q & A') getQna();
+    else if (menu.name == '자주 묻는 질문') getFaq();
   }, [menu, currentPage]);
 
   const getNotice = () => {
@@ -46,12 +51,34 @@ export default function BoardList() {
         setTotalPages(res.data.totalPages);
       });
   }
+  const getFaq = () => {
+    axios.get(`http://localhost:8080/api/faq?page=${currentPage}&size=5`)
+      .then(res => {
+        setData(res.data.content);
+        setTotalPages(res.data.totalPages);
+      });
+  }
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page - 1);
   };
 
 
+  const deleteFaq = (faqId) => {
+    const confirmDelete = window.confirm("삭제하시겠습니까?");
+    if (confirmDelete) {
+      axios.delete(`http://localhost:8080/api/faq/${faqId}`)
+        .then(() => {
+          setData([]);
+          alert('삭제되었습니다.');
+          navigate(-1);
+          getFaq();
+        })
+        .catch(error => console.log(error));
+    }
+  };
+
+  console.log(data)
   return (
     <>
       <Title>{menu.name}</Title>
@@ -63,30 +90,58 @@ export default function BoardList() {
       </Box>
       <Grid container direction="column" spacing={2} style={{paddingTop: '50px'}}>
         <Grid item>
-          <Table size="midium">
-            <TableHead>
-              <TableRow>
-                <TableCell>번호</TableCell>
-                <TableCell>제목</TableCell>
-                <TableCell>글쓴이</TableCell>
-                <TableCell align="right">작성일</TableCell>
-                <TableCell align="right">조회수</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((row) => (
-                <TableRow key={row.id} style={{cursor: 'pointer'}}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.title}</TableCell>
-                  <TableCell
-                    onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.customer_name}</TableCell>
-                  <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}
-                             align="right">{row.createDate}</TableCell>
-                  <TableCell align="right">{row.hits}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+
+          {
+            menu.name != '자주 묻는 질문' ?
+              <Table size="midium">
+                <TableHead>
+                  <TableRow>
+                    <TableCell width="37%">번호</TableCell>
+                    <TableCell width="36%">제목</TableCell>
+                    <TableCell width="10%">글쓴이</TableCell>
+                    <TableCell width="10%">작성일</TableCell>
+                    <TableCell>조회수</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    data.map((row) => (
+                    <TableRow key={row.id} style={{cursor: 'pointer'}}>
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.title}</TableCell>
+                      <TableCell
+                        onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.customer_name}</TableCell>
+                      <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.createDate}</TableCell>
+                      <TableCell>{row.hits}</TableCell>
+                    </TableRow>
+                    ))
+                  }
+                </TableBody>
+              </Table>
+              :
+              <>
+              {
+                data.map((row) => (
+                  <Accordion key={row.id} outlined>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}
+                                      aria-controls="panel1a-content" id="panel1a-header">
+                      <Typography>{row.title}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{mb: 1, display:'flex'}}>
+                      <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                      <Typography>
+                        {row.content}
+                      </Typography>
+                        <Box>
+                        <IconButton onClick={() => deleteFaq(row.id)}><CloseRoundedIcon/></IconButton>
+                        </Box>
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ))
+              }
+              </>
+          }
         </Grid>
       </Grid>
 
