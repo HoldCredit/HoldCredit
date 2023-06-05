@@ -29,11 +29,11 @@ function EditMember() {
      // 해석한 정보에서 회원번호만 추출
      const customerNo = decodedToken.sub;
 
-        const navigate = useNavigate();
-        const [memberInfo, setMemberInfo] = useState({});
+    const navigate = useNavigate();
+    const [memberInfo, setMemberInfo] = useState({});
 
-            const dispatch = useDispatch();
-            const [email, setEmail] = useState('')
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
 
     useEffect(() => {
      axios.get(`/customerModify/${customerNo}`)
@@ -46,29 +46,28 @@ function EditMember() {
      });
     }, []);
 
+  // 비밀번호
+  const handlePasswordBlur = (e) => {
+    const passwordValue = e.target.value;
+    if (passwordValue.length === 0) {
+      setIsPasswordValid(false);
+      setIsPasswordRequired(true);
+    } else if (passwordValue.length < 8) {
+      setIsPasswordValid(false);
+      setIsPasswordRequired(false);
+    } else {
+      setIsPasswordValid(true);
+      setIsPasswordRequired(false);
+    }
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setMemberInfo({ ...memberInfo, password: e.target.value });
+    if (e.target.value.length > 0) {
+      setIsPasswordRequired(false);
+    }
+  };
 
-    // 비밀번호
-    const handlePasswordBlur = (e) => {
-        const passwordValue = e.target.value;
-        if (passwordValue.length === 0) {
-            setIsPasswordValid(false);
-            setIsPasswordRequired(true);
-        } else if (passwordValue.length < 8) {
-            setIsPasswordValid(false);
-            setIsPasswordRequired(false);
-        } else {
-            setIsPasswordValid(true);
-            setIsPasswordRequired(false);
-        }
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        setMemberInfo({...memberInfo, password: e.target.value})
-        if (e.target.value.length > 0) {
-            setIsPasswordRequired(false);
-        }
-    };
     // 비밀번호 체크
     const handlePasswordCheckChange = (e) => {
         const passwordCheckValue = e.target.value;
@@ -95,6 +94,35 @@ function EditMember() {
             setIsPasswordCheckRequired(false);
         }
     };
+
+    const newPassword =password;
+
+const updatePassword = async () => {
+  try {
+    const newPassword = password;
+
+    // 서버로 요청을 보낼 때 JWT를 헤더에 포함시킴
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`, // JWT를 가져와서 헤더에 첨부
+      },
+    };
+
+    // 서버로 비밀번호 수정 요청을 보냄
+    await axios.put('/api/updatePassword', { newPassword }, config);
+
+    // 비밀번호 수정이 성공적으로 이루어졌을 때의 처리
+    console.log('비밀번호가 성공적으로 수정되었습니다.');
+  } catch (error) {
+    // 요청이 실패했을 때의 처리
+    console.error('비밀번호 수정에 실패했습니다.', error);
+  }
+};
+
+// 비밀번호 수정 버튼 클릭 시 updatePassword 함수 호출
+const handleUpdatePassword = () => {
+  updatePassword();
+};
 
 
    // 직업구분
