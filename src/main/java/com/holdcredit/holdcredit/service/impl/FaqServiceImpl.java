@@ -1,61 +1,51 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqRequestDto;
-import com.holdcredit.holdcredit.domain.dto.FaqDto.FaqUpdateDto;
+import com.holdcredit.holdcredit.domain.dto.boarddto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boarddto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Faq;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.FaqRepository;
 import com.holdcredit.holdcredit.service.FaqService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.transaction.Transactional;
 
 
 @Service
-@RequiredArgsConstructor //생성자로 주입하는 방식 권장
+@RequiredArgsConstructor
+@Transactional
 public class FaqServiceImpl implements FaqService {
     private final FaqRepository faqRepository;
+    private final CustomerRepository customerRepository;
 
-    /* 글 작성 ((+관리자만 작성 */
     @Override
-    @Transactional //db자동 커밋
-    public Long create(final FaqRequestDto faqReq){
-        Faq faq = faqRepository.save(faqReq.toEntity());
-        return faq.getId();
-    } //create() 실행하여 entity 저장 -> 종료 후 fNo 리턴
-
-
-    /* 글 수정 */
-    @Override
-    @Transactional
-    public Long update(final FaqUpdateDto faqUpdateDto, final Long faq_no){
-        Faq faqEntity = faqRepository.findById(faq_no).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+faq_no));
-
-        faqEntity.update(faqUpdateDto.getTitle(), faqUpdateDto.getContent());
-        faqRepository.save(faqEntity);
-
-        return faqEntity.getId();
-    } //영속성으로 entity 객체의 값만 변경하면 자동으로 변경사항 반영됨 -> repository.update() 필요없음
-
-
-    /* 글 삭제 */
-    @Override
-    @Transactional
-    public void delete(final Long faq_no){
-        faqRepository.deleteById(faq_no);
-
+    public Page<FaqResponseDto> list(Pageable pageable) {
+        PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
+        Page<Faq> faqPage = faqRepository.findAll(paging);
+        return faqPage.map(Faq::responseDto);
     }
 
+    @Override
+    public void postFaq(FaqRequestDto faqRequestDto) {
+        Customer findCustomer = customerRepository.findByCustomerName(faqRequestDto.getName()).get();
+        Faq faq = Faq.builder()
+                .customer(findCustomer)
+                .title(faqRequestDto.getTitle())
+                .content(faqRequestDto.getContent())
+                .build();
+        faqRepository.save(faq);
+    }
 
-    // 게시판 리스트 ((+페이징 +검색
-//    @Transactional //db에 자동 처리
-//    public List<FaqResponseDto> findAll(){      //list 안의 entity를 responseDto로 변경히여 생성
-//        Sort sort = Sort.by(Sort.Direction.DESC,"fNo"); //내림차순 정렬
-//        List<FaqEntity> faqList = faqRepository.findAll(sort);
-//        return faqList.stream().map(FaqResponseDto::new).collect(Collectors.toList());
-//    }
-
-
-
+    @Override
+    public void deleteFaq(Long id) {
+        faqRepository.deleteById(id);
+    }
 }
 
 

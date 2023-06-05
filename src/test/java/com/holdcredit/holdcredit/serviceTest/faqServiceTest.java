@@ -11,28 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Transactional
 public class faqServiceTest {
-    @Mock
-    private FaqServiceImpl faqServiceImpl;
-    @Mock
-    private FaqRepository faqRepository;
-
-    @Test @DisplayName("글작성")
-    public void faqWrite(){
-        //give
-        FaqRequestDto FaqCreate = FaqRequestDto.builder()
-                .title("제목")
-                .content("내용")
-                .build();
-
-        //when  //create() 사용하여 DTO객체 넣음
-        faqServiceImpl.create(FaqCreate);
-
-        //then
-        Faq faq = faqRepository.findAll().get(0);
-
-    }
-
 
 }

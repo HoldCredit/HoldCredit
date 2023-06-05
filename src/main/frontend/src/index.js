@@ -29,7 +29,6 @@ import MyCredit from "./dashboard/maincontents/MyCredit";
 import LiskAnalysis from "./dashboard/maincontents/LiskAnalysis";
 import Board from "./dashboard/Board";
 import BoardPost from "./dashboard/BoardPost";
-import FAQ from "./dashboard/subcontents/FAQ";
 import Error404 from "./pages/Error404";
 import CreditForm from "./pages/CreditForm";
 import {Provider} from "react-redux";
@@ -78,7 +77,8 @@ root.render(
             <Route path="Qna/:id" element={<Board/>}/>
             <Route path="Qna/post" element={<BoardPost/>}/>
             <Route path="Qna/:id/edit" element={<BoardPost/>}/>
-            <Route path="Faq" element={<FAQ/>}/>
+            <Route path="Faq" element={<Board/>}/>
+            <Route path="Faq/post" element={<BoardPost/>}/>
           </Route>
           <Route path="*" element={<Error404/>}/>
         </Routes>
