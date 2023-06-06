@@ -9,7 +9,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { setName } from "../store/CustomerNameStore";
-import { Classification } from './Classification';
+import { Classification }  from "./Classification";
 
 export default function CreditForm() {
   // 세션에 저장된 토큰값 가져오기
