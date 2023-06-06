@@ -25,8 +25,8 @@ public class FinanceServiceImpl implements FinanceService {
 
 
     @Override
-    public Finance save(FinanceRequestDto financeRequestDto) {
-        Customer customer = customerRepository.findById(financeRequestDto.getCustomerNo())
+    public Finance save(Long customerNo, FinanceRequestDto financeRequestDto) {
+        Customer customer = customerRepository.findById(customerNo)
                 .orElseThrow(() -> new IllegalArgumentException("회원번호를 찾을 수 없습니다"));
 
         Finance finance = financeRequestDto.toEntity();
