@@ -5,7 +5,7 @@ import com.holdcredit.holdcredit.domain.dto.financeDto.FinanceResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Finance;
 
 public interface FinanceService {
-    Finance save(FinanceRequestDto financeRequestDto);
+    Finance save(Long customerNo, FinanceRequestDto financeRequestDto);
 
     FinanceResponseDto read(Long id);
 

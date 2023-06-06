@@ -18,8 +18,8 @@ public class FinanceController {
 
     /* 등록 */
     @PostMapping("/save")
-    public Finance save(@RequestBody FinanceRequestDto financeRequestDto){
-        return financeService.save(financeRequestDto);
+    public Finance save(@RequestParam Long customerNo, @RequestBody FinanceRequestDto financeRequestDto){
+        return financeService.save(customerNo, financeRequestDto);
     }
 
     /* 읽기 */

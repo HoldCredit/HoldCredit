@@ -15,7 +15,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class DebtRequestDto {
-//    private Customer customer;  //회원번호
     private Long customerNo; //먉
     private Long loanAmount;
     private Long loanPeriod;

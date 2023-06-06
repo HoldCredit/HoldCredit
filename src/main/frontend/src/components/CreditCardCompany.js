@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {Button} from "@mui/material";
 
 export default function CreditCardCompany ( props ) {
+
+  const [creditCardCompany, setCreditCardCompany] = useState("");
+  const [transactionPeriod, setTransactionPeriod] = useState(""); // 거래기간
+  const [limit, setLimit] = useState(""); // 한도
+  const [overdueCount, setOverdueCount] = useState(""); // 연체횟수
+  const [overduePeriod, setOverduePeriod] = useState(""); // 연체기간
 
   const deleteCreditCard = () => {
     props.deleteCreditCard(props.i);
   };
 
+  useEffect(() => {
+      const creditCardData = {
+        creditCardCompany,
+        transactionPeriod: parseInt(transactionPeriod),
+        limit: parseInt(limit),
+        overdueCount: parseInt(overdueCount),
+        overduePeriod: parseInt(overduePeriod),
+      };
+      props.handleCreditCardData(creditCardData);
+  }, [creditCardCompany, transactionPeriod, limit, overdueCount, overduePeriod]);
+
+
   return(
     <>
       <div className="join_row">
         <h3 className="join_title">
-          <label htmlFor="name">카드 회사</label>
+          <label htmlFor="creditCardCompany">카드 회사</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="continuousService" name="continuousService" className="sel">
+          <select id="creditCardCompany" name="creditCardCompany" className="sel" value={creditCardCompany} onChange={(e) => setCreditCardCompany(e.target.value)}>
             <option value="" defaultValue>카드 회사</option>
             <option value="shinhan">신한</option>
             <option value="hyundai">현대</option>
@@ -40,10 +58,10 @@ export default function CreditCardCompany ( props ) {
       </div>
       <div className="join_row_flex">
         <h3 className="join_title">
-          <label htmlFor="name">거래 기간</label>
+          <label htmlFor="transactionPeriod">거래 기간</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="continuousService" name="continuousService" className="sel">
+          <select id="transactionPeriod" name="transactionPeriod" className="sel" onChange={(e) => setTransactionPeriod(e.target.value)}>
             <option value="" defaultValue>거래 기간</option>
             <option value="1">1년 이하</option>
             <option value="2">1년 이상</option>
@@ -57,31 +75,31 @@ export default function CreditCardCompany ( props ) {
       <div className="join_row_flex">
         <div className="join_row">
           <h3 className="join_title">
-            <label htmlFor="name">한도</label>
+            <label htmlFor="limit">한도</label>
           </h3>
           <span className="ps_box box_right_space">
-                      <input type="text" id="name" name="name"
-                             className="int" maxLength="40"/>
+            <input type="text" id="limit" name="limit" className="int" maxLength="40"
+                   value={limit} onChange={(e) => setLimit(e.target.value)}/>
           </span>
         </div>
       </div>
       <div className="join_row_flex">
         <div className="join_row">
           <h3 className="join_title">
-            <label htmlFor="name">연체 횟수</label>
+            <label htmlFor="overdueCount">연체 횟수</label>
           </h3>
           <span className="ps_box box_right_space">
-                      <input type="text" id="name" name="name"
-                             className="int" maxLength="40"/>
+            <input type="text" id="overdueCount" name="overdueCount" className="int" maxLength="40"
+                    value={overdueCount} onChange={(e) => setOverdueCount(e.target.value)}/>
           </span>
         </div>
       </div>
       <div className="join_row_flex">
           <h3 className="join_title">
-            <label htmlFor="name">연체 기간</label>
+            <label htmlFor="overduePeriod">연체 기간</label>
           </h3>
         <div className="ps_box occupation_code">
-          <select id="continuousService" name="continuousService" className="sel">
+          <select id="overduePeriod" name="overduePeriod" className="sel" onChange={(e) => setOverduePeriod(e.target.value)} >
             <option value="" defaultValue>연체 기간</option>
             <option value="1">1주일 이하</option>
             <option value="2">1주일 이상</option>
@@ -100,8 +118,7 @@ export default function CreditCardCompany ( props ) {
 
           </div>
         </div>
-
       </div>
-    </>
-  )
+   </>
+  );
 }
