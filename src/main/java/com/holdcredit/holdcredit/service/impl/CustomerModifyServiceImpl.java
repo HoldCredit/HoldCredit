@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class CustomerModifyServiceImpl implements CustomerModifyService {
@@ -42,9 +42,9 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
 
     // 회원 정보 수정
     @Override
-    public void updateCustomer(Long id, CustomerModifyDto requestDto) {
+    public void updateCustomer(Long id,CustomerModifyDto requestDto) {
         Customer customer = customerRepository.findById(id).get();
-        customer.updateCustomer(requestDto);
+        customer.updateCustomer(requestDto, passwordEncoder);
         customerModifyRepository.save(customer);
     }
 
