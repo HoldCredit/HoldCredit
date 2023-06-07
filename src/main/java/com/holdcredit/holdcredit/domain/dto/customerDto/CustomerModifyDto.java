@@ -9,14 +9,13 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-//@NoArgsConstructor
-//@AllArgsConstructor
 @ToString
 @Builder
 @Setter
 @Getter
 public class CustomerModifyDto {
     //회원정보 수정 목록, 아래 그 외는 수정 금지!
+    private Long customerId;
     private String password;
     @JsonProperty(value="phoneNo")
     private Long phone_num;
@@ -34,7 +33,7 @@ public class CustomerModifyDto {
                 .phoneNum(phone_num)
                 .email(email)
                 .job(job)
-                .authority(authority)
+                .authority(Authority.CUSTOMER)
                 .educationLevel(education_level)
                 .build();
     }

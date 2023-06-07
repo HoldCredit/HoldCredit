@@ -7,7 +7,9 @@ import com.holdcredit.holdcredit.repository.CustomerModifyRepository;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.CustomerModifyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
     private final CustomerRepository customerRepository;
     private final CustomerModifyRepository customerModifyRepository;
 
+    private final PasswordEncoder passwordEncoder;
 
     /*      <서비스에서 하는일!>
     dto에서 수정 할 회원 정보를 입력하면 그것을 핸들러 한번 거쳐서 엔티티로 바꾼 객체를 customerEntity에 저장한다*/
@@ -45,10 +48,22 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
         customerModifyRepository.save(customer);
     }
 
+    @Transactional
+    @Override
+    public void pwdUpdate(Long id, String newPassword){
+        System.out.println("ddddddservice");
+        String encodePwd = passwordEncoder.encode(newPassword);
+        System.out.println("id = " + id+ "newPAsww"+encodePwd);
+        customerModifyRepository.pwdUpdate(id,encodePwd);
+    }
+
+
     //회원 정보 삭제
     @Override
     public void deleteCustomer(Long id){
             customerModifyRepository.deleteById(id);
         //    customerModifyRepository.deleteByIdAndPassword(id, modifyDto.getPassword());
     }
+
+
 }
