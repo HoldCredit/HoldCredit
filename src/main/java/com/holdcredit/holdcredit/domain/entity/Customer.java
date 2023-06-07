@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -73,7 +74,7 @@ public class Customer {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
-   // private UserLevel userLevel = AUTHORITY; // AUTHORITY
+   // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
 
     /* ================================================================================= */
     /* 연관 관계 설정 */
@@ -134,12 +135,11 @@ public class Customer {
                 .build();
     }
 
-    public void updateCustomer(CustomerModifyDto requestDto){
-        this.password = requestDto.getPassword();
+    public void updateCustomer(CustomerModifyDto requestDto, PasswordEncoder passwordEncoder){
+        this.password = passwordEncoder.encode(requestDto.getPassword());
         this.phoneNum = requestDto.getPhone_num();
         this.email = requestDto.getEmail();
         this.job = requestDto.getJob();
-        this.authority = requestDto.getAuthority();
         this.educationLevel = requestDto.getEducation_level();
     }
 
