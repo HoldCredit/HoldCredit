@@ -515,13 +515,11 @@ function JoinForm() {
                                     </span>
                                 )}
                             </div>
-                             <div className="join_row join_mobile" id="mobDiv">
-                               <div className="join_row join_mobile">
+                               <div className="join_row join_phone">
                                  <h3 className="join_title">
-                                   <label htmlFor="pphoneNo">휴대전화</label>
+                                   <label htmlFor="phoneNo">전화번호</label>
                                  </h3>
-                                 <div className="int_mobile_area">
-                                   <span className="ps_box int_mobile">
+                                   <span className="ps_box join_phone">
                                      <input
                                        type="tel"
                                        id="phoneNo"
@@ -534,31 +532,7 @@ function JoinForm() {
                                        onChange={handlePhoneChange}
                                      />
                                    </span>
-                                   <a href="#" className="btn_verify btn_primary" id="btnPrtsSend" role="button">
-                                     <span>인증번호 받기</span>
-                                   </a>
                                  </div>
-                                 <div className="ps_box_disable box_right_space" id="pauthNoBox">
-                                   <input
-                                     type="tel"
-                                     id="pauthNo"
-                                     name="pauthNo"
-                                     placeholder="인증번호 입력하세요"
-                                     aria-label="인증번호 입력하세요"
-                                     aria-describedby="pwa_verify"
-                                     className="int"
-                                     disabled
-                                     maxLength="6"
-                                   />
-                                   <label id="pwa_verify" htmlFor="pauthNo" className="lbl">
-                                     <span className="wa_blind">인증받은 후 인증번호를 입력해야 합니다.</span>
-                                     <span className="input_code" id="pauthNoCode">
-                                       일치 <CheckIcon />
-                                     </span>
-                                   </label>
-                                 </div>
-                               </div>
-                             </div>
                             <div className="btn_area">
                                 <button type="button" id="btnJoin" className="btn_type btn_primary" onClick={handleJoinClick}><span>가입하기</span></button>
                             </div>
