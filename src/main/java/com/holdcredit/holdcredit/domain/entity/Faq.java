@@ -1,6 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.holdcredit.holdcredit.domain.dto.boarddto;
+package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
