@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.controller;
 
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqResponseDto;
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqRequestDto;
 import com.holdcredit.holdcredit.service.FaqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
