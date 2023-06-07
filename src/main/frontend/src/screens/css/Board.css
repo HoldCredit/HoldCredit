@@ -739,3 +739,19 @@ textarea.comment_inbox_text {
 .fileInputButton:hover {
   background-color: #ced4da;
 }
+
+.file_box{
+    display: inline-block;
+    float: right;
+}
+
+.file_update{
+    margin-right: 7px;
+    text-decoration: none;
+    color: #979797;
+}
+
+.file_delete{
+    text-decoration: none;
+    color: inherit;
+}

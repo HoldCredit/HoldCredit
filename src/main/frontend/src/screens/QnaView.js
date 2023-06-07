@@ -65,6 +65,7 @@ function QnaView(props) {
     axios
       .post(`http://localhost:8080/api/Qna/${id}/Reply`, replyData)
       .then((res) => {
+        alert('댓글이 등록되었습니다.');
         console.log('Comment submitted successfully');
         setReply('');
         axios

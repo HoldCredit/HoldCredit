@@ -129,11 +129,8 @@ function MainNotice(props) {
                   <input type="checkbox" id="check_box" />
                   {item.id}
                 </div>
-                <div className="title">
-                  <a
-                    onClick={() => readNotice(item.id)}
-                    className="content"
-                  >
+                <div className="title" onClick={() => readNotice(item.id)} >
+                  <a onClick = {() => readNotice(item.id)} className="content">
                     {item.title}
                   </a>
                 </div>

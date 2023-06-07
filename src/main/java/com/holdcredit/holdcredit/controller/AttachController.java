@@ -2,8 +2,10 @@ package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.entity.Attach;
 import com.holdcredit.holdcredit.repository.AttachRepository;
+import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,8 @@ import org.springframework.http.HttpHeaders;
 @RequiredArgsConstructor
 public class AttachController {
     private final AttachRepository attachRepository;
+
+    private final NoticeService noticeService;
 
     @GetMapping("/attachments/{id}")
     public ResponseEntity<FileSystemResource> downloadAttachment(@PathVariable Long id, @RequestParam("path") String path) throws IOException {
@@ -41,6 +45,10 @@ public class AttachController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
+    }
+    @DeleteMapping("/attachments/{attachId}")
+    public void deleteAttach(@PathVariable Long attachId) {
+             attachRepository.deleteById(attachId);
     }
 
 }
