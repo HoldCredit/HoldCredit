@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqRequestDto;
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

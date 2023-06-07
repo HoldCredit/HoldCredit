@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqRequestDto;
-import com.holdcredit.holdcredit.domain.dto.boarddto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqRequestDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.FaqResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Faq;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
