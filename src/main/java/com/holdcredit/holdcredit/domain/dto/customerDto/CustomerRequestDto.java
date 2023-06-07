@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.dto.customerDto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
@@ -22,7 +23,13 @@ public class CustomerRequestDto {
     private LocalDate birth;
     private String customer_name;
     private Gender gender;
+    @JsonProperty(value="phoneNo")
     private Long phone_num;
+    private Authority authority;
+    @JsonProperty(value = "occupation")
+    private JobDomain job;
+    @JsonProperty(value="education")
+    private EducationLevel education_level;
 
     public Customer toCustomer (PasswordEncoder passwordEncoder) {
         return Customer.builder()
@@ -33,8 +40,8 @@ public class CustomerRequestDto {
                 .customerName(customer_name)
                 .gender(gender)
                 .phoneNum(phone_num)
-                .job(JobDomain.ENTREPRENEUR)
-                .educationLevel(EducationLevel.ELEMENTARY)
+                .job(job)
+                .educationLevel(education_level)
                 .build();
     }
 
