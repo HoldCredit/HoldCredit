@@ -239,9 +239,16 @@ function QnaView(props) {
                                 <a href="#" className="btn_commit" onClick={(e) => updateReply(e, list.id)}>
                                   등록
                                 </a>
-                                <a href="#" className="btn_cancel" onClick={() => toggleEditMode(list.id)}>
-                                  취소
-                                </a>
+                             <a href="#" className="btn_cancel" onClick={(e) => {
+                               e.preventDefault();
+                               toggleEditMode(list.id);
+                               setUpdate((prevUpdate) => ({
+                                 ...prevUpdate,
+                                 [list.id]: {},
+                               }));
+                             }}>
+                               취소
+                             </a>
                               </div>
                             </div>
                           </div>
