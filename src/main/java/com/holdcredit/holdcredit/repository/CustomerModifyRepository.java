@@ -11,4 +11,13 @@ public interface CustomerModifyRepository extends JpaRepository<Customer, Long> 
     @Query("DELETE FROM Customer c WHERE c.id = :customerId AND c.password = :password")
     void deleteByIdAndPassword(@Param("customerId") Long customerId, @Param("password") String password);
 */
+    @Query("UPDATE Customer c SET c.password = :password WHERE c.id = :customer_no")
+    @Modifying
+    void pwdUpdate(@Param("customer_no") Long id, @Param("password") String password);
+
+/*
+  @Query("UPDATE Customer c SET c.password = :password WHERE c.id = :id")
+  void pwdUpdate(@Param("id") Long id, @Param("password") String password);
+*/
+
 }
