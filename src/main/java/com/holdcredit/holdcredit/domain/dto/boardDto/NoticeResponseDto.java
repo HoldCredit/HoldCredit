@@ -3,16 +3,19 @@ package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 import com.holdcredit.holdcredit.domain.entity.Attach;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
 
 /* 게시글 정보를 리턴*/
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NoticeResponseDto {
 
-    private Long id;
+    private Long id; //게시판 번호
+    private String writer; //회원 이름
     private String title;
     private String content;
     private String pwd;
@@ -21,4 +24,6 @@ public class NoticeResponseDto {
     private Date lastModifiedDate;
     private String path;
     private List<Attach> attach;
+
+
 }

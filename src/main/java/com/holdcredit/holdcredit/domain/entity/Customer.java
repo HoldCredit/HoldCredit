@@ -149,5 +149,10 @@ public class Customer {
         this.password = password;
         this.authority = authority;
     }
+
+    public void setNotices(Notice notice) {
+        this.notices.add(notice);
+        notice.setCustomer(this);
+    }
 }
 

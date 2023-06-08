@@ -1,6 +1,5 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;

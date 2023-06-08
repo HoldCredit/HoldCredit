@@ -3,12 +3,10 @@ package com.holdcredit.holdcredit.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +34,10 @@ public class Notice extends Date{
     //제목
     @Column(length = 500, nullable = false )
     private String title;
+
+    //작성자
+    @Column
+    private String writer;
 
     //내용
     @Column(length = 500, nullable = false)
@@ -72,8 +74,8 @@ public class Notice extends Date{
 
         Notice notice = new Notice();
 
-        notice.setId(dto.getId());
         notice.setTitle(dto.getTitle());
+        notice.setWriter(dto.getWriter());
         notice.setContent(dto.getContent());
         notice.setPwd(dto.getPwd());
         notice.setHits(dto.getHits());
@@ -107,6 +109,7 @@ public class Notice extends Date{
     public static NoticeResponseDto responseDto(Notice notice) {
         NoticeResponseDto responseDto = new NoticeResponseDto();
         responseDto.setId(notice.getId());
+        responseDto.setWriter(notice.getWriter());
         responseDto.setTitle(notice.getTitle());
         responseDto.setContent(notice.getContent());
         responseDto.setPwd(notice.getPwd());
@@ -118,8 +121,13 @@ public class Notice extends Date{
         return responseDto;
     }
 
-
     public void countHits(int hits) {
         this.hits = hits;
     }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        customer.getNotices().add(this);
+    }
+
 }

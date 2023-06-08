@@ -1,13 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
-import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
-import com.holdcredit.holdcredit.domain.entity.Customer;
-import com.holdcredit.holdcredit.repository.CustomerModifyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

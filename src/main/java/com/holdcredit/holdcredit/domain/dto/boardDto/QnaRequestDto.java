@@ -1,11 +1,7 @@
 package com.holdcredit.holdcredit.domain.dto.boardDto;
 
-import com.holdcredit.holdcredit.domain.entity.Attach;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import lombok.*;
-
-
-import java.util.List;
 
 ////게시글 생성과 수정을 요청
 @Data

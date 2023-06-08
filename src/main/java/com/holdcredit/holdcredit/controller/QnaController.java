@@ -4,7 +4,6 @@ import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Qna;
-import com.holdcredit.holdcredit.domain.entity.Reply;
 import com.holdcredit.holdcredit.service.QnaService;
 import com.holdcredit.holdcredit.service.ReplyService;
 import lombok.RequiredArgsConstructor;
