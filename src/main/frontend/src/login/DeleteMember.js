@@ -7,7 +7,8 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import {useDispatch, useSelector} from "react-redux";
 import {setName} from "../store/CustomerNameStore";
-
+//로그아웃
+import {handleLogout} from "../store/CustomerNameStore";
 
 
 function DeleteMember() {
@@ -19,6 +20,10 @@ function DeleteMember() {
      const decodedToken = jwtDecode(storedToken);
      // 해석한 정보에서 회원번호만 추출
      const customerNo = decodedToken.sub;
+
+     //로그아웃
+     const dispatch = useDispatch();
+
 //일단 이름을 가져와보자
 useEffect(() => {
      axios.get(`/customerModify/${customerNo}`)
@@ -44,24 +49,29 @@ const handleDeleteMember = async (event) => {
   }
 
   console.log("비밀번호 :" + memberInfo.password);
-  console.log("입력한 비번 : "+password);
+  console.log(typeof password);
 
-    // 비밀번호가 일치하는지 확인
-    if (password === memberInfo.password) {
       try {
         // 일치하는 경우 회원 삭제 처리
-        await axios.delete(`/customerModify/delete/${customerNo}`);
-        // 회원 삭제 성공 처리
-        navigate("/");
+        await axios.delete(`/customerModify/delete/${customerNo}`, {
+            params: {
+                password
+            }
+        })
+        .then((res) => {
+            dispatch(handleLogout(''));
+            alert("그동안 찾아주셔서 감사했습니다~");
+            // 회원 삭제 성공 처리
+            navigate("/");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
       } catch (error) {
         console.log("회원 삭제 에러: " + error);
       }
-    } else {
-      //비밀번호가 일치하지 않는 경우
-      setIsPasswordMatch(false);
-        console.log("비번일치하지않음 에러: " );
-    }
-  };
+    };
 
 
     return (
