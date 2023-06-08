@@ -88,7 +88,7 @@ function NoticeView(props) {
                                 </dl>
                                 <dl>
                                     <dt>글쓴이</dt>
-                                    <dd>{notice.customer}</dd>
+                                    <dd>{notice.writer}</dd>
                                 </dl>
                                 <dl>
                                     <dt>작성일</dt>

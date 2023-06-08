@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
 import lombok.*;
@@ -23,6 +24,7 @@ public class Attach extends Date {
     //공지사항 번호
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notice_no", nullable = false, updatable = false)
+    @JsonIgnore
     private Notice notice;
 
     //원본파일 이름

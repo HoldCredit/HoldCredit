@@ -80,16 +80,19 @@ public class NoticeServiceImpl implements NoticeService {
     //게시글 등록, 첨부파일 업로드
     @Override
     public void saveNotice(NoticeRequestDto requestDto) throws IOException {
+        Customer findCustomer = customerRepository.findById(requestDto.getCustomerNo()).get();
+
         if (requestDto.getAttach() == null || requestDto.getAttach().isEmpty()) {
             Notice notice = Notice.toEntity(requestDto);
-            Customer findCustomer = customerRepository.findById(requestDto.getId()).get();
+
             notice.setCustomer(findCustomer);
             noticeRepository.save(notice);
+
         } else {
 
             Notice notice = Notice.toSaveAttach(requestDto);
-            Customer findCustomer = customerRepository.findById(requestDto.getId()).get();
             notice.setCustomer(findCustomer);
+
             Long noticeNo = noticeRepository.save(notice).getId();
             Notice board = noticeRepository.findById(noticeNo).orElse(null);
 

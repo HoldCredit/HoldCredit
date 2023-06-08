@@ -10,7 +10,9 @@ import java.util.List;
 @Data
 public class NoticeRequestDto {
 
-    private Long id; //회원번호
+    private Long id;
+
+    private Long customerNo; //회원번호
     private String writer;
     private String title;
     private String content;

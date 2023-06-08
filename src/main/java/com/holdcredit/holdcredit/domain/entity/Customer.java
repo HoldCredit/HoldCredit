@@ -74,7 +74,7 @@ public class Customer {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
-   // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
+    // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
 
     /* ================================================================================= */
     /* 연관 관계 설정 */

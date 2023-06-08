@@ -2,7 +2,9 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Qna;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.QnaRepository;
 import com.holdcredit.holdcredit.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,9 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class QnaServiceImpl implements QnaService {
     private final QnaRepository qnaRepository;
+
+    private final CustomerRepository customerRepository;
+
     //게시글 리스트, 페이징
     @Override
     public Page<QnaResponseDto> list(Pageable pageable) throws Exception {
@@ -55,8 +60,12 @@ public class QnaServiceImpl implements QnaService {
     //등록
     @Override
     public Qna saveQna(QnaRequestDto requestDto){
+        Customer findCustomer = customerRepository.findById(requestDto.getCustomerNo()).get();
 
-        return qnaRepository.save(requestDto.toEntity(requestDto));
+        Qna qna = Qna.toEntity(requestDto);
+        qna.setCustomer(findCustomer);
+
+        return qnaRepository.save(qna);
     }
     // 수정
     @Override

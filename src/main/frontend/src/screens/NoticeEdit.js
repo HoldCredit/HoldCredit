@@ -102,7 +102,7 @@ const NoticeEdit = () => {
               <div className="info">
                 <dl>
                   <dt>글쓴이</dt>
-                  <dd>{/*<input type="text" id="write_input" placeholder="write"/>*/}</dd>
+                  <dd>{notice.writer}</dd>
                 </dl>
                 <dl>
                   <dt>비밀번호</dt>

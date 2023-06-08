@@ -37,6 +37,7 @@ public class Notice extends Date{
 
     //작성자
     @Column
+    @JsonIgnore
     private String writer;
 
     //내용
@@ -65,7 +66,6 @@ public class Notice extends Date{
     private java.util.Date lastModifiedDate; //수정일
 
     //첨부파일과 연관관계 설정
-    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE)
     private List<Attach> attach = new ArrayList<>();
@@ -74,6 +74,7 @@ public class Notice extends Date{
 
         Notice notice = new Notice();
 
+        notice.setId(dto.getId());
         notice.setTitle(dto.getTitle());
         notice.setWriter(dto.getWriter());
         notice.setContent(dto.getContent());
@@ -89,6 +90,7 @@ public class Notice extends Date{
         Notice notice = new Notice();
 
         notice.setId(dto.getId());
+        notice.setWriter(dto.getWriter());
         notice.setTitle(dto.getTitle());
         notice.setContent(dto.getContent());
         notice.setPwd(dto.getPwd());
@@ -108,6 +110,7 @@ public class Notice extends Date{
 
     public static NoticeResponseDto responseDto(Notice notice) {
         NoticeResponseDto responseDto = new NoticeResponseDto();
+
         responseDto.setId(notice.getId());
         responseDto.setWriter(notice.getWriter());
         responseDto.setTitle(notice.getTitle());

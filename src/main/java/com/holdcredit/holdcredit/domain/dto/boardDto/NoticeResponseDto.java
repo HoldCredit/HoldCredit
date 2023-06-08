@@ -1,6 +1,7 @@
 package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.entity.Attach;
 import lombok.*;
 
@@ -24,6 +25,5 @@ public class NoticeResponseDto {
     private Date lastModifiedDate;
     private String path;
     private List<Attach> attach;
-
 
 }

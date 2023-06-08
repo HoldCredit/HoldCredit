@@ -1,12 +1,10 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -16,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,9 +27,15 @@ public class Qna extends Date {
     private Long id;
 
     //회원번호
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_no", updatable = false)
+    @JsonIgnore
     private Customer customer;
+
+    @Column
+    @JsonIgnore
+    private String writer;
 
     //제목
     @Column(length = 500, nullable = false )
@@ -60,6 +65,23 @@ public class Qna extends Date {
     private List<Reply> reply = new ArrayList<>();
 
 
+
+
+    public static Qna toEntity(QnaRequestDto dto){
+        Qna qna = new Qna();
+
+        qna.setId(dto.getId());
+        qna.setTitle(dto.getTitle());
+        qna.setWriter(dto.getWriter());
+        qna.setContent(dto.getContent());
+        qna.setPwd(dto.getPwd());
+        qna.setHits(dto.getHits());
+        qna.setCreateDate(dto.getCreateDate());
+        qna.setLastModifiedDate(dto.getLasModifiedDate());
+        return qna;
+
+    }
+
     public void updateQna(QnaRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
@@ -69,6 +91,7 @@ public class Qna extends Date {
     public QnaResponseDto responseDto(){
         return QnaResponseDto.builder()
                 .id(this.getId())
+                .writer(this.getWriter())
                 .title(this.getTitle())
                 .content(this.getContent())
                 .hits(this.getHits())
@@ -81,5 +104,9 @@ public class Qna extends Date {
         this.hits = hits;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        customer.getQnas().add(this);
+    }
 }
 

@@ -129,7 +129,7 @@ function MainQna(props) {
             <div className="notice_read" key = {item.id}>
               <div className="num"><input type ="checkbox" id="check_box" />{item.id}</div>
               <div className="title"><a onClick={() => readQna(item.id)} class="content">{item.title}</a></div>
-              <div className="writer">{item.customer_name}</div>
+              <div className="writer">{item.writer}</div>
               <div className="date">{item.createDate}</div>
               <div className="count">{item.hits}</div>
             </div>

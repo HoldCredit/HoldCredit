@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardService from '../service/BoardService';
 import './css/Board.css';
-
+import jwtDecode from "jwt-decode";
+import '../store/CustomerNameStore'
+import {useSelector} from "react-redux";
 
 
 function QnaWrite(props) {
@@ -11,6 +13,15 @@ function QnaWrite(props) {
       const[title, setTitle] = useState('');
       const[content, setContent] = useState('');
       const[pwd, setPwd] = useState('');
+
+      // 세션에 저장된 토큰값 가져오기
+      const storedToken = sessionStorage.getItem("loginData");
+      // 토큰값 해석
+      const decodedToken = jwtDecode(storedToken);
+      // 해석한 정보에서 회원번호만 추출
+      const customerNo = decodedToken.sub;
+
+      const writer = useSelector((state) => state.customerName);
 
          useEffect(() => {
             BoardService.getQna().then((res) => {
@@ -39,6 +50,8 @@ function QnaWrite(props) {
             title: title,
             content: content,
             pwd: pwd,
+            writer: writer,
+            customerNo: customerNo,
 
           };
           console.log("notice => " + JSON.stringify(qna));
@@ -73,7 +86,7 @@ function QnaWrite(props) {
                         <div className="info">
                         <dl>
                             <dt>글쓴이</dt>
-                            <dd></dd>
+                            <dd>{writer}</dd>
                         </dl>
                         <dl>
                             <dt>비밀번호</dt>

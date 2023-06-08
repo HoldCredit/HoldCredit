@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import BoardService from '../service/BoardService';
 import './css/Board.css';
 import jwtDecode from "jwt-decode";
+import '../store/CustomerNameStore'
 import {useSelector} from "react-redux";
 
 
 
 function NoticeWrite(props) {
-
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [pwd, setPwd] = useState('');
@@ -58,7 +58,7 @@ function NoticeWrite(props) {
         formData.append('title', title);
         formData.append('content', content);
         formData.append('pwd', pwd);
-        formData.append('id', customerNo);
+        formData.append('customerNo', customerNo);
         formData.append('writer', writer);
         files.forEach((file) => {
             formData.append('file', file);
