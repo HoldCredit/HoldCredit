@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../styles/JoinForm.css";
-import {FormControl, FormControlLabel, RadioGroup, Radio, Button} from "@mui/material";
+import {Container, TextField, FormControl, FormControlLabel, RadioGroup, Radio, Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CreditCardCompany from "../components/CreditCardCompany";
 import Debt from "../components/Debt";
@@ -10,6 +10,7 @@ import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { setName } from "../store/CustomerNameStore";
 import { Classification }  from "./Classification";
+import { CardCompany }  from "./CardCompany";
 
 export default function CreditForm() {
   // 세션에 저장된 토큰값 가져오기
@@ -35,28 +36,112 @@ export default function CreditForm() {
   const [proofOfIncomeAmount, setProofOfIncomeAmount] = useState(""); //소득금액
   const [nationalPension, setNationalPension] = useState(""); //국민연금
 
+  /* 제출버튼 상태 변수 */
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
+
   /* 신용카드 정보 */
-  const [creditCardData, setCreditCardData] = useState([]);
+  const [cardCompany, setCardCompany] = useState("");
+    const [transactionPeriod, setTransactionPeriod] = useState("");
+    const [limit, setLimit] = useState("");
+    const [overdueCount, setOverdueCount] = useState("");
+    const [overduePeriod, setOverduePeriod] = useState("");
+
+  const [creditCards, setCreditCards] = useState([]);
 
   const handleCreditCardData = (data) => {
-    setCreditCardData([...creditCardData, data]);
+    setCreditCards((prevCreditCards) => [...prevCreditCards, data]);
   };
 
   /* 대출/상환 정보 */
   const [debtData, setDebtData] = useState([]);
 
-  useEffect(() => {
-      if (debtData.length > 0) {
-        handleSubmit();
-      }
-    }, [debtData]);
-
   const handleDebtData = (data) => {
-    setDebtData([...debtData, data]);
+    setDebtData(data);
   };
+
+    // 신용카드
+    //추가
+    const addCreditCard = () => {
+      const newCreditCard = {
+            cardCompany: "",
+            transactionPeriod: "",
+            limit: "",
+            overdueCount: "",
+            overduePeriod: "",
+      };
+
+      setCreditCards((prevCreditCards) => [...prevCreditCards, newCreditCard]);
+    };
+    //삭제
+    const deleteCreditCard = (index) => {
+        setCreditCards((prevCreditCards) =>
+          prevCreditCards.filter((_, i) => i !== index)
+        );
+      };
+
+   useEffect(() => {
+     if (isSubmitClicked) {
+       creditCards.forEach((creditCard) => {
+         const creditData = {
+           cardCompany: creditCard.cardCompany === "FIRST" ? CardCompany.FIRST : (creditCard.cardCompany === "SECOND" ? CardCompany.SECOND : CardCompany.THIRD),
+           transactionPeriod: parseInt(creditCard.transactionPeriod),
+           limit: parseInt(creditCard.limit),
+           overdueCount: parseInt(creditCard.overdueCount),
+           overduePeriod: parseInt(creditCard.overduePeriod),
+         };
+
+         console.log(creditData);
+         axios
+           .post("http://localhost:8090/creditCard/save", creditData)
+           .then((response) => {
+             console.log(response.data);
+           })
+           .catch((error) => {
+             console.error(error);
+           });
+       });
+
+          debtData.forEach((debt) => {
+                const debtItem = {
+                  customerNo: customerNo,
+                  loanAmount: debt.loanAmount,
+                  loanPeriod: debt.loanPeriod,
+                  loanCount: debt.loanCount,
+                };
+                console.log(debtItem);
+                axios.post("http://localhost:8090/debt/save", debtItem)
+                  .then((response) => {
+                  console.log(response.data);
+                })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+          });
+        }
+      }, [creditCards, debtData, isSubmitClicked]);
+
+    // 대출
+    const [debts, setDebts] = useState([]);
+    //추가
+    const addDebt = () => {
+      const newDebt = {
+        loanAmount: "",
+        loanPeriod: "",
+        loanCount: "",
+      };
+      setDebtData((prevDebtData) => [...prevDebtData, newDebt]);
+    };
+    //삭제
+    const deleteDebt = (index) => {
+        setDebtData((prevDebts) =>
+          prevDebts.filter((_, i) => i !== index)
+        );
+    };
 
   /* 저장 시작 */
   const handleSubmit = () => {
+    setIsSubmitClicked(true);
+
     //Finance 개인금융
     const financeData = {
       customerNo: customerNo,
@@ -64,7 +149,6 @@ export default function CreditForm() {
       continuousService: parseInt(continuousService),
       extraMonthlyFund: parseInt(extraMonthlyFund)
     };
-    console.log(memberInfo)
     console.log(financeData)
     axios.post("http://localhost:8090/finance/save", financeData)
       .then((response) => {
@@ -86,7 +170,6 @@ export default function CreditForm() {
       proofOfIncomeAmount: proofOfIncomeAmount === 'yesProof' ? Classification.YES : Classification.NO,
       nationalPension: nationalPension === 'yesNational' ? Classification.YES : Classification.NO,
     };
-    console.log(memberInfo)
     console.log(nonFinanceData)
     axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData)
       .then((response) => {
@@ -95,97 +178,12 @@ export default function CreditForm() {
       .catch((error) => {
         console.error(error);
       });
-    };
+
+
 
     //CreditCard 신용카드
-    creditCardData.forEach((data) => {
-      const creditData = {
-        customerNo: customerNo,
-        creditCardCompany: data.creditCardCompany,
-        transactionPeriod: data.transactionPeriod,
-        limit: data.limit,
-        overdueCount: data.overdueCount,
-        overduePeriod: data.overduePeriod,
-      };
-      console.log(memberInfo)
-      console.log(creditData)
-      axios.post("http://localhost:8090/creditCard/save", creditData)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
-
-    //Debt 대출및상환
-    debtData.forEach((data) => {
-      const debtItem = {
-        customerNo: parseInt(customerNo),
-        loanAmount: data.loanAmount,
-        loanPeriod: data.loanPeriod,
-        loanCount: data.loanCount,
-      };
-      console.log(memberInfo)
-      console.log(debtItem)
-      axios.post("http://localhost:8090/debt/save", debtItem)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+   };
   /* 저장 끝*/
-
-    // 신용카드
-    const [creditCards, setCreditCards] = useState([]);
-    //추가
-    const addCreditCard = () => {
-      const newCreditCard = (
-        <CreditCardCompany
-          key={creditCards.length}
-          i={creditCards.length}
-          deleteCreditCard={deleteCreditCard}
-          handleCreditCardData={handleCreditCardData} //데이터 업테이트
-        />
-      );
-      setCreditCards((prevCards) => [...prevCards, newCreditCard]);
-    };
-    //삭제
-    const deleteCreditCard = (index) => {
-      setCreditCards((prevCards) =>
-        prevCards.filter((card, i) => i !== index)
-      );
-      setCreditCardData((prevData) =>
-        prevData.filter((data, i) => i !== index)
-      );
-    };
-
-
-
-    // 대출
-    const [debts, setDebts] = useState([]);
-    //추가
-    const addDebt = () => {
-    setDebts((prevDebts) => [...prevDebts,
-       <Debt
-        key={prevDebts.length}
-        i={prevDebts.length}
-        deleteDebt={deleteDebt}
-        debtData={debtData}
-        handleDebtData={handleDebtData} //데이터 업테이트
-       />,
-    ]);
-    }
-    //삭제
-    const deleteDebt = (i) => {
-    setDebts((prevCards) => {
-    const updatedCards = [...prevCards];
-    updatedCards.splice(i - 1, 1);
-    return updatedCards;
-    });
-    }
 
 
 
@@ -231,10 +229,10 @@ export default function CreditForm() {
                        </div>
                        <div className="join_row">
                           <h3 className="join_title">
-                            <label htmlFor="extraFund">매달 여유 자금</label>
+                            <label htmlFor="extraMonthlyFund">매달 여유 자금</label>
                           </h3>
                           <div className="ps_box occupation_code">
-                          <select id="extraFund" name="extraFund" className="sel" aria-label="매달 여유 자금"
+                          <select id="extraMonthlyFund" name="extraMonthlyFund" className="sel" aria-label="매달 여유 자금"
                                   onChange={(e) => setExtraMonthlyFund(e.target.value)}>
                             <option value="" defaultValue>매달 여유 자금</option>
                             <option value="1">30만원 이하</option>
@@ -344,11 +342,19 @@ export default function CreditForm() {
                     <h3>신용카드 정보 입력</h3>
                     <div className="join_row_flex">
                        <Button variant="outlined" onClick={addCreditCard}> 신용카드 추가 </Button>
-                       { creditCards.map((creditCard, i) => (
+                       {creditCards.map((creditCard, i) => (
                           <div key={i}>
-                             {creditCard}
-                          </div> ))
-                       }
+                            <CreditCardCompany
+                            cardCompany={creditCard.cardCompany}
+                            transactionPeriod={creditCard.transactionPeriod}
+                            limit={creditCard.limit}
+                            overdueCount={creditCard.overdueCount}
+                            overduePeriod={creditCard.overduePeriod}
+                              deleteCreditCard={() => deleteCreditCard(i)}
+                              handleCreditCardData={handleCreditCardData}
+                            />
+                        </div>
+                      ))}
                     </div>
 
                     {/* 부채 수준 (추가가능) / 대출 금액 / 남은 대출기간 / 대출 횟수*/}
@@ -357,11 +363,18 @@ export default function CreditForm() {
                     <h3>대출 및 상환이력 정보 입력</h3>
                     <div className="join_row_flex">
                        <Button variant="outlined" onClick={addDebt}>대출 이력 추가</Button>
-                       { debts.map((debt, i) => (
+                       { debtData.map((debt, i) => (
                           <div key={i}>
-                            {debt}
-                          </div> ))
-                       }
+                            <Debt
+                              loanAmount={debt.loanAmount}
+                              loanPeriod={debt.loanPeriod}
+                              loanCount={debt.loanCount}
+                              deleteDebt={() => deleteDebt(i)}
+                              handleDebtData={handleDebtData}
+
+                            />
+                          </div>
+                       ))}
                     </div>
 
                     <div className="btn_area">

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +21,13 @@ public class CreditCardController {
 
     /* 등록 */
     @PostMapping("/save")
-    public CreditCard save (@RequestBody CreditCardRequestDto creditCardRequestDto){
-        return creditCardService.save(creditCardRequestDto);
+    public ResponseEntity<?> save (@RequestBody CreditCardRequestDto creditCardRequestDto){
+        // 회원 번호 확인
+        Long customerNo = creditCardRequestDto.getCustomerNo();
+        System.out.println("전달된 회원 번호: " + customerNo);
+
+        creditCardService.save(creditCardRequestDto);
+        return new ResponseEntity<>(CREATED);
     }
 
     /* 읽기 */

@@ -1,9 +1,8 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardRequestDto;
 import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
-import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
+import com.holdcredit.holdcredit.domain.entity.enumeration.CardCompany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SequenceGenerator(sequenceName = "CREDITCARD_SEQ", initialValue = 1, allocationSize = 1, name = "CREDITCARD_SEQ_GENERATOR")
+@SequenceGenerator(sequenceName = "CREDITCARD_SEQ", allocationSize = 1, name = "CREDITCARD_SEQ_GENERATOR")
 public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CREDITCARD_SEQ_GENERATOR")
@@ -24,14 +23,13 @@ public class CreditCard {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", /*nullable = false,*/ updatable = false) //readonly
-    @JsonIgnore
+    @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
     private Customer customer; //userNo
 //    @JsonIgnore //response에 해당 필드 제외
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30)
-    private CreditCardCompany creditCardCompany;
+    private CardCompany cardCompany;
 
     @Column
     private Long transactionPeriod;
@@ -52,7 +50,7 @@ public class CreditCard {
 
 
     public void updateCreditCard (CreditCardRequestDto creditCardRequestDto){
-        this.creditCardCompany = creditCardRequestDto.getCreditCardCompany();
+        this.cardCompany = creditCardRequestDto.getCardCompany();
         this.transactionPeriod = creditCardRequestDto.getTransactionPeriod();
         this.limit = creditCardRequestDto.getLimit();
         this.overdueCount = creditCardRequestDto.getOverdueCount();
@@ -63,7 +61,7 @@ public class CreditCard {
         return CreditCardResponseDto.builder()
                 .id(creditCard.getId())
                 .customerNo(creditCard.getCustomer().getId())
-                .creditCardCompany(creditCard.getCreditCardCompany())
+                .cardCompany(creditCard.getCardCompany())
                 .transactionPeriod(creditCard.getTransactionPeriod())
                 .limit(creditCard.getLimit())
                 .overdueCount(creditCard.getOverdueCount())

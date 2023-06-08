@@ -1,14 +1,11 @@
 package com.holdcredit.holdcredit.domain.dto.creditCardDto;
 
 import com.holdcredit.holdcredit.domain.entity.CreditCard;
-import com.holdcredit.holdcredit.domain.entity.Customer;
-import com.holdcredit.holdcredit.domain.entity.enumeration.CreditCardCompany;
+import com.holdcredit.holdcredit.domain.entity.enumeration.CardCompany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import static org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +13,7 @@ import static org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build
 @Builder
 public class CreditCardRequestDto {
     private Long customerNo; //먉
-    private CreditCardCompany creditCardCompany;
+    private CardCompany cardCompany;
     private Long transactionPeriod;
     private Long limit;
     private Long overdueCount;
@@ -24,8 +21,7 @@ public class CreditCardRequestDto {
 
     public CreditCard toEntity(){
         return CreditCard.builder()
-                .customer(Customer.builder().id(customerNo).build()) //먉
-                .creditCardCompany(creditCardCompany)
+                .cardCompany(cardCompany)
                 .transactionPeriod(transactionPeriod)
                 .limit(limit)
                 .overdueCount(overdueCount)

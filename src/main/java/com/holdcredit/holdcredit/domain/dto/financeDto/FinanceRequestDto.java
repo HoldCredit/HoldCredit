@@ -19,9 +19,9 @@ public class FinanceRequestDto {
 
     public Finance toEntity(){
         return Finance.builder()
-                .customer(Customer.builder().id(customerNo).build()) //먉
                 .annulIncome(annulIncome)
                 .continuousService(continuousService)
-                .extraMonthlyFund(extraMonthlyFund).build();
+                .extraMonthlyFund(extraMonthlyFund)
+                .build();
     }
 }

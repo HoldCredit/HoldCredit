@@ -40,9 +40,11 @@ public class RedemptionServiceImpl implements RedemptionService {
         Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
 
         Customer customer = debt.getCustomer();
-        Score score = scoreRepository.findByCustomer(customer)
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-
+        Score score = scoreRepository.findByCustomer(customer);
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(customer);
+        }
         score.setPaybackScore(paybackScore);
         scoreRepository.save(score);
         return redemptionRepository.save(redemption);
@@ -113,8 +115,10 @@ public class RedemptionServiceImpl implements RedemptionService {
             redemptionRepository.save(redemption);
 
             //Score 엔티티 paybackScore 초기화
-            Score score = scoreRepository.findByCustomer(customer)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Score score = scoreRepository.findByCustomer(customer);
+            if (score == null) {
+                throw new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다");
+            }
             Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
             score.setPaybackScore(paybackScore);
             scoreRepository.save(score);
@@ -164,8 +168,11 @@ public class RedemptionServiceImpl implements RedemptionService {
 
             Customer customer = debt.getCustomer(); // customer 정보를 불러와
 
-            Score score = scoreRepository.findByCustomer(customer) // 해당 customer id에 score 저장
-                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Score score = scoreRepository.findByCustomer(customer); // 해당 customer id에 score 저장
+            if (score == null) {
+                score = new Score();
+                score.setCustomer(redemption.getDebt().getCustomer());
+            }
 
             Integer paybackScore = totalPaybackScore(redemption.getLoanAmount(), redemption.getOverduePeriod());
             score.setPaybackScore(paybackScore);

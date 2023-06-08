@@ -25,7 +25,6 @@ public class DebtRequestDto {
     /* Dto -> Entity 저장 */
     public Debt toEntity() {
         return Debt.builder()
-                .customer(Customer.builder().id(customerNo).build())//먉
                 .loanAmount(loanAmount)
                 .loanPeriod(loanPeriod)
                 .loanCount(loanCount)

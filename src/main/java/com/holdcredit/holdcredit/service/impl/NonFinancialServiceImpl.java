@@ -34,12 +34,15 @@ public class NonFinancialServiceImpl implements NonFinancialService {
         /* 비금융 점수 (일단 계산식에서 결혼여부, 자녀수 뺌)*/
         Integer nonFinancialScore = totalNonFinancialScore(nonFinancial.getRealestate(),nonFinancial.getVehicle(),nonFinancial.getHealthInsurance(),nonFinancial.getPhoneBillPayment(),nonFinancial.getProofOfIncomeAmount(),nonFinancial.getNationalPension());
 
-        Score score = scoreRepository.findByCustomer(customer)
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-
-        score.setNonFinancialScore(nonFinancialScore);
-        score.setCustomer(nonFinancial.getCustomer());
-        scoreRepository.save(score);
+        Score score = scoreRepository.findByCustomer(customer);
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(customer);
+            score.setNonFinancialScore(nonFinancialScore);
+            scoreRepository.save(score);
+        }else {
+            score.setNonFinancialScore(nonFinancialScore);
+        }
 
         return nonFinancialRepository.save(nonFinancial);
     }
@@ -114,10 +117,11 @@ public class NonFinancialServiceImpl implements NonFinancialService {
             nonFinancialRepository.save(nonFinancial);
 
             //Score의  nonFinancialScore 초기화
-            Score score = scoreRepository.findByCustomer(customer)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-            Integer nonFinancialScore = totalNonFinancialScore(nonFinancial.getRealestate(), nonFinancial.getVehicle(), nonFinancial.getHealthInsurance(), nonFinancial.getPhoneBillPayment(), nonFinancial.getProofOfIncomeAmount(), nonFinancial.getNationalPension());
-            score.setNonFinancialScore(nonFinancialScore); //초기화 값의 계산식 다시 수행
+            Score score = scoreRepository.findByCustomer(customer);
+            if (score == null) {
+                throw new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다");
+            }
+            score.setNonFinancialScore(null); // nonFinancialScore 초기화
             scoreRepository.save(score);
         }else {
             throw new IllegalArgumentException("해당 ID의 비금융 정보를 찾을 수 없습니다.");
@@ -135,9 +139,11 @@ public class NonFinancialServiceImpl implements NonFinancialService {
         nonFinancialRepository.save(nonFinancial);
 
         // Score 엔티티에서 비금융 점수 업데이트
-        Score score = scoreRepository.findByCustomer(nonFinancial.getCustomer())
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-
+        Score score = scoreRepository.findByCustomer(nonFinancial.getCustomer());
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(nonFinancial.getCustomer());
+        }
         Integer nonFinancialScore = totalNonFinancialScore(nonFinancial.getRealestate(), nonFinancial.getVehicle(), nonFinancial.getHealthInsurance(), nonFinancial.getPhoneBillPayment(), nonFinancial.getProofOfIncomeAmount(), nonFinancial.getNationalPension());
 
         score.setNonFinancialScore(nonFinancialScore);

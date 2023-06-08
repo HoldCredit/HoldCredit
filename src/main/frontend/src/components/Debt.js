@@ -12,15 +12,15 @@ export default function Debt ( props ) {
   };
 
   useEffect(() => {
+    if(props.isSubmitClicked){
       const debtData = {
         loanAmount: parseInt(loanAmount),
         loanPeriod: parseInt(loanPeriod),
         loanCount: parseInt(loanCount),
       };
-
-
       props.handleDebtData(debtData);
-  }, [loanAmount, loanPeriod, loanCount]);
+    }
+  }, [loanAmount, loanPeriod, loanCount,props.isSubmitClicked,props.handleCreditCardData]);
 
 
   return(
@@ -63,7 +63,7 @@ export default function Debt ( props ) {
       <div className="join_row_flex" style={{margin: "20px"}}>
          <div className="join_row">
            <div className="join_row_flex">
-             <Button variant="outlined" onClick={() => deleteDebt()}>삭제</Button>
+             <Button variant="outlined" onClick={deleteDebt}>삭제</Button>
            </div>
          </div>
       </div>

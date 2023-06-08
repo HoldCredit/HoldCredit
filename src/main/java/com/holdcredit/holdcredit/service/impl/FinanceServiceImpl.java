@@ -25,7 +25,8 @@ public class FinanceServiceImpl implements FinanceService {
 
 
     @Override
-    public Finance save(Long customerNo, FinanceRequestDto financeRequestDto) {
+    public Finance save( FinanceRequestDto financeRequestDto) {
+        Long customerNo = financeRequestDto.getCustomerNo();
         Customer customer = customerRepository.findById(customerNo)
                 .orElseThrow(() -> new IllegalArgumentException("회원번호를 찾을 수 없습니다"));
 
@@ -35,12 +36,16 @@ public class FinanceServiceImpl implements FinanceService {
         /* 개인금융(거래점수) */
         Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
 
-        Score score = scoreRepository.findByCustomer(customer)
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+        Score score = scoreRepository.findByCustomer(customer);
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(customer);
+            score.setCreditTypeScore(transactionScore);
+            scoreRepository.save(score);
+        }else {
+            score.setTransactionScore(transactionScore);
+        }
 
-        score.setTransactionScore(transactionScore);
-        score.setCustomer(finance.getCustomer());
-        scoreRepository.save(score);
 
         return financeRepository.save(finance);
     }
@@ -101,10 +106,11 @@ public class FinanceServiceImpl implements FinanceService {
             financeRepository.save(finance);
 
             //Score 엔티티 TransactionScore 초기화
-            Score score = scoreRepository.findByCustomer(customer)
-                            .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-            Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
-            score.setTransactionScore(transactionScore);
+            Score score = scoreRepository.findByCustomer(customer);
+            if (score == null) {
+                throw new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다");
+            }
+            score.setTransactionScore(null); // nonFinancialScore 초기화
             scoreRepository.save(score);
         } else {
             throw new IllegalStateException("해당 ID의 개인금융 정보를 찾을 수 없습니다.");
@@ -122,8 +128,11 @@ public class FinanceServiceImpl implements FinanceService {
         financeRepository.save(finance);
 
         //Score 엔티티에 업데이트
-        Score score = scoreRepository.findByCustomer(finance.getCustomer())
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+        Score score = scoreRepository.findByCustomer(finance.getCustomer());
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(finance.getCustomer());
+        }
 
         Integer transactionScore = totalTransactionScore(finance.getAnnulIncome(),finance.getContinuousService(),finance.getExtraMonthlyFund());
 
