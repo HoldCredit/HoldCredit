@@ -13,21 +13,67 @@ function JoinForm() {
     const [isEmailAvailable, setIsEmailAvailable] = useState(true);
 
     const handleEmailChange = (e) => {
-      setEmail(e.target.value);
+        const value = e.target.value;
+        setEmail(value);
+        validateEmail(value);
     };
 
     const handleEmailBlur = () => {
-      if (!isValidEmail(email)) {
-        setEmailErrorMsg("이메일 형식에 맞지 않는 메일 주소입니다. 다시 입력해 주세요.");
-        return;
+        if (email.trim() !== '' && !isValidEmail(email)) {
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
+        }
+    };
+
+    const handleCheckEmailAvailability = () => {
+        if (!isValidEmail(email)) {
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
+            return;
+        }
+        checkEmailAvailability(email);
+    };
+
+    const validateEmail = (email) => {
+        if (!isValidEmail(email)) {
+            setIsEmailAvailable(false);
+        } else {
+            setEmailErrorMsg("");
+            setIsEmailAvailable(true);
+        }
+    };
+
+    const isValidEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const checkEmailAvailability = async (email) => {
+      try {
+        const response = await fetch('/auth/check-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+          throw new Error('이메일 중복 확인에 실패했습니다.');
+        }
+
+        const data = await response.json();
+
+        if (data.available) {
+          setIsEmailAvailable(true);
+          alert('사용 가능한 이메일입니다.');
+        } else {
+          setIsEmailAvailable(false);
+          alert('중복된 이메일입니다. 다른 이메일을 입력해 주세요.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('이메일 중복 확인 중 오류가 발생했습니다.'); // 에러 알림을 추가하거나 적절한 처리를 해주세요.
       }
     };
 
-
-    const isValidEmail = (email) => {
-      // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
 
 
 
@@ -232,6 +278,14 @@ function JoinForm() {
 
     // 회원가입 버튼 클릭 이벤트
     const handleJoinClick = () => {
+        if (!isValidEmail(email)) {
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
+            return;
+          }
+          if (!isEmailAvailable) {
+            alert("중복된 이메일로 회원가입을 할 수 없습니다.");
+            return;
+          }
         // 이 부분에 회원가입 요청을 보내는 로직을 작성합니다.
         axios.post('http://localhost:8080/auth/signup', {
             email: email,
@@ -268,30 +322,32 @@ function JoinForm() {
                     <div className="join_content">
                         <div className="row_group">
                             <div>
-                                <div className="join_row join_email">
-                                    <h3 className="join_title">
-                                        <label htmlFor="email">
-                                            이메일
-                                            <span className="terms_choice">(필수)</span>
-                                        </label>
-                                    </h3>
-                                    <span className="ps_box int_email box_right_space">
-                                        <input
-                                            type="text"
-                                            id="email"
-                                            name="email"
-                                            placeholder="이메일을 입력해주세요"
-                                            className="int"
-                                            maxLength="100"
-                                            value={email}
-                                            onChange={handleEmailChange}
-                                            onBlur={handleEmailBlur}
-                                        />
-                                    </span>
-                                </div>
-                                <span className="error_next_box" id="emailMsg" aria-live="assertive">
-                                    {emailErrorMsg}
-                                </span>
+                               <div className="join_row join_email">
+                                 <h3 className="join_title">
+                                   <label htmlFor="email">
+                                     이메일
+                                     <span className="terms_choice">(필수)</span>
+                                   </label>
+                                 </h3>
+                                 <span className="ps_box1 int_email box_right_space1">
+                                   <input
+                                     type="email"
+                                     id="email"
+                                     name="email"
+                                     placeholder="이메일을 입력해주세요"
+                                     className="int"
+                                     maxLength="100"
+                                     value={email}
+                                     onChange={handleEmailChange}
+                                     onBlur={handleEmailBlur}
+                                   />
+                                 </span>
+                                <button type="button" className="emailBtn" onClick={handleCheckEmailAvailability}>중복 확인</button>
+
+                               </div>
+                               <span className="error_next_box" id="emailMsg" aria-live="assertive">
+                                 {!isEmailAvailable}
+                               </span>
                             </div>
                             <div className="join_row">
                                 <h3 className="join_title">
@@ -355,7 +411,7 @@ function JoinForm() {
                                     <h3 className="join_title">
                                         <label htmlFor="name">이름</label>
                                     </h3>
-                                    <span className="ps_box box_right_space">
+                                    <span className="ps_box box_right_space1">
                                         <input
                                             type="text"
                                             id="name"

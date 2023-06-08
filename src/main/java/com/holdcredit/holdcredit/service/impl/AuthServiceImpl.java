@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public CustomerResponseDto signup(CustomerRequestDto customerRequestDto) {
         if (customerRepository.existsByEmail(customerRequestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new RuntimeException("중복된 이메일입니다.");
         }
 
         Customer customer = customerRequestDto.toCustomer(passwordEncoder);
