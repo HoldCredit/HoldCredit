@@ -36,5 +36,4 @@ public class CustomerModifyDto {
                 .educationLevel(dto.getEducation_level())
                 .build();
     }
-
 }

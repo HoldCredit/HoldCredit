@@ -187,9 +187,9 @@ const updateCustomer = (event) => {
   console.log("근주지금해봄 memberInfo 다 나와=> " + memberInfo);
     axios.put(`/customerModify/Modify/${customerNo}`, update)
     .then(res => {
-        alert('수정되었습니다.');
+        alert('정보가 수정되었습니다.');
         console.log(res);
-//        navigate(`/`);
+        navigate(`/`);
   });
 };
 
@@ -442,8 +442,6 @@ const updateCustomer = (event) => {
                                     </div>
                                 </div>
                             </div>
-
-//알단 수정하기 누르면 서비스페이지로 가게끔 한다음에 어디로 보내지고 싶은지 생각하기~
                             <div className="btn_area">
                                 <button type="button" id="btnJoin" className="btn_type1 btn_primary1" onClick={updateCustomer}><span>수정</span></button>
                                 <a href="/DeleteMember" id="btnJoin" className="btn_type2 btn_primary2" class="btn_delete">회원탈퇴</a>

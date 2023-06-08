@@ -42,7 +42,7 @@ public class CustomerModifyController {
         System.out.println("dddddsfdsfdsfdsfdsfsdfdsfsdfkdfhgkdzhgkdghkd");
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
+/*
     @PutMapping("/pwdUpdate/{id}")
     public ResponseEntity<String> pwdUpdate(@PathVariable("id") Long id, @RequestBody String newPassword) {
         System.out.println("ctrl111111");
@@ -55,13 +55,23 @@ public class CustomerModifyController {
             System.out.println("e+\"\" = " + e + "에러");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비번 변경 실패~" + e.getMessage());
         }
-    }
+    }*/
 
 
     //회원 정보 삭제
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id, @RequestParam String password) {
+        System.out.println("야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
+        boolean isPasswordCorrect = customerModifyService.verifyCustomerPassword(id, password);
+        if (!isPasswordCorrect) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Incorrect password");
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+
         customerModifyService.deleteCustomer(id);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

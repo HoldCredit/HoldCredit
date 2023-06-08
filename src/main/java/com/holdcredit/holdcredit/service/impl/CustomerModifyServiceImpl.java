@@ -48,7 +48,7 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
         customerModifyRepository.save(customer);
     }
 
-    @Transactional
+  /*  @Transactional
     @Override
     public void pwdUpdate(Long id, String newPassword){
         System.out.println("ddddddservice");
@@ -56,13 +56,26 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
         System.out.println("id = " + id+ "newPAsww"+encodePwd);
         customerModifyRepository.pwdUpdate(id,encodePwd);
     }
-
+*/
 
     //회원 정보 삭제
     @Override
     public void deleteCustomer(Long id){
             customerModifyRepository.deleteById(id);
         //    customerModifyRepository.deleteByIdAndPassword(id, modifyDto.getPassword());
+    }
+
+    //회원탈퇴 근주 다시함
+    @Override
+    public boolean verifyCustomerPassword(Long customerId, String password) {
+        Optional<Customer> optionalCustomer = customerModifyRepository.findById(customerId);
+        System.out.println("service...");
+        System.out.println(passwordEncoder.matches(password, optionalCustomer.get().getPassword()));
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            return passwordEncoder.matches(password, customer.getPassword());
+        }
+        return false;
     }
 
 
