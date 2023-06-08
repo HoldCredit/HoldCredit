@@ -1,6 +1,5 @@
 package com.holdcredit.holdcredit.domain.dto.boardDto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
 import lombok.*;
 
@@ -13,6 +12,7 @@ public class QnaResponseDto {
 
     private Long id;
     private String title;
+    private String writer;
     private String content;
     private String pwd;
     private int hits;

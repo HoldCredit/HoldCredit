@@ -2,13 +2,11 @@ package com.holdcredit.holdcredit.service;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.List;
 
 public interface NoticeService {
     //게시글 리스트, 페이징 처리

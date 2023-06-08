@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardService from '../service/BoardService';
 import './css/Board.css';
+import jwtDecode from "jwt-decode";
+import {useSelector} from "react-redux";
 
 
 
@@ -12,6 +14,16 @@ function NoticeWrite(props) {
     const [pwd, setPwd] = useState('');
     const [files, setFiles] = useState([]);
 
+
+    // 세션에 저장된 토큰값 가져오기
+    const storedToken = sessionStorage.getItem("loginData");
+    // 토큰값 해석
+    const decodedToken = jwtDecode(storedToken);
+    // 해석한 정보에서 회원번호만 추출
+    const customerNo = decodedToken.sub;
+
+    // 이름 가져오기
+    const writer = useSelector((state) => state.customerName);
 
     const changeTitleHandler = (event) => {
         setTitle(event.target.value);
@@ -46,6 +58,8 @@ function NoticeWrite(props) {
         formData.append('title', title);
         formData.append('content', content);
         formData.append('pwd', pwd);
+        formData.append('id', customerNo);
+        formData.append('writer', writer);
         files.forEach((file) => {
             formData.append('file', file);
         });
@@ -110,7 +124,7 @@ function NoticeWrite(props) {
                             <div className="info">
                                 <dl>
                                     <dt>글쓴이</dt>
-                                    <dd></dd>
+                                    <dd>{writer}</dd>
                                 </dl>
                                 <dl>
                                     <dt>비밀번호</dt>

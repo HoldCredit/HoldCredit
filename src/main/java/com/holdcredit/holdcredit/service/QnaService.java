@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 public interface QnaService {
     //게시글 리스트, 페이징 처리

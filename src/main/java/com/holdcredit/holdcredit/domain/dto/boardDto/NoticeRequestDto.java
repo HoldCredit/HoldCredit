@@ -1,8 +1,5 @@
 package com.holdcredit.holdcredit.domain.dto.boardDto;
 
-import com.holdcredit.holdcredit.domain.entity.Attach;
-import com.holdcredit.holdcredit.domain.entity.Notice;
-import com.holdcredit.holdcredit.domain.entity.enumeration.Classification;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +10,8 @@ import java.util.List;
 @Data
 public class NoticeRequestDto {
 
-    private Long id;
+    private Long id; //회원번호
+    private String writer;
     private String title;
     private String content;
     private String pwd;
@@ -24,7 +22,6 @@ public class NoticeRequestDto {
     private List<String> originFileName;
     private List<String> storedFileName;
     private int fileAttached;
-
 
 }
 

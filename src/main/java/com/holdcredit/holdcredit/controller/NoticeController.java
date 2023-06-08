@@ -2,7 +2,6 @@ package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
-import com.holdcredit.holdcredit.domain.entity.Notice;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

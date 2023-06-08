@@ -3,15 +3,14 @@ package com.holdcredit.holdcredit.service.impl;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Attach;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Notice;
 import com.holdcredit.holdcredit.repository.AttachRepository;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.NoticeRepository;
 import com.holdcredit.holdcredit.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +26,8 @@ import java.util.Optional;
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
     private final AttachRepository attachRepository;
+    private final CustomerRepository customerRepository;
+
     //게시글 리스트, 페이징 처리
     @Override
     @Transactional
@@ -81,10 +82,14 @@ public class NoticeServiceImpl implements NoticeService {
     public void saveNotice(NoticeRequestDto requestDto) throws IOException {
         if (requestDto.getAttach() == null || requestDto.getAttach().isEmpty()) {
             Notice notice = Notice.toEntity(requestDto);
+            Customer findCustomer = customerRepository.findById(requestDto.getId()).get();
+            notice.setCustomer(findCustomer);
             noticeRepository.save(notice);
         } else {
 
             Notice notice = Notice.toSaveAttach(requestDto);
+            Customer findCustomer = customerRepository.findById(requestDto.getId()).get();
+            notice.setCustomer(findCustomer);
             Long noticeNo = noticeRepository.save(notice).getId();
             Notice board = noticeRepository.findById(noticeNo).orElse(null);
 
