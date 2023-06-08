@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import {Button} from "@mui/material";
 
 export default function CreditCardCompany ( props ) {
-  const [cardCompany, setCardCompany] = useState("");
-  const [transactionPeriod, setTransactionPeriod] = useState("");
-  const [limit, setLimit] = useState("");
-  const [overdueCount, setOverdueCount] = useState("");
-  const [overduePeriod, setOverduePeriod] = useState("");
+  // const [cardCompany, setCardCompany] = useState("");
+  // const [transactionPeriod, setTransactionPeriod] = useState("");
+  // const [limit, setLimit] = useState("");
+  // const [overdueCount, setOverdueCount] = useState("");
+  // const [overduePeriod, setOverduePeriod] = useState("");
 
 
   const deleteCreditCard = () => {
@@ -14,18 +14,18 @@ export default function CreditCardCompany ( props ) {
   };
 
 
-  useEffect(() => {
-    if (props.isSubmitClicked) {
-      const creditCard = {
-        cardCompany: cardCompany,
-        transactionPeriod: transactionPeriod,
-        limit: limit,
-        overdueCount: overdueCount,
-        overduePeriod: overduePeriod,
-      };
-      props.handleCreditCardData(creditCard);
-    }
-  }, [cardCompany, transactionPeriod, limit, overdueCount, overduePeriod, props.isSubmitClicked, props.handleCreditCardData]);
+  // useEffect(() => {
+  //   if (props.isSubmitClicked) {
+  //     const creditCard = {
+  //       props.cardCompany: cardCompany,
+  //       transactionPeriod: transactionPeriod,
+  //       props.limit: limit,
+  //       props.overdueCount: overdueCount,
+  //       props.overduePeriod: overduePeriod,
+  //     };
+  //     props.handleCredidtCardData(creitCard);
+  //   }
+  // }, [cardCompany, transactionPeriod, limit, overdueCount, props.overduePeriod, props.isSubmitClicked, props.handleCreditCardData]);
 
 
   return(
@@ -35,7 +35,7 @@ export default function CreditCardCompany ( props ) {
           <label htmlFor="cardCompany">카드 회사</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="cardCompany" name="cardCompany" className="sel"  onChange={(e) => setCardCompany(e.target.value)}>
+          <select id="cardCompany" name="cardCompany" className="sel"  onChange={(e) => props.setCardCompany(e.target.value)}>
             <option value="" defaultValue>카드 회사</option>
             <option value="FIRST">1금융</option>
             <option value="SECOND">2금융</option>
@@ -48,7 +48,7 @@ export default function CreditCardCompany ( props ) {
           <label htmlFor="transactionPeriod">거래 기간</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="transactionPeriod" name="transactionPeriod" className="sel" onChange={(e) => setTransactionPeriod(e.target.value)}>
+          <select id="transactionPeriod" name="transactionPeriod" className="sel" onChange={(e) => props.setTransactionPeriod(e.target.value)}>
             <option value="" defaultValue>거래 기간</option>
             <option value="1">1년 이하</option>
             <option value="2">1년 이상</option>
@@ -66,7 +66,7 @@ export default function CreditCardCompany ( props ) {
           </h3>
           <span className="ps_box box_right_space">
             <input type="text" id="limit" name="limit" className="int" maxLength="40"
-                   value={limit} onChange={(e) => setLimit(e.target.value)}/>
+                   defaultValue={props.limit} onChange={(e) => props.setLimit(e.target.value)}/>
           </span>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function CreditCardCompany ( props ) {
           </h3>
           <span className="ps_box box_right_space">
             <input type="text" id="overdueCount" name="overdueCount" className="int" maxLength="40"
-                    value={overdueCount} onChange={(e) => setOverdueCount(e.target.value)}/>
+                    defaultValue={props.overdueCount} onChange={(e) => props.setOverdueCount(e.target.value)}/>
           </span>
         </div>
       </div>
@@ -86,14 +86,14 @@ export default function CreditCardCompany ( props ) {
             <label htmlFor="overduePeriod">연체 기간</label>
           </h3>
         <div className="ps_box occupation_code">
-          <select id="overduePeriod" name="overduePeriod" className="sel" onChange={(e) => setOverduePeriod(e.target.value)} >
+          <select id="overduePeriod" name="overduePeriod" className="sel" onChange={(e) => props.setOverduePeriod(e.target.value)} >
             <option value="" defaultValue>연체 기간</option>
-            <option value="1">1주일 이하</option>
-            <option value="2">1주일 이상</option>
-            <option value="3">1개월 이상</option>
-            <option value="4">3개월 이상</option>
-            <option value="5">6개월 이상</option>
-            <option value="6">1년 이상</option>
+            <option defaultValue="1">1주일 이하</option>
+            <option defaultValue="2">1주일 이상</option>
+            <option defaultValue="3">1개월 이상</option>
+            <option defaultValue="4">3개월 이상</option>
+            <option defaultValue="5">6개월 이상</option>
+            <option defaultValue="6">1년 이상</option>
           </select>
         </div>
 

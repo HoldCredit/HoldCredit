@@ -19,7 +19,6 @@ export default function CreditForm() {
   const decodedToken = jwtDecode(storedToken);
   // 해석한 정보에서 회원번호만 추출
   const customerNo = decodedToken.sub;
-  const [memberInfo, setMemberInfo] = useState({});
 
   /* 개인금융 정보 */
   const [annulIncome, setAnnulIncome] = useState(""); //연봉
@@ -41,10 +40,10 @@ export default function CreditForm() {
 
   /* 신용카드 정보 */
   const [cardCompany, setCardCompany] = useState("");
-    const [transactionPeriod, setTransactionPeriod] = useState("");
-    const [limit, setLimit] = useState("");
-    const [overdueCount, setOverdueCount] = useState("");
-    const [overduePeriod, setOverduePeriod] = useState("");
+  const [transactionPeriod, setTransactionPeriod] = useState("");
+  const [limit, setLimit] = useState("");
+  const [overdueCount, setOverdueCount] = useState("");
+  const [overduePeriod, setOverduePeriod] = useState("");
 
   const [creditCards, setCreditCards] = useState([]);
 
@@ -63,11 +62,17 @@ export default function CreditForm() {
     //추가
     const addCreditCard = () => {
       const newCreditCard = {
-            cardCompany: "",
-            transactionPeriod: "",
-            limit: "",
-            overdueCount: "",
-            overduePeriod: "",
+            cardCompany: cardCompany,
+            setCardCompany: setCardCompany,
+            transactionPeriod: transactionPeriod,
+            setTransactionPeriod: setTransactionPeriod,
+            limit: limit,
+            setLimit: setLimit,
+            overdueCount: overdueCount,
+            setOverdueCount: setOverdueCount,
+            overduePeriod: overduePeriod,
+            setOverduePeriod: setOverduePeriod
+
       };
 
       setCreditCards((prevCreditCards) => [...prevCreditCards, newCreditCard]);
@@ -92,7 +97,7 @@ export default function CreditForm() {
 
          console.log(creditData);
          axios
-           .post("http://localhost:8090/creditCard/save", creditData)
+           .post("http://localhost:8080/creditCard/save", creditData)
            .then((response) => {
              console.log(response.data);
            })
@@ -109,7 +114,7 @@ export default function CreditForm() {
                   loanCount: debt.loanCount,
                 };
                 console.log(debtItem);
-                axios.post("http://localhost:8090/debt/save", debtItem)
+                axios.post("http://localhost:8080/debt/save", debtItem)
                   .then((response) => {
                   console.log(response.data);
                 })
@@ -150,7 +155,7 @@ export default function CreditForm() {
       extraMonthlyFund: parseInt(extraMonthlyFund)
     };
     console.log(financeData)
-    axios.post("http://localhost:8090/finance/save", financeData)
+    axios.post("http://localhost:8080/finance/save", financeData)
       .then((response) => {
         console.log(response.data);
       })
@@ -171,7 +176,7 @@ export default function CreditForm() {
       nationalPension: nationalPension === 'yesNational' ? Classification.YES : Classification.NO,
     };
     console.log(nonFinanceData)
-    axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData)
+    axios.post("http://localhost:8080/nonFinancial/save", nonFinanceData)
       .then((response) => {
         console.log(response.data);
       })
@@ -346,12 +351,17 @@ export default function CreditForm() {
                           <div key={i}>
                             <CreditCardCompany
                             cardCompany={creditCard.cardCompany}
+                            setCardCompany={creditCard.setCardCompany}
                             transactionPeriod={creditCard.transactionPeriod}
+                            setTransactionPeriod={creditCard.setTransactionPeriod}
                             limit={creditCard.limit}
+                            setLimit={creditCard.setLimit}
                             overdueCount={creditCard.overdueCount}
+                            setOverdueCount={creditCard.setOverdueCount}
                             overduePeriod={creditCard.overduePeriod}
-                              deleteCreditCard={() => deleteCreditCard(i)}
-                              handleCreditCardData={handleCreditCardData}
+                            setOverduePeriod={creditCard.setOverduePeriod}
+                            deleteCreditCard={() => deleteCreditCard(i)}
+                            handleCreditCardData={handleCreditCardData}
                             />
                         </div>
                       ))}
