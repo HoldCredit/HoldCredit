@@ -23,7 +23,7 @@ public class Finance {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", /*nullable = false,*/ updatable = false) //readonly
+    @JoinColumn (name = "customer_no", nullable = false, updatable = false, unique = true) //readonly
     private Customer customer; //userNo
 
     @Column(nullable = false)

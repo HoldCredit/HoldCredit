@@ -2,57 +2,44 @@ import React, { useState, useEffect } from "react";
 import {Button} from "@mui/material";
 
 export default function CreditCardCompany ( props ) {
+  const [cardCompany, setCardCompany] = useState("");
+  const [transactionPeriod, setTransactionPeriod] = useState("");
+  const [limit, setLimit] = useState("");
+  const [overdueCount, setOverdueCount] = useState("");
+  const [overduePeriod, setOverduePeriod] = useState("");
 
-  const [creditCardCompany, setCreditCardCompany] = useState("");
-  const [transactionPeriod, setTransactionPeriod] = useState(""); // 거래기간
-  const [limit, setLimit] = useState(""); // 한도
-  const [overdueCount, setOverdueCount] = useState(""); // 연체횟수
-  const [overduePeriod, setOverduePeriod] = useState(""); // 연체기간
 
   const deleteCreditCard = () => {
-    props.deleteCreditCard(props.i);
+    props.deleteCreditCard();
   };
 
+
   useEffect(() => {
-      const creditCardData = {
-        creditCardCompany,
-        transactionPeriod: parseInt(transactionPeriod),
-        limit: parseInt(limit),
-        overdueCount: parseInt(overdueCount),
-        overduePeriod: parseInt(overduePeriod),
+    if (props.isSubmitClicked) {
+      const creditCard = {
+        cardCompany: cardCompany,
+        transactionPeriod: transactionPeriod,
+        limit: limit,
+        overdueCount: overdueCount,
+        overduePeriod: overduePeriod,
       };
-      props.handleCreditCardData(creditCardData);
-  }, [creditCardCompany, transactionPeriod, limit, overdueCount, overduePeriod]);
+      props.handleCreditCardData(creditCard);
+    }
+  }, [cardCompany, transactionPeriod, limit, overdueCount, overduePeriod, props.isSubmitClicked, props.handleCreditCardData]);
 
 
   return(
     <>
       <div className="join_row">
         <h3 className="join_title">
-          <label htmlFor="creditCardCompany">카드 회사</label>
+          <label htmlFor="cardCompany">카드 회사</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="creditCardCompany" name="creditCardCompany" className="sel" value={creditCardCompany} onChange={(e) => setCreditCardCompany(e.target.value)}>
+          <select id="cardCompany" name="cardCompany" className="sel"  onChange={(e) => setCardCompany(e.target.value)}>
             <option value="" defaultValue>카드 회사</option>
-            <option value="shinhan">신한</option>
-            <option value="hyundai">현대</option>
-            <option value="samsung">삼성</option>
-            <option value="lotte">롯데</option>
-            <option value="toss">토스</option>
-            <option value="hana">하나</option>
-            <option value="woori">우리</option>
-            <option value="kb">KB국민</option>
-            <option value="bc">BC</option>
-            <option value="nh">농협</option>
-            <option value="suhyup">수협</option>
-            <option value="city">씨티</option>
-            <option value="gwangju">광주</option>
-            <option value="junbuk">전북</option>
-            <option value="jeju">제주</option>
-            <option value="sinhyup">신협</option>
-            <option value="post">우체국</option>
-            <option value="mg">MG새마을</option>
-            <option value="kakao">카카오</option>
+            <option value="FIRST">1금융</option>
+            <option value="SECOND">2금융</option>
+            <option value="THIRD">3금융</option>
           </select>
         </div>
       </div>

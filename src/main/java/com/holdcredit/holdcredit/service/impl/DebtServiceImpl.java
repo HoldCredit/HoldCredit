@@ -25,7 +25,8 @@ public class DebtServiceImpl implements DebtService{
 
     @Override
     public Debt save(DebtRequestDto debtRequestDto) {
-        Customer customer = customerRepository.findById(debtRequestDto.getCustomerNo())
+        Long customerNo = debtRequestDto.getCustomerNo();
+        Customer customer = customerRepository.findById(customerNo)
                 .orElseThrow(() -> new IllegalArgumentException("회원번호를 찾을 수 없습니다"));
         Debt debt = debtRequestDto.toEntity();
         debt.setCustomer(customer);
@@ -34,10 +35,15 @@ public class DebtServiceImpl implements DebtService{
         // loanAmount, loanPeriod, loanCount를 기반으로 대출 점수 계산
         Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
 
-        Score score = new Score();
-        score.setLoanScore(loanScore);
-        score.setCustomer(debt.getCustomer());
-        scoreRepository.save(score);
+        Score score = scoreRepository.findByCustomer(customer);
+        if (score == null) {
+            score = new Score();
+            score.setCustomer(customer);
+            score.setLoanScore(loanScore);
+            scoreRepository.save(score);
+        } else {
+            score.setLoanScore(loanScore);
+        }
 
         return debtRepository.save(debt);
     }
@@ -119,8 +125,10 @@ public class DebtServiceImpl implements DebtService{
             redemptionRepository.save(redemption);
 
             //Score 엔티티 loanScore 초기화
-            Score score = scoreRepository.findByCustomer(customer)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
+            Score score = scoreRepository.findByCustomer(customer);
+            if (score == null) {
+                throw new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다");
+            }
             Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
             score.setLoanScore(loanScore);
             scoreRepository.save(score);
@@ -141,9 +149,11 @@ public class DebtServiceImpl implements DebtService{
 
             // Score 엔티티에 부채수준 업데이트
             Customer customer = debt.getCustomer();
-            Score score = scoreRepository.findByCustomer(customer)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 고객의 점수를 찾을 수 없습니다"));
-
+            Score score = scoreRepository.findByCustomer(customer);
+            if (score == null) {
+                score = new Score();
+                score.setCustomer(debt.getCustomer());
+            }
             Integer loanScore = totalLoanScore(debt.getLoanAmount(), debt.getLoanPeriod(), debt.getLoanCount());
             score.setLoanScore(loanScore);
             scoreRepository.save(score);

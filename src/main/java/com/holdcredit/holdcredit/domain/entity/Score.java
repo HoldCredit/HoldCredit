@@ -26,7 +26,7 @@ public class Score {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_no")
+    @JoinColumn(name = "customer_no",  unique = true)
     private Customer customer;
 
     @JsonIgnore

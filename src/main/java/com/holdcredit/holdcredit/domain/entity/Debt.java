@@ -20,7 +20,7 @@ public class Debt {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_no", /*nullable = false,*/ updatable = false)
+    @JoinColumn(name = "customer_no", nullable = false, updatable = false)
     private Customer customer;
 
     @Column

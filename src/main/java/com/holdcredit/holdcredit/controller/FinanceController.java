@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/finance")
@@ -18,8 +20,13 @@ public class FinanceController {
 
     /* 등록 */
     @PostMapping("/save")
-    public Finance save(@RequestParam Long customerNo, @RequestBody FinanceRequestDto financeRequestDto){
-        return financeService.save(customerNo, financeRequestDto);
+    public ResponseEntity<?> save(@RequestBody FinanceRequestDto financeRequestDto){
+        // 회원 번호 확인
+        Long customerNo = financeRequestDto.getCustomerNo();
+        System.out.println("전달된 회원 번호: " + customerNo);
+
+        financeService.save(financeRequestDto);
+        return new ResponseEntity<>(CREATED);
     }
 
     /* 읽기 */
