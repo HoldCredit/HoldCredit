@@ -1,9 +1,6 @@
 package com.holdcredit.holdcredit.service.impl;
 
-import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerRequestDto;
-import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
-import com.holdcredit.holdcredit.domain.dto.customerDto.TokenDto;
-import com.holdcredit.holdcredit.domain.dto.customerDto.TokenRequestDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.*;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.RefreshToken;
 import com.holdcredit.holdcredit.jwt.TokenProvider;
@@ -17,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -89,5 +89,21 @@ public class AuthServiceImpl implements AuthService {
 
         // 토큰 발급
         return tokenDto;
+    }
+
+    @Transactional
+    public FindIdResponseDto findId(FindIdRequestDto findIdRequestDto) {
+        String customerName = findIdRequestDto.getCustomer_name();
+        long phoneNum = findIdRequestDto.getPhone_num();
+
+        String foundEmail = customerRepository.findByCustomerNameAndPhoneNum(
+                        customerName, phoneNum
+                )
+                .map(Customer::getEmail)
+                .orElse(null);
+
+        FindIdResponseDto responseDto = new FindIdResponseDto();
+        responseDto.setEmail(foundEmail);
+        return responseDto;
     }
 }
