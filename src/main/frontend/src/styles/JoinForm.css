@@ -89,8 +89,7 @@ label {
     outline: 0;
 }
 
-.ps_box,
-.ps_box_disable {
+.ps_box {
     display: block;
     position: relative;
     width: 100%;
@@ -143,7 +142,7 @@ label {
     padding-right: 40px;
 }
 
-.box_right_space {
+.box_right_space1 {
     padding-right: 14px;
     box-sizing: border-box;
 }
@@ -277,17 +276,6 @@ select:hover:not(:focus) {
     background-color: #fee500;
 }
 
-.join_mobile .ps_box_disable,
-.join_mobile .ps_box_disable input {
-    background: #f7f7f7;
-    outline: 0;
-}
-
-.int_mobile_area+.ps_box,
-.int_mobile_area+.ps_box_disable,
-.ps_box_disable+.ps_box {
-    margin-top: 10px;
-}
 
 .btn_area {
     margin: 30px 0 30px;
@@ -326,4 +314,36 @@ select:hover:not(:focus) {
 }
 .creditDivider {
     padding-top: 30px;
+}
+
+
+.ps_box1 {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 51px;
+    border: solid 1px #dadada;
+    padding: 10px 11px 10px 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.join_row.join_email {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.join_row.join_email .int_email {
+  margin-bottom: 10px; /* 이메일 입력란 아래에 간격을 추가합니다 */
+}
+
+.join_row.join_email .emailBtn {
+  /* 버튼 스타일을 설정합니다 */
+  padding: 5px 10px;
+  background-color: #fee500;
+  color: #33333;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 5px; /* 이메일 입력란과의 간격을 추가합니다 */
 }

@@ -23,6 +23,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.signup(customerRequestDto));
     }
 
+    @PostMapping("/check-email")
+    public ResponseEntity<EmailAvailabilityResponseDto> checkEmailAvailability(@RequestBody CustomerResponseDto customerResponseDto) {
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(customerResponseDto.getEmail());
+        EmailAvailabilityResponseDto responseDto = new EmailAvailabilityResponseDto();
+        responseDto.setEmail(customerResponseDto.getEmail());
+        responseDto.setAvailable(!existingCustomer.isPresent());
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody CustomerRequestDto customerRequestDto) {
         return ResponseEntity.ok(authService.login(customerRequestDto));
