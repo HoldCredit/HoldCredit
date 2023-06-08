@@ -50,4 +50,20 @@ public class AuthController {
         loginResponseDto.setCustomerName(findCustomer.getCustomerName());
         return  ResponseEntity.ok(loginResponseDto);
     }
+
+    @PostMapping("/findId")
+    public ResponseEntity<FindIdResponseDto> findId(@RequestBody FindIdRequestDto findIdRequestDto) {
+        String customerName = findIdRequestDto.getCustomer_name();
+        long phoneNum = findIdRequestDto.getPhone_num();
+
+        String foundEmail = customerRepository.findByCustomerNameAndPhoneNum(
+                        customerName, phoneNum
+                )
+                .map(Customer::getEmail)
+                .orElse(null);
+
+        FindIdResponseDto responseDto = new FindIdResponseDto();
+        responseDto.setEmail(foundEmail);
+        return ResponseEntity.ok(responseDto);
+    }
 }

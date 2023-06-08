@@ -44,13 +44,12 @@
     font-style: oblique;
 }
 .content_article1 {
-    width: 600px;
+    width: 700px;
     height: 100%;
-    margin: 40px auto 42px;
+    margin: 64px auto 78px;
     padding: 0 69px;
     border: 1px solid rgba(0, 0, 0, .12);
-    font-size: 12px;
-    box-sizing: border-box;
+    font-size: 34px;
 }
 
 .content_article1>[class^=cont_] {
@@ -79,9 +78,8 @@
     line-height: 24px;
     color: #999;
 }
-.box_tf1:first-of-type,
-.desc_g+.boxtf, .tit_g+.box_tf1 {
-    margin-top: 47px;
+.box_tf1:first-of-type {
+    margin-top: 24px;
 }
 
 .box_tf1.error {
@@ -164,4 +162,10 @@
 
 .box_tf1:focus-within {
     border-color: black;
-  }
+}
+
+.desc_main1 {
+    font-size: 15px;
+    text-align: left;
+    word-break: keep-all;
+}
