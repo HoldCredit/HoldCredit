@@ -26,17 +26,14 @@ export default function CreditForm() {
   const [extraMonthlyFund, setExtraMonthlyFund] = useState(""); //매달여유자금
 
   /* 비금융 정보*/
-  const [marital, setMarital] = useState(""); //결혼
+  const [marital, setMarital] = useState("single"); //결혼
   const [childrenCnt, setChildrenCnt] = useState(""); //자녀수
-  const [realestate, setRealestate] = useState(""); //주택소유
-  const [vehicle, setVehicle] = useState(""); //자동차
-  const [healthInsurance, setHealthInsurance] = useState(""); //건강보험
-  const [phoneBillPayment, setPhoneBillPayment] = useState(""); //통신요금
-  const [proofOfIncomeAmount, setProofOfIncomeAmount] = useState(""); //소득금액
-  const [nationalPension, setNationalPension] = useState(""); //국민연금
-
-  /* 제출버튼 상태 변수 */
-  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
+  const [realestate, setRealestate] = useState("noHome"); //주택소유
+  const [vehicle, setVehicle] = useState("noCar"); //자동차
+  const [healthInsurance, setHealthInsurance] = useState("noHealth"); //건강보험
+  const [phoneBillPayment, setPhoneBillPayment] = useState("noPhone"); //통신요금
+  const [proofOfIncomeAmount, setProofOfIncomeAmount] = useState("noProof"); //소득금액
+  const [nationalPension, setNationalPension] = useState("noNational"); //국민연금
 
   /* 신용카드 정보 */
   const [cardCompany, setCardCompany] = useState("");
@@ -45,59 +42,93 @@ export default function CreditForm() {
   const [overdueCount, setOverdueCount] = useState("");
   const [overduePeriod, setOverduePeriod] = useState("");
 
+  // CreditCardCompany 컴포넌트에서 입력된 데이터를 받아 creditCards 배열에 추가
   const [creditCards, setCreditCards] = useState([]);
-
   const handleCreditCardData = (data) => {
     setCreditCards((prevCreditCards) => [...prevCreditCards, data]);
   };
 
   /* 대출/상환 정보 */
-  const [debtData, setDebtData] = useState([]);
+  const [loanAmount, setLoanAmount] = useState(""); //대출금액
+  const [loanPeriod, setLoanPeriod] = useState(""); // 남은대출기간
+  const [loanCount, setLoanCount] = useState(""); // 대출횟수
 
+  // Debt 컴포넌트에서 입력된 데이터를 받아 creditCards 배열에 추가
+  const [debts, setDebts] = useState([]);
   const handleDebtData = (data) => {
-    setDebtData(data);
-  };
+      setDebts((prevDebts) => [...prevDebts, data]);
+    };
 
-    // 신용카드
-    //추가
+  /* 제출버튼 상태 변수 */
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
+
+  {/* 추가/삭제 함수 */}
+    // 카드 추가
     const addCreditCard = () => {
-      const newCreditCard = {
-            cardCompany: cardCompany,
-            setCardCompany: setCardCompany,
-            transactionPeriod: transactionPeriod,
-            setTransactionPeriod: setTransactionPeriod,
-            limit: limit,
-            setLimit: setLimit,
-            overdueCount: overdueCount,
-            setOverdueCount: setOverdueCount,
-            overduePeriod: overduePeriod,
-            setOverduePeriod: setOverduePeriod
-
-      };
-
+     const newCreditCard = {
+       cardCompany: cardCompany,
+       setCardCompany: setCardCompany,
+       transactionPeriod: transactionPeriod,
+       setTransactionPeriod: setTransactionPeriod,
+       limit: limit,
+       setLimit: setLimit,
+       overdueCount: overdueCount,
+       setOverdueCount: setOverdueCount,
+       overduePeriod: overduePeriod,
+       setOverduePeriod: setOverduePeriod
+     };
       setCreditCards((prevCreditCards) => [...prevCreditCards, newCreditCard]);
     };
-    //삭제
+
+    // 카드 삭제
     const deleteCreditCard = (index) => {
         setCreditCards((prevCreditCards) =>
           prevCreditCards.filter((_, i) => i !== index)
         );
-      };
+    };
 
+    // 대출 추가
+    const addDebt = () => {
+      const newDebt = {
+        loanAmount: loanAmount,
+        setLoanAmount : setLoanAmount,
+        loanPeriod: loanPeriod,
+        setLoanPeriod : setLoanPeriod,
+        loanCount: loanCount,
+        setLoanCount : setLoanCount
+      };
+      setDebts((prevDebts) => [...prevDebts, newDebt]);
+    };
+
+    // 대출 삭제
+    const deleteDebt = (index) => {
+        setDebts((prevDebts) =>
+          prevDebts.filter((_, i) => i !== index)
+        );
+    };
+
+
+   {/* 카드/대출 전송함수 */}
    useEffect(() => {
      if (isSubmitClicked) {
        creditCards.forEach((creditCard) => {
-         const creditData = {
-           cardCompany: creditCard.cardCompany === "FIRST" ? CardCompany.FIRST : (creditCard.cardCompany === "SECOND" ? CardCompany.SECOND : CardCompany.THIRD),
+        const cardCompany =
+           creditCard.cardCompany === "FIRST" ? CardCompany.FIRST :
+           creditCard.cardCompany === "SECOND" ? CardCompany.SECOND :
+           creditCard.cardCompany === "THIRD" ? CardCompany.THIRD:
+           null;
+
+        const creditData = {
+           customerNo: customerNo,
+           cardCompany: cardCompany,
            transactionPeriod: parseInt(creditCard.transactionPeriod),
            limit: parseInt(creditCard.limit),
            overdueCount: parseInt(creditCard.overdueCount),
            overduePeriod: parseInt(creditCard.overduePeriod),
          };
-
          console.log(creditData);
          axios
-           .post("http://localhost:8080/creditCard/save", creditData)
+           .post("http://localhost:8090/creditCard/save", creditData)
            .then((response) => {
              console.log(response.data);
            })
@@ -106,44 +137,27 @@ export default function CreditForm() {
            });
        });
 
-          debtData.forEach((debt) => {
-                const debtItem = {
-                  customerNo: customerNo,
-                  loanAmount: debt.loanAmount,
-                  loanPeriod: debt.loanPeriod,
-                  loanCount: debt.loanCount,
-                };
-                console.log(debtItem);
-                axios.post("http://localhost:8080/debt/save", debtItem)
-                  .then((response) => {
-                  console.log(response.data);
-                })
-                  .catch((error) => {
-                    console.error(error);
-                  });
+     debts.forEach((debt) => {
+        const debtItems = {
+           customerNo: customerNo,
+           loanAmount: debt.loanAmount,
+           loanPeriod: debt.loanPeriod,
+           loanCount: debt.loanCount,
+        };
+        console.log(debtItems);
+        axios
+          .post("http://localhost:8090/debt/save", debtItems)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
           });
-        }
-      }, [creditCards, debtData, isSubmitClicked]);
+     });
+   }
+  }, [creditCards, debts, isSubmitClicked]);
 
-    // 대출
-    const [debts, setDebts] = useState([]);
-    //추가
-    const addDebt = () => {
-      const newDebt = {
-        loanAmount: "",
-        loanPeriod: "",
-        loanCount: "",
-      };
-      setDebtData((prevDebtData) => [...prevDebtData, newDebt]);
-    };
-    //삭제
-    const deleteDebt = (index) => {
-        setDebtData((prevDebts) =>
-          prevDebts.filter((_, i) => i !== index)
-        );
-    };
-
-  /* 저장 시작 */
+  {/* 개인금융/비금융 저장 시작 */}
   const handleSubmit = () => {
     setIsSubmitClicked(true);
 
@@ -154,43 +168,37 @@ export default function CreditForm() {
       continuousService: parseInt(continuousService),
       extraMonthlyFund: parseInt(extraMonthlyFund)
     };
-    console.log(financeData)
-    axios.post("http://localhost:8080/finance/save", financeData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
 
     //NonFinancial 비금융
     const nonFinanceData = {
-      customerNo: customerNo,
-      marital: marital === 'married' ? Classification.YES : Classification.NO,
-      childrenCnt: parseInt(childrenCnt),
-      realestate: realestate === 'yesHome' ? Classification.YES : Classification.NO,
-      vehicle: vehicle === 'yesCar' ? Classification.YES : Classification.NO,
-      healthInsurance: healthInsurance === 'yesHealth' ? Classification.YES : Classification.NO,
-      phoneBillPayment: phoneBillPayment === 'yesPhone' ? Classification.YES : Classification.NO,
-      proofOfIncomeAmount: proofOfIncomeAmount === 'yesProof' ? Classification.YES : Classification.NO,
-      nationalPension: nationalPension === 'yesNational' ? Classification.YES : Classification.NO,
+        customerNo: customerNo,
+        marital: marital === 'married' ? Classification.YES : Classification.NO,
+        childrenCnt: parseInt(childrenCnt),
+        realestate: realestate === 'yesHome' ? Classification.YES : Classification.NO,
+        vehicle: vehicle === 'yesCar' ? Classification.YES : Classification.NO,
+        healthInsurance: healthInsurance === 'yesHealth' ? Classification.YES : Classification.NO,
+        phoneBillPayment: phoneBillPayment === 'yesPhone' ? Classification.YES : Classification.NO,
+        proofOfIncomeAmount: proofOfIncomeAmount === 'yesProof' ? Classification.YES : Classification.NO,
+        nationalPension: nationalPension === 'yesNational' ? Classification.YES : Classification.NO,
     };
-    console.log(nonFinanceData)
-    axios.post("http://localhost:8080/nonFinancial/save", nonFinanceData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
 
+    // Promise.all: 두 개의 요청이 모두 완료될 때까지 기다림.
+    Promise.all([
+        axios.post("http://localhost:8090/finance/save", financeData),
+        axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData)
+    ])
+        // 두 요청 모두 완료되었을 때
+        .then((responses) => {
+          console.log("Finance:  ", responses[0].data);
+          console.log("NonFinancial:  ", responses[1].data);
+        })
+        // 하나라도 실패한 경우
+        .catch((error) => {
+          console.error("Error:", error);
+        });
 
-
-    //CreditCard 신용카드
    };
   /* 저장 끝*/
-
-
 
   return (
     <div id="wrap">
@@ -259,8 +267,9 @@ export default function CreditForm() {
                             <label htmlFor="marital">결혼 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="single"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row'}}
+                            value={marital} onChange={(e) => setMarital(e.target.value)}>
                             <FormControlLabel value="married" control={<Radio/>} label="기혼"/>
                             <FormControlLabel value="single" control={<Radio/>} label="미혼"/>
                           </RadioGroup>
@@ -279,8 +288,9 @@ export default function CreditForm() {
                             <label htmlFor="realestate">주택 소유 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noHome"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={realestate} onChange={(e) => setRealestate(e.target.value)}>
                             <FormControlLabel value="yesHome" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noHome" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -290,8 +300,9 @@ export default function CreditForm() {
                             <label htmlFor="vehicle">자동차 소유 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noCar"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
                             <FormControlLabel value="yesCar" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noCar" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -301,8 +312,9 @@ export default function CreditForm() {
                             <label htmlFor="healthInsurance">건강보험 납부 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noHealth"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={healthInsurance} onChange={(e) => setHealthInsurance(e.target.value)}>
                             <FormControlLabel value="yesHealth" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noHealth" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -312,8 +324,9 @@ export default function CreditForm() {
                             <label htmlFor="phoneBillPayment">통신요금 납부 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noPhone"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={phoneBillPayment} onChange={(e) => setPhoneBillPayment(e.target.value)}>
                             <FormControlLabel value="yesPhone" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noPhone" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -323,8 +336,9 @@ export default function CreditForm() {
                             <label htmlFor="proofOfIncomeAmount">소득금액 증명 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noProof"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={proofOfIncomeAmount} onChange={(e) => setProofOfIncomeAmount(e.target.value)}>
                             <FormControlLabel value="yesProof" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noProof" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -334,8 +348,9 @@ export default function CreditForm() {
                             <label htmlFor="nationalPension">국민연금 증명 여부</label>
                           </h3>
                           <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label" defaultValue="noNational"
-                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}>
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group" sx={{display: 'flex', flexDirection: 'row',}}
+                            value={nationalPension} onChange={(e) => setNationalPension(e.target.value)}>
                             <FormControlLabel value="yesNational" control={<Radio/>} label="YES"/>
                             <FormControlLabel value="noNational" control={<Radio/>} label="NO"/>
                           </RadioGroup>
@@ -350,6 +365,8 @@ export default function CreditForm() {
                        {creditCards.map((creditCard, i) => (
                           <div key={i}>
                             <CreditCardCompany
+                            deleteCreditCard={() => deleteCreditCard(i)}
+                            handleCreditCardData={creditCard.handleCreditCardData}
                             cardCompany={creditCard.cardCompany}
                             setCardCompany={creditCard.setCardCompany}
                             transactionPeriod={creditCard.transactionPeriod}
@@ -360,8 +377,6 @@ export default function CreditForm() {
                             setOverdueCount={creditCard.setOverdueCount}
                             overduePeriod={creditCard.overduePeriod}
                             setOverduePeriod={creditCard.setOverduePeriod}
-                            deleteCreditCard={() => deleteCreditCard(i)}
-                            handleCreditCardData={handleCreditCardData}
                             />
                         </div>
                       ))}
@@ -373,15 +388,17 @@ export default function CreditForm() {
                     <h3>대출 및 상환이력 정보 입력</h3>
                     <div className="join_row_flex">
                        <Button variant="outlined" onClick={addDebt}>대출 이력 추가</Button>
-                       { debtData.map((debt, i) => (
+                       { debts.map((debt, i) => (
                           <div key={i}>
                             <Debt
-                              loanAmount={debt.loanAmount}
-                              loanPeriod={debt.loanPeriod}
-                              loanCount={debt.loanCount}
                               deleteDebt={() => deleteDebt(i)}
                               handleDebtData={handleDebtData}
-
+                              loanAmount={debt.loanAmount}
+                              setLoanAmount={debt.setLoanAmount}
+                              loanPeriod={debt.loanPeriod}
+                              setLoanPeriod={debt.setLoanPeriod}
+                              loanCount={debt.loanCount}
+                              setLoanCount={debt.setLoanCount}
                             />
                           </div>
                        ))}
