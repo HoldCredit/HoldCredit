@@ -20,6 +20,13 @@ export default function CreditForm() {
   // 해석한 정보에서 회원번호만 추출
   const customerNo = decodedToken.sub;
 
+  // 저장 함수 완료 시 이동
+  const navigate = useNavigate();
+  const handleSaveComplete = () => {
+    alert("신용평가가 완료되었습니다.");
+    navigate("/");
+  };
+
   /* 개인금융 정보 */
   const [annulIncome, setAnnulIncome] = useState(""); //연봉
   const [continuousService, setContinuousService] = useState(""); //근속년수
@@ -36,11 +43,11 @@ export default function CreditForm() {
   const [nationalPension, setNationalPension] = useState("noNational"); //국민연금
 
   /* 신용카드 정보 */
-  const [cardCompany, setCardCompany] = useState("");
-  const [transactionPeriod, setTransactionPeriod] = useState("");
-  const [limit, setLimit] = useState("");
-  const [overdueCount, setOverdueCount] = useState("");
-  const [overduePeriod, setOverduePeriod] = useState("");
+  const [cardCompany, setCardCompany] = useState(null);
+  const [transactionPeriod, setTransactionPeriod] = useState(null);
+  const [limit, setLimit] = useState(null);
+  const [overdueCount, setOverdueCount] = useState(null);
+  const [overduePeriod, setOverduePeriod] = useState(null);
 
   // CreditCardCompany 컴포넌트에서 입력된 데이터를 받아 creditCards 배열에 추가
   const [creditCards, setCreditCards] = useState([]);
@@ -49,35 +56,29 @@ export default function CreditForm() {
   };
 
   /* 대출/상환 정보 */
-  const [loanAmount, setLoanAmount] = useState(""); //대출금액
-  const [loanPeriod, setLoanPeriod] = useState(""); // 남은대출기간
-  const [loanCount, setLoanCount] = useState(""); // 대출횟수
+  const [loanAmount, setLoanAmount] = useState(null); //대출금액
+  const [loanPeriod, setLoanPeriod] = useState(null); // 남은대출기간
+  const [loanCount, setLoanCount] = useState(null); // 대출횟수
 
   // Debt 컴포넌트에서 입력된 데이터를 받아 creditCards 배열에 추가
   const [debts, setDebts] = useState([]);
   const handleDebtData = (data) => {
       setDebts((prevDebts) => [...prevDebts, data]);
-    };
+  };
 
-  /* 제출버튼 상태 변수 */
-  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
-  {/* 추가/삭제 함수 */}
+  {/* 추가/삭제 버튼 함수 */}
     // 카드 추가
     const addCreditCard = () => {
      const newCreditCard = {
-       cardCompany: cardCompany,
-       setCardCompany: setCardCompany,
-       transactionPeriod: transactionPeriod,
-       setTransactionPeriod: setTransactionPeriod,
-       limit: limit,
-       setLimit: setLimit,
-       overdueCount: overdueCount,
-       setOverdueCount: setOverdueCount,
-       overduePeriod: overduePeriod,
-       setOverduePeriod: setOverduePeriod
+        customerNo: "",
+       cardCompany: "",
+       transactionPeriod: "",
+       limit: "",
+       overdueCount: "",
+       overduePeriod: ""
      };
-      setCreditCards((prevCreditCards) => [...prevCreditCards, newCreditCard]);
+      setCreditCards((prevCreditCards) => [...prevCreditCards, { ...newCreditCard }]);
     };
 
     // 카드 삭제
@@ -87,17 +88,27 @@ export default function CreditForm() {
         );
     };
 
+    // 카드 배열 업데이트
+    const updateCreditCardValue = (index, key, value) => {
+        setCreditCards((prevCreditCards) => {
+          const updateCards = [...prevCreditCards];
+          updateCards[index][key] = value;
+          return updateCards;
+        });
+    };
+
     // 대출 추가
     const addDebt = () => {
       const newDebt = {
-        loanAmount: loanAmount,
-        setLoanAmount : setLoanAmount,
-        loanPeriod: loanPeriod,
-        setLoanPeriod : setLoanPeriod,
-        loanCount: loanCount,
-        setLoanCount : setLoanCount
+        customerNo : "",
+        loanAmount: "",
+        setLoanAmount : "",
+        loanPeriod: "",
+        setLoanPeriod : "",
+        loanCount: "",
+        setLoanCount : ""
       };
-      setDebts((prevDebts) => [...prevDebts, newDebt]);
+      setDebts((prevDebts) => [...prevDebts, { ...newDebt }]);
     };
 
     // 대출 삭제
@@ -107,60 +118,18 @@ export default function CreditForm() {
         );
     };
 
+    // 대출 배열 업데이트
+    const updateDebtValue = (index, key, value) => {
+        setDebts((prevDebts) => {
+          const updateDebts = [...prevDebts];
+          updateDebts[index][key] = value;
+          return updateDebts;
+        });
+    };
 
-   {/* 카드/대출 전송함수 */}
-   useEffect(() => {
-     if (isSubmitClicked) {
-       creditCards.forEach((creditCard) => {
-        const cardCompany =
-           creditCard.cardCompany === "FIRST" ? CardCompany.FIRST :
-           creditCard.cardCompany === "SECOND" ? CardCompany.SECOND :
-           creditCard.cardCompany === "THIRD" ? CardCompany.THIRD:
-           null;
 
-        const creditData = {
-           customerNo: customerNo,
-           cardCompany: cardCompany,
-           transactionPeriod: parseInt(creditCard.transactionPeriod),
-           limit: parseInt(creditCard.limit),
-           overdueCount: parseInt(creditCard.overdueCount),
-           overduePeriod: parseInt(creditCard.overduePeriod),
-         };
-         console.log(creditData);
-         axios
-           .post("http://localhost:8090/creditCard/save", creditData)
-           .then((response) => {
-             console.log(response.data);
-           })
-           .catch((error) => {
-             console.error(error);
-           });
-       });
-
-     debts.forEach((debt) => {
-        const debtItems = {
-           customerNo: customerNo,
-           loanAmount: debt.loanAmount,
-           loanPeriod: debt.loanPeriod,
-           loanCount: debt.loanCount,
-        };
-        console.log(debtItems);
-        axios
-          .post("http://localhost:8090/debt/save", debtItems)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-     });
-   }
-  }, [creditCards, debts, isSubmitClicked]);
-
-  {/* 개인금융/비금융 저장 시작 */}
-  const handleSubmit = () => {
-    setIsSubmitClicked(true);
-
+  {/* 저장함수 시작 */}
+  const handleSubmit = async() => {
     //Finance 개인금융
     const financeData = {
       customerNo: customerNo,
@@ -182,21 +151,61 @@ export default function CreditForm() {
         nationalPension: nationalPension === 'yesNational' ? Classification.YES : Classification.NO,
     };
 
-    // Promise.all: 두 개의 요청이 모두 완료될 때까지 기다림.
-    Promise.all([
-        axios.post("http://localhost:8090/finance/save", financeData),
-        axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData)
-    ])
-        // 두 요청 모두 완료되었을 때
-        .then((responses) => {
-          console.log("Finance:  ", responses[0].data);
-          console.log("NonFinancial:  ", responses[1].data);
-        })
-        // 하나라도 실패한 경우
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+    //CreditCard 신용카드
+    // creditCards 배열을 creditData 배열로 변환
+    const creditDataArray  = creditCards.map((creditCard) => {
+        const cardCompany =
+          creditCard.cardCompany === "FIRST" ? CardCompany.FIRST :
+          creditCard.cardCompany === "SECOND" ? CardCompany.SECOND :
+          creditCard.cardCompany === "THIRD" ? CardCompany.THIRD :
+          null;
 
+        return {
+          customerNo: customerNo,
+          cardCompany: cardCompany,
+          transactionPeriod: parseInt(creditCard.transactionPeriod),
+          limit: parseInt(creditCard.limit),
+          overdueCount: parseInt(creditCard.overdueCount),
+          overduePeriod: parseInt(creditCard.overduePeriod),
+        };
+    });
+
+    //Debt 부채
+    //debts 배열을 debtData 배열로 변환
+    const debtDataArray = debts.map((debt) => {
+        return {
+          customerNo: customerNo,
+          loanAmount: parseInt(debt.loanAmount),
+          loanPeriod: parseInt(debt.loanPeriod),
+          loanCount: parseInt(debt.loanCount),
+        };
+    });
+
+     try {
+           const financePromise = await axios.post("http://localhost:8090/finance/save", financeData);
+           const nonFinancePromise = await axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData);
+           const creditPromise = creditDataArray.map((creditData) =>
+             axios.post("http://localhost:8090/creditCard/save", creditData));
+           const debtPromise = debtDataArray.map((debtData) =>
+             axios.post("http://localhost:8090/debt/save", debtData))
+
+           const financeResponse = await financePromise;
+           const nonFinanceResponse = await nonFinancePromise;
+           const creditResponse = await Promise.all(creditPromise);
+           const debtResponse = await Promise.all(debtPromise);
+
+           console.log("Finance:", financeResponse.data);
+           console.log("NonFinancial:", nonFinanceResponse.data);
+           creditResponse.forEach((creditResponse, index) => {
+             console.log(`CreditCard ${index + 1}:`, creditResponse.data);
+           });
+           debtResponse.forEach((debtResponse, index) => {
+             console.log(`Debt ${index + 1}:`, debtResponse.data);
+           });
+           handleSaveComplete(); // 저장 완료 후 이동
+         } catch (error) {
+           console.error("Error:", error);
+         }
    };
   /* 저장 끝*/
 
@@ -365,18 +374,14 @@ export default function CreditForm() {
                        {creditCards.map((creditCard, i) => (
                           <div key={i}>
                             <CreditCardCompany
+                            customerNo={creditCard.customerNo}
                             deleteCreditCard={() => deleteCreditCard(i)}
-                            handleCreditCardData={creditCard.handleCreditCardData}
-                            cardCompany={creditCard.cardCompany}
-                            setCardCompany={creditCard.setCardCompany}
-                            transactionPeriod={creditCard.transactionPeriod}
-                            setTransactionPeriod={creditCard.setTransactionPeriod}
-                            limit={creditCard.limit}
-                            setLimit={creditCard.setLimit}
-                            overdueCount={creditCard.overdueCount}
-                            setOverdueCount={creditCard.setOverdueCount}
-                            overduePeriod={creditCard.overduePeriod}
-                            setOverduePeriod={creditCard.setOverduePeriod}
+                            handleCreditCardData={handleCreditCardData}
+                            setCardCompany={(value) => updateCreditCardValue(i, "cardCompany", value)}
+                            setTransactionPeriod={(value) => updateCreditCardValue(i, "transactionPeriod", value)}
+                            setLimit={(value) => updateCreditCardValue(i, "limit", value)}
+                            setOverdueCount={(value) => updateCreditCardValue(i, "overdueCount", value)}
+                            setOverduePeriod={(value) => updateCreditCardValue(i, "overduePeriod", value)}
                             />
                         </div>
                       ))}
@@ -391,14 +396,12 @@ export default function CreditForm() {
                        { debts.map((debt, i) => (
                           <div key={i}>
                             <Debt
+                              customerNo={debt.customerNo}
                               deleteDebt={() => deleteDebt(i)}
                               handleDebtData={handleDebtData}
-                              loanAmount={debt.loanAmount}
-                              setLoanAmount={debt.setLoanAmount}
-                              loanPeriod={debt.loanPeriod}
-                              setLoanPeriod={debt.setLoanPeriod}
-                              loanCount={debt.loanCount}
-                              setLoanCount={debt.setLoanCount}
+                              setLoanAmount={(value) => updateDebtValue(i, "loanAmount", value)}
+                              setLoanPeriod={(value) => updateDebtValue(i, "loanPeriod", value)}
+                              setLoanCount={(value) => updateDebtValue(i, "loanCount", value)}
                             />
                           </div>
                        ))}
