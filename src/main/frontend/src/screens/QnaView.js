@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import {useSelector} from "react-redux";
 import axios from 'axios';
+import jwtDecode from "jwt-decode";
 import './css/Board.css';
+import '../store/CustomerNameStore'
 
 function QnaView(props) {
   const { id } = useParams();
@@ -12,6 +15,16 @@ function QnaView(props) {
   const [editMode, setEditMode] = useState({});
 
   const navigate = useNavigate();
+
+  // 세션에 저장된 토큰값 가져오기
+  const storedToken = sessionStorage.getItem("loginData");
+  // 토큰값 해석
+  const decodedToken = jwtDecode(storedToken);
+  // 해석한 정보에서 회원번호만 추출
+  const customerNo = decodedToken.sub;
+  //customerName 가져오기
+  const writer = useSelector((state) => state.customerName);
+
 
 //글 리스트 가져오기
   useEffect(() => {
@@ -60,6 +73,8 @@ function QnaView(props) {
 
     let replyData = {
       reply: reply,
+      writer: writer,
+      customerNo: customerNo,
     };
 
     axios
@@ -219,7 +234,7 @@ function QnaView(props) {
                       <div className="comment_area">
                         {editMode[list.id] ? (
                           <div className="CommentWriter">
-                            <div>User Name</div>
+                            <div>{writer}</div>
                             <div className="comment_inbox">
                               {editMode[list.id] ? (
                                 <textarea
@@ -254,7 +269,7 @@ function QnaView(props) {
                           </div>
                         ) : (
                           <div style={{ fontSize: '15px' }}>
-                            <div style={{ fontWeight: 'bold' }}>User Name</div>
+                            <div style={{ fontWeight: 'bold' }}>{list.writer}</div>
                             {list.reply}
                             <ul className="LayerMore">
                               <li className="layer_item">
@@ -281,7 +296,7 @@ function QnaView(props) {
                   <div className="CommentWriter">
                     <div className="comment_inbox">
                       <strong className="blind">댓글을 입력하세요</strong>
-                      <em className="comment_inbox_name">김영빈</em>
+                      <em className="comment_inbox_name">{writer}</em>
                       <textarea
                         placeholder="댓글을 남겨보세요"
                         rows="1"

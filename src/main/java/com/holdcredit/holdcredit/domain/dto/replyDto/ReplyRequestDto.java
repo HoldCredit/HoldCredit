@@ -11,6 +11,8 @@ public class ReplyRequestDto {
 
     private Long id;
     private Qna qnaNo;
+    private Long customerNo;
+    private String writer;
     private String reply;
     private java.util.Date createDate;
     private java.util.Date lasModifiedDate;
@@ -20,6 +22,7 @@ public class ReplyRequestDto {
         return Reply.builder()
                 .id(dto.getId())
                 .qna(dto.getQnaNo())
+                .writer(dto.getWriter())
                 .reply(dto.getReply())
                 .createDate(dto.getCreateDate())
                 .lastModifiedDate(dto.getLasModifiedDate())

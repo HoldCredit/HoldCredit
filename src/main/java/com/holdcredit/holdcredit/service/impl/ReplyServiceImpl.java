@@ -2,8 +2,10 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyRequestDto;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import com.holdcredit.holdcredit.domain.entity.Reply;
+import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.QnaRepository;
 import com.holdcredit.holdcredit.repository.ReplyRepository;
 import com.holdcredit.holdcredit.service.ReplyService;
@@ -23,6 +25,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     private final QnaRepository qnaRepository;
 
+    private final CustomerRepository customerRepository;
 
     //댓글 정보 가져오기
     @Override
@@ -52,12 +55,16 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public Long replySave(Long id, ReplyRequestDto requestDto){
 
+        Customer findCustomer = customerRepository.findById(requestDto.getCustomerNo()).get();
+
         Qna qna = qnaRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다."+ id));
 
         requestDto.setQnaNo(qna);
 
         Reply reply = requestDto.toEntity(requestDto);
+        reply.setCustomer(findCustomer);
+
         replyRepository.save(reply);
 
         return requestDto.getId();

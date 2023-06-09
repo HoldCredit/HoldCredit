@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyRequestDto;
 import com.holdcredit.holdcredit.domain.dto.replyDto.ReplyResponseDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Date;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,8 +31,14 @@ public class Reply extends Date {
     @JoinColumn(name = "qna_no", nullable = false, updatable = false)
     private Qna qna;
 
-    //작성자 = Customer 테이블에서 가져올예정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_no", nullable = false, updatable = false)
+    @JsonIgnore
+    private Customer customer;
 
+    @Column
+    @JsonIgnore
+    private String writer;
     //내용
     @Column(length = 5000, nullable = false)
     private String reply;
@@ -48,13 +52,17 @@ public class Reply extends Date {
     @LastModifiedDate
     @Temporal(TemporalType.DATE)
     private java.util.Date lastModifiedDate;
-    //대댓글?
+
+
+
+
 
     public ReplyResponseDto responseDto() {
         ReplyResponseDto responseDto = new ReplyResponseDto();
 
         responseDto.setId(this.getId());
         responseDto.setQnaNo(this.getQna().getId());
+        responseDto.setWriter(this.getWriter());
         responseDto.setReply(this.getReply());
         responseDto.setCreateDate(this.getCreateDate());
         responseDto.setLasModifiedDate(this.getLastModifiedDate());
