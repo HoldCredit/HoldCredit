@@ -34,6 +34,7 @@ const Header = () => {
               <NavDropdown.Item onClick={() => navigate('/MainNotice')}>공지사항</NavDropdown.Item>
               <NavDropdown.Item onClick={() => navigate('/MainQnA')}>Q & A</NavDropdown.Item>
               <NavDropdown.Item onClick={() => navigate('/MainFaQ')}>자주 묻는 질문</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => navigate('/MainMaps')}>찾아오시는길</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>

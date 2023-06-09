@@ -11,6 +11,7 @@ import CreditRating from "./screens/CreditRating";
 import MainNotice from './screens/MainNotice';
 import MainQnA from './screens/MainQnA';
 import MainFaQ from './screens/MainFaQ';
+import MainMaps from './screens/MainMaps';
 import NoticeView from './screens/NoticeView';
 import NoticeWrite from './screens/NoticeWrite';
 import NoticeEdit from './screens/NoticeEdit';
@@ -49,6 +50,7 @@ root.render(
             <Route path="/MainNotice" element={<MainNotice/>}/>
             <Route path="/MainQnA" element={<MainQnA/>}/>
             <Route path="/MainFaQ" element={<MainFaQ/>}/>
+            <Route path="/MainMaps" element={<MainMaps/>}/>
             <Route path="/NoticeView/:id" element={<NoticeView/>}/>
             <Route path="/NoticeWrite" element={<NoticeWrite/>}/>
             <Route path="/NoticeEdit/:id" element={<NoticeEdit/>}/>
