@@ -25,7 +25,6 @@ public class CreditCard {
     @ManyToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
     @JoinColumn (name = "customer_no", nullable = false, updatable = false) //readonly
     private Customer customer; //userNo
-//    @JsonIgnore //response에 해당 필드 제외
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30)

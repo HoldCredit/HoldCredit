@@ -40,13 +40,11 @@ public class FinanceServiceImpl implements FinanceService {
         if (score == null) {
             score = new Score();
             score.setCustomer(customer);
-            score.setCreditTypeScore(transactionScore);
+            score.setTransactionScore(transactionScore);
             scoreRepository.save(score);
         }else {
             score.setTransactionScore(transactionScore);
         }
-
-
         return financeRepository.save(finance);
     }
 

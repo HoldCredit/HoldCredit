@@ -9,7 +9,7 @@ export default function CreditCardCompany ( props ) {
     props.deleteCreditCard();
   };
 
-  // 입력된 데이터를 객체로 구성하여 handleCreditCardData 함수 전달
+  // 입력된 데이터를 객체로 구성하여 handleCreditCardData 전달
   const handleCreditCardData = () => {
     const creditCardData = {
       customerNo: props.customerNo,
@@ -17,10 +17,12 @@ export default function CreditCardCompany ( props ) {
       transactionPeriod: props.transactionPeriod,
       limit: props.limit,
       overdueCount: props.overdueCount,
-      overduePeriod: props.overduePeriod,
+      overduePeriod: props.overduePeriod
     };
     props.handleCreditCardData(creditCardData);
   };
+
+
 
   return(
     <>
