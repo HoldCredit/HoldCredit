@@ -3,24 +3,21 @@ import {Button} from "@mui/material";
 
 export default function Debt ( props ) {
 
-  const [loanAmount, setLoanAmount] = useState(""); //대출금액
-  const [loanPeriod, setLoanPeriod] = useState(""); // 남은대출기간
-  const [loanCount, setLoanCount] = useState(""); // 대출횟수
-
   const deleteDebt = () => {
     const deleteDebt = props.deleteDebt(props.i);
   };
 
-  useEffect(() => {
-    if(props.isSubmitClicked){
+  // 입력된 데이터를 객체로 구성하여 handleDebtData 함수 전달
+    const handleDebtData = () => {
       const debtData = {
-        loanAmount: parseInt(loanAmount),
-        loanPeriod: parseInt(loanPeriod),
-        loanCount: parseInt(loanCount),
+        customerNo: props.customerNo,
+        loanAmount: props.loanAmount,
+        loanPeriod: props.loanPeriod,
+        loanCount: props.loanCount,
       };
       props.handleDebtData(debtData);
-    }
-  }, [loanAmount, loanPeriod, loanCount,props.isSubmitClicked,props.handleCreditCardData]);
+    };
+
 
 
   return(
@@ -29,18 +26,25 @@ export default function Debt ( props ) {
           <h3 className="join_title">
             <label htmlFor="loanAmount">대출 금액</label>
           </h3>
-          <span className="ps_box box_right_space">
-             <input type="text" id="loanAmount" name="loanAmount" className="int" maxLength="40"
-                    value={loanAmount} onChange={(e) => setLoanAmount(e.target.value)}/>
-          </span>
+          <div className="ps_box occupation_code">
+          <select id="loanAmount" name="loanAmount" className="sel" onChange={(e) => props.setLoanAmount(e.target.value)}>
+            <option value="" > 대출 금액 </option>
+            <option value="1">100</option>
+            <option value="2">200</option>
+            <option value="3">300</option>
+            <option value="4">400</option>
+            <option value="5">500</option>
+            <option value="6">600</option>
+          </select>
+        </div>
       </div>
       <div className="join_row_flex">
         <h3 className="join_title">
           <label htmlFor="loanPeriod">남은 대출 기간</label>
         </h3>
         <div className="ps_box occupation_code">
-          <select id="loanPeriod" name="loanPeriod" className="sel" onChange={(e) => setLoanPeriod(e.target.value)}>
-            <option value="" defaultValue> 남은 대출 기간 </option>
+          <select id="loanPeriod" name="loanPeriod" className="sel" onChange={(e) => props.setLoanPeriod(e.target.value)}>
+            <option value="" > 남은 대출 기간 </option>
             <option value="1">1년 이하</option>
             <option value="2">1년 이상</option>
             <option value="3">3년 이상</option>
@@ -54,10 +58,17 @@ export default function Debt ( props ) {
           <h3 className="join_title">
             <label htmlFor="loanCount"> 대출 횟수</label>
           </h3>
-          <span className="ps_box box_right_space">
-            <input type="text" id="loanCount" name="loanCount" className="int" maxLength="40"
-               value={loanCount} onChange={(e) => setLoanCount(e.target.value)}/>
-          </span>
+          <div className="ps_box occupation_code">
+             <select id="loanCount" name="loanCount" className="sel" onChange={(e) => props.setLoanCount(e.target.value)}>
+                <option value="" > 대출 횟수 </option>
+                <option value="1">1</option>
+                <option value="2">1</option>
+                <option value="3">3</option>
+                <option value="4">6</option>
+                <option value="5">9</option>
+                <option value="6">15</option>
+             </select>
+          </div>
       </div>
 
       <div className="join_row_flex" style={{margin: "20px"}}>
