@@ -112,6 +112,7 @@ public class Notice extends Date{
         NoticeResponseDto responseDto = new NoticeResponseDto();
 
         responseDto.setId(notice.getId());
+        responseDto.setCustomerNo(notice.getCustomer().getId());
         responseDto.setWriter(notice.getWriter());
         responseDto.setTitle(notice.getTitle());
         responseDto.setContent(notice.getContent());

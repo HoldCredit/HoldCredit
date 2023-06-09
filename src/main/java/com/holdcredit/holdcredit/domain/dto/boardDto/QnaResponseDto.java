@@ -11,6 +11,7 @@ import java.util.List;
 public class QnaResponseDto {
 
     private Long id;
+    private Long customerNo;
     private String title;
     private String writer;
     private String content;

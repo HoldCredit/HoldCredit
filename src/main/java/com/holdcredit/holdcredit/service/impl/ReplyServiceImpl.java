@@ -36,7 +36,6 @@ public class ReplyServiceImpl implements ReplyService {
 
         Qna qna = qnaRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글 조회 실패: 해당 게시글이 존재하지 않습니다."));
-
         Long qnaNo = qna.getId();
         List<Reply> replies = replyRepository.findByQnaNo(qnaNo);
 

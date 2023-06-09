@@ -44,6 +44,11 @@ function QnaView(props) {
 
 //글 수정 페이지 이동
   const updateQna = () => {
+    if (customerNo != qna.customerNo) {
+      alert('작성자만 글을 수정할 수 있습니다.');
+      return;
+    }
+
     navigate(`/QnaEdit/${id}`);
   };
 
@@ -56,6 +61,10 @@ function QnaView(props) {
   const deleteQna = () => {
     const confirmDelete = window.confirm('정말로 글을 삭제하시겠습니까?');
     if (confirmDelete) {
+     if (customerNo !== qna.customerNo) {
+          alert('작성자만 글을 삭제할 수 있습니다.');
+          return;
+     }
       axios
         .delete(`http://localhost:8080/api/Qna/${id}`)
         .then(() => {
@@ -93,6 +102,7 @@ function QnaView(props) {
 
 //댓글 수정
   const changeHandler = (event, replyId) => {
+
     const { name, value } = event.target;
     setUpdate((prevUpdate) => ({
       ...prevUpdate,
@@ -103,12 +113,19 @@ function QnaView(props) {
     }));
   };
 
-  const toggleEditMode = (replyId) => {
-    setEditMode((prevEditMode) => ({
-      ...prevEditMode,
-      [replyId]: !prevEditMode[replyId],
-    }));
-  };
+const toggleEditMode = (replyId) => {
+  const reply = replyList.find((reply) => reply.id === replyId);
+  if (reply && reply.customerNo != customerNo) {
+    console.log(customerNo);
+    console.log(reply.customerNo);
+    alert('작성자만 댓글을 수정할 수 있습니다.');
+    return;
+  }
+  setEditMode((prevEditMode) => ({
+    ...prevEditMode,
+    [replyId]: !prevEditMode[replyId],
+  }));
+};
 
  const updateReply = (event, replyId) => {
    event.preventDefault();
@@ -142,7 +159,13 @@ function QnaView(props) {
 //댓글 삭제
   const deleteReply = (replyId) => {
     const confirmDelete = window.confirm('댓글을 삭제하시겠습니까?');
+    const reply = replyList.find((reply) => reply.id === replyId);
+
     if (confirmDelete) {
+         if (reply && customerNo != reply.customerNo) {
+              alert('작성자만 글을 삭제할 수 있습니다.');
+              return;
+         }
       axios
         .delete(`http://localhost:8080/api/Qna/${id}/Reply/${replyId}`)
         .then(() => {
@@ -234,7 +257,7 @@ function QnaView(props) {
                       <div className="comment_area">
                         {editMode[list.id] ? (
                           <div className="CommentWriter">
-                            <div>{writer}</div>
+                            <div>{list.writer}</div>
                             <div className="comment_inbox">
                               {editMode[list.id] ? (
                                 <textarea

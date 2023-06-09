@@ -16,6 +16,7 @@ import java.util.List;
 public class NoticeResponseDto {
 
     private Long id; //게시판 번호
+    private Long customerNo; //회원 번호
     private String writer; //회원 이름
     private String title;
     private String content;

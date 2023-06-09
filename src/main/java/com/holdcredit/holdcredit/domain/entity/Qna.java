@@ -91,6 +91,7 @@ public class Qna extends Date {
     public QnaResponseDto responseDto(){
         return QnaResponseDto.builder()
                 .id(this.getId())
+                .customerNo(this.getCustomer().getId())
                 .writer(this.getWriter())
                 .title(this.getTitle())
                 .content(this.getContent())

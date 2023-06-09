@@ -21,7 +21,7 @@ public class ReplyController {
 
     //댓글 등록
     @PostMapping("/Qna/{id}/Reply")
-    public ResponseEntity<?> replySave(@PathVariable Long id, @RequestBody ReplyRequestDto requestDto){
+    public ResponseEntity<?> replySave(@PathVariable Long id, Long customerNo, @RequestBody ReplyRequestDto requestDto){
 
         replyService.replySave(id, requestDto);
 

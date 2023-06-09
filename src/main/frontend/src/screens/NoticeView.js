@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import {useSelector} from "react-redux";
 import axios from 'axios';
+import jwtDecode from "jwt-decode";
 import './css/Board.css'
-
-
-
+import '../store/CustomerNameStore'
 
 function NoticeView(props) {
     const { id } = useParams();
     const [notice, setNotice] = useState({});
+
+    // 세션에 저장된 토큰값 가져오기
+    const storedToken = sessionStorage.getItem("loginData");
+    // 토큰값 해석
+    const decodedToken = jwtDecode(storedToken);
+    // 해석한 정보에서 회원번호만 추출
+    const customerNo = decodedToken.sub;
+    //customerName 가져오기
+    const writer = useSelector((state) => state.customerName);
 
     useEffect(() => {
         axios
@@ -20,6 +29,10 @@ function NoticeView(props) {
     const navigate = useNavigate();
 
     const updateNotice = () => {
+        if (customerNo != notice.customerNo) {
+          alert('작성자만 글을 수정할 수 있습니다.');
+          return;
+        }
         navigate(`/NoticeEdit/${id}`);
     };
 
@@ -31,6 +44,10 @@ function NoticeView(props) {
     const deleteNotice = () => {
         const confirmDelete = window.confirm('정말로 글을 삭제하시겠습니까?');
         if (confirmDelete) {
+                if (customerNo != notice.customerNo) {
+                  alert('작성자만 글을 삭제할 수 있습니다.');
+                  return;
+                }
             axios
                 .delete(`http://localhost:8080/api/Notice/${id}`)
                 .then(() => {

@@ -9,6 +9,7 @@ public class ReplyResponseDto {
 
     private Long id;
     private Long qnaNo;
+    private Long customerNo;
     private String writer;
     private String reply;
     private java.util.Date createDate;

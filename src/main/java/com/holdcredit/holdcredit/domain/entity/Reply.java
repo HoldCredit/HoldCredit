@@ -62,6 +62,7 @@ public class Reply extends Date {
 
         responseDto.setId(this.getId());
         responseDto.setQnaNo(this.getQna().getId());
+        responseDto.setCustomerNo(this.getCustomer().getId());
         responseDto.setWriter(this.getWriter());
         responseDto.setReply(this.getReply());
         responseDto.setCreateDate(this.getCreateDate());

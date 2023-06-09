@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.dto.replyDto;
 
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import com.holdcredit.holdcredit.domain.entity.Reply;
 import lombok.Builder;

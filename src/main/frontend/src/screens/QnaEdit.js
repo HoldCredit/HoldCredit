@@ -81,7 +81,7 @@ const QnaEdit = () => {
 
                         <div class="btn_wrap">
                             <a onClick={updateQna} class="btn_insert">완료</a>
-                            <a href="/MainNotice" class="btn_update">취소</a>
+                            <a href="/MainQna" class="btn_update">취소</a>
                         </div>
                     </div>
                 </div>
