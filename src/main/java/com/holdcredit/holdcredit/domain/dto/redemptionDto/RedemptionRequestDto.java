@@ -14,15 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RedemptionRequestDto {
-    private  Debt debt;
+    private Long debtId;
     private Long loanAmount;
-    private Long overduePeriod;
+    private Long debtPeriod;
 
-    public Redemption toEntity() {
-        return Redemption.builder()
-                .debt(debt)
+    public Redemption toEntity(Debt debt) {
+        Long loanAmount = debt != null ? debt.getLoanAmount() : null;
+        return  Redemption.builder()
+                .debt(Debt.builder().id(debtId).build())
                 .loanAmount(loanAmount)
-                .overduePeriod(overduePeriod)
+                .debtPeriod(debtPeriod)
                 .build();
     }
 }

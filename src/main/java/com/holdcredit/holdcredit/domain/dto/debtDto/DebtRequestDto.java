@@ -20,16 +20,16 @@ public class DebtRequestDto {
     private Long loanPeriod;
     private Long loanCount;
 
-    private Redemption redemption;
 
     /* Dto -> Entity 저장 */
     public Debt toEntity() {
         return Debt.builder()
+//                .customerNo(customerNo)
                 .loanAmount(loanAmount)
                 .loanPeriod(loanPeriod)
                 .loanCount(loanCount)
-                .redemption(redemption)
                 .build();
+
     }
 
 }

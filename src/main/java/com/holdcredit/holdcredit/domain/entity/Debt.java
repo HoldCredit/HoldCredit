@@ -19,7 +19,7 @@ public class Debt {
     @Column(name = "debt_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_no", nullable = false, updatable = false)
     private Customer customer;
 
@@ -32,7 +32,7 @@ public class Debt {
     @Column
     private Long loanCount;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt", cascade = CascadeType.REMOVE)
+    @OneToOne( mappedBy = "debt", cascade = CascadeType.REMOVE)
     private Redemption redemption;
 
 
@@ -55,6 +55,17 @@ public class Debt {
         this.customer = customer;
     } //먉
 
+    public void setRedemption(Redemption redemption) {
+        if (redemption != null) {
+            this.redemption = redemption;
+            redemption.setDebt(this);
+        } else {
+            if (this.redemption != null) {
+                this.redemption.setDebt(null);
+            }
+            this.redemption = null;
+        }
+    } //
     public static DebtResponseDto toDto(Debt debt){
         return DebtResponseDto.builder()
                 .id(debt.getId())

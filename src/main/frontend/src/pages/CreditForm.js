@@ -1,3 +1,5 @@
+
+
 import React, {useEffect, useState} from "react";
 import "../styles/JoinForm.css";
 import {Container, TextField, FormControl, FormControlLabel, RadioGroup, Radio, Button} from "@mui/material";
@@ -28,13 +30,13 @@ export default function CreditForm() {
   };
 
   /* 개인금융 정보 */
-  const [annulIncome, setAnnulIncome] = useState(""); //연봉
+  const [annulIncome, setAnnulIncome] = useState("0"); //연봉
   const [continuousService, setContinuousService] = useState(""); //근속년수
   const [extraMonthlyFund, setExtraMonthlyFund] = useState(""); //매달여유자금
 
   /* 비금융 정보*/
   const [marital, setMarital] = useState("single"); //결혼
-  const [childrenCnt, setChildrenCnt] = useState(""); //자녀수
+  const [childrenCnt, setChildrenCnt] = useState("0"); //자녀수
   const [realestate, setRealestate] = useState("noHome"); //주택소유
   const [vehicle, setVehicle] = useState("noCar"); //자동차
   const [healthInsurance, setHealthInsurance] = useState("noHealth"); //건강보험
@@ -55,15 +57,35 @@ export default function CreditForm() {
     setCreditCards((prevCreditCards) => [...prevCreditCards, data]);
   };
 
-  /* 대출/상환 정보 */
+  /* 대출 정보 */
   const [loanAmount, setLoanAmount] = useState(null); //대출금액
   const [loanPeriod, setLoanPeriod] = useState(null); // 남은대출기간
   const [loanCount, setLoanCount] = useState(null); // 대출횟수
+  /* 상환이력 */
+  const [debtPeriod, setDebtPeriod] = useState(null); //연체 기간
 
-  // Debt 컴포넌트에서 입력된 데이터를 받아 creditCards 배열에 추가
+  // Debt 컴포넌트에서 입력된 데이터를 받아 debts 배열에 추가
   const [debts, setDebts] = useState([]);
-  const handleDebtData = (data) => {
-      setDebts((prevDebts) => [...prevDebts, data]);
+  const handleDebtData = async(data) => {
+        setDebts((prevDebts) => [...prevDebts, data]);
+  };
+
+  // 대출 배열 업데이트
+  const updateDebtValue = (index, key, value) => {
+    setDebts((prevDebts) => {
+      const updateDebts = [...prevDebts];
+      updateDebts[index][key] = value;
+      return updateDebts;
+    });
+  };
+
+  // debtId 업데이트
+  const updateDebtId = (index, id) => {
+    setDebts((prevDebts) => {
+      const updatedDebts = [...prevDebts];
+      updatedDebts[index].debtId = id;
+      return updatedDebts;
+    });
   };
 
 
@@ -102,11 +124,10 @@ export default function CreditForm() {
       const newDebt = {
         customerNo : "",
         loanAmount: "",
-        setLoanAmount : "",
         loanPeriod: "",
-        setLoanPeriod : "",
         loanCount: "",
-        setLoanCount : ""
+        debtPeriod : "",
+        debtId: ""
       };
       setDebts((prevDebts) => [...prevDebts, { ...newDebt }]);
     };
@@ -118,18 +139,47 @@ export default function CreditForm() {
         );
     };
 
-    // 대출 배열 업데이트
-    const updateDebtValue = (index, key, value) => {
-        setDebts((prevDebts) => {
-          const updateDebts = [...prevDebts];
-          updateDebts[index][key] = value;
-          return updateDebts;
-        });
-    };
+    // 상환이력 저장
+    const saveRedemption = async(debtData) => {
+    try {
+        // debtId를 얻어올 debt 객체 찾기
+        const debt = debts[debtData.index];
+        // DebtId 값 가져오기
+        const debtId = debt.debtId;
+        let savedDebtId;
+
+        // debtId 업데이트
+        if (debtId) {
+           updateDebtValue(debtData.index, "debtId", debtId);
+        } else {
+           // debtId가 없는 경우, debt를 저장하고 debtId 얻음
+           const debtResponse = await axios.post( "http://localhost:8090/debt/save", debtData );
+           const savedDebtId = debtResponse.data.id;
+           updateDebtId(debtData.index, savedDebtId);
+        }
+
+        const redemptionRequestDto = {
+            debtId: debtId || savedDebtId, // debtId가 있으면 그 값을 사용하고, 없으면 저장된 debtId를 사용합니다.
+            loanAmount: debtData.loanAmount,
+            debtPeriod: debtData.debtPeriod,
+        };
+        const redemptionResponse = await axios.post("http://localhost:8090/redemption/save", redemptionRequestDto);
+        console.log("상환 정보 저장 완료:", redemptionResponse.data);
+
+        // 대출 ID 출력
+        const saveDebtId = redemptionResponse.data.debtId;
+        console.log("대출 ID:", saveDebtId);
+
+        return saveDebtId ;
+    } catch (error) {
+      console.error("상환 정보 저장 오류:", error);
+    }
+  };
 
 
   {/* 저장함수 시작 */}
   const handleSubmit = async() => {
+
     //Finance 개인금융
     const financeData = {
       customerNo: customerNo,
@@ -172,13 +222,17 @@ export default function CreditForm() {
 
     //Debt 부채
     //debts 배열을 debtData 배열로 변환
-    const debtDataArray = debts.map((debt) => {
-        return {
+    const debtDataArray = debts.map((debt, index) => {
+        const debtData = {
           customerNo: customerNo,
           loanAmount: parseInt(debt.loanAmount),
           loanPeriod: parseInt(debt.loanPeriod),
           loanCount: parseInt(debt.loanCount),
+          debtPeriod: parseInt(debt.debtPeriod),
+          debtId: null,
+          index: index,
         };
+        return debtData;
     });
 
      try {
@@ -187,22 +241,48 @@ export default function CreditForm() {
            const creditPromise = creditDataArray.map((creditData) =>
              axios.post("http://localhost:8090/creditCard/save", creditData));
            const debtPromise = debtDataArray.map((debtData) =>
-             axios.post("http://localhost:8090/debt/save", debtData))
+              axios.post("http://localhost:8090/debt/save", debtData));
 
+           // 클릭시 한번에 데이터 전송
            const financeResponse = await financePromise;
            const nonFinanceResponse = await nonFinancePromise;
            const creditResponse = await Promise.all(creditPromise);
-           const debtResponse = await Promise.all(debtPromise);
+           const debtResponses = await Promise.all(debtPromise);
 
+           const debtIds = debtResponses.map((response) => response.data.id);
+
+           // Redemption 처리
+           const redemptionPromise = debtResponses.map(async (debtResponse, index) => {
+             const { data } = debtResponse;
+             const debtId = data.id;
+             updateDebtValue(index, "debtId", debtId);
+
+             const redemptionData = {
+                debtId: debtId,
+                loanAmount: debtDataArray[index].loanAmount,
+                debtPeriod: debtDataArray[index].debtPeriod,
+             };
+
+             await saveRedemption(redemptionData);
+             return { debtId, index };
+           });
+
+           const redemptionResponses = await Promise.all(redemptionPromise);
+
+
+           //콘솔 데이터 확인
            console.log("Finance:", financeResponse.data);
            console.log("NonFinancial:", nonFinanceResponse.data);
            creditResponse.forEach((creditResponse, index) => {
              console.log(`CreditCard ${index + 1}:`, creditResponse.data);
            });
-           debtResponse.forEach((debtResponse, index) => {
+           debtResponses.forEach((debtResponse, index) => {
              console.log(`Debt ${index + 1}:`, debtResponse.data);
            });
-           handleSaveComplete(); // 저장 완료 후 이동
+           redemptionResponses.forEach((redemptionResponse, index) => {
+             console.log(`Redemption ${index + 1}:`, redemptionResponse);
+           });
+
          } catch (error) {
            console.error("Error:", error);
          }
@@ -226,7 +306,7 @@ export default function CreditForm() {
                     <div className="row_group">
                         <div className="join_row">
                           <h3 className="join_title">
-                            <label htmlFor="annulIncome">연봉</label>
+                            <label htmlFor="annulIncome">연봉 *천만원/</label>
                           </h3>
                           <span className="ps_box box_right_space">
                             <input type="text" id="annulIncome" name="annulIncome" className="int" maxLength="40"
@@ -241,12 +321,10 @@ export default function CreditForm() {
                           <select id="continuousService" name="continuousService" className="sel" aria-label="근속 연 수"
                                   onChange={(e) => setContinuousService(e.target.value)}>
                             <option value="" defaultValue> 근속 연 수</option>
-                            <option value="1">1년 이하</option>
-                            <option value="2">1년 이상</option>
+                            <option value="0">1년 미만</option>
+                            <option value="1">3년 미만</option>
                             <option value="3">3년 이상</option>
-                            <option value="4">6년 이상</option>
-                            <option value="5">9년 이상</option>
-                            <option value="5">15년 이상</option>
+                            <option value="3">5년 이상</option>
                           </select></div>
                        </div>
                        <div className="join_row">
@@ -257,12 +335,11 @@ export default function CreditForm() {
                           <select id="extraMonthlyFund" name="extraMonthlyFund" className="sel" aria-label="매달 여유 자금"
                                   onChange={(e) => setExtraMonthlyFund(e.target.value)}>
                             <option value="" defaultValue>매달 여유 자금</option>
-                            <option value="1">30만원 이하</option>
-                            <option value="2">30만원 이상</option>
-                            <option value="3">60만원 이상</option>
-                            <option value="4">100만원 이상</option>
-                            <option value="5">200만원 이상</option>
-                            <option value="5">300만원 이상</option>
+                            <option value="0">50만원 미만</option>
+                            <option value="50">50만원 이상</option>
+                            <option value="100">100만원 이상</option>
+                            <option value="200">200만원 이상</option>
+                            <option value="300">300만원 이상</option>
                         </select></div>
                        </div>
                     </div>
@@ -397,11 +474,17 @@ export default function CreditForm() {
                           <div key={i}>
                             <Debt
                               customerNo={debt.customerNo}
+                              debtId={debt.debtId}
                               deleteDebt={() => deleteDebt(i)}
-                              handleDebtData={handleDebtData}
+                              handleDebtData={(data) => handleDebtData(data)}
+                              loanAmount={debt.loanAmount}
+                              loanPeriod={debt.loanPeriod}
+                              loanCount={debt.loanCount}
+                              debtPeriod={debt.debtPeriod}
                               setLoanAmount={(value) => updateDebtValue(i, "loanAmount", value)}
                               setLoanPeriod={(value) => updateDebtValue(i, "loanPeriod", value)}
                               setLoanCount={(value) => updateDebtValue(i, "loanCount", value)}
+                              setDebtPeriod={(value) => updateDebtValue(i, "debtPeriod", value)}
                             />
                           </div>
                        ))}
