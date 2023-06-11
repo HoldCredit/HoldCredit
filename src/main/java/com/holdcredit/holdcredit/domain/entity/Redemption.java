@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.debtDto.DebtResponseDto;
 import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionRequestDto;
 import com.holdcredit.holdcredit.domain.dto.redemptionDto.RedemptionResponseDto;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SequenceGenerator(sequenceName ="REDEMPTION_SEQ", initialValue = 1, allocationSize = 1, name ="REDEMPTION_SEQ_GENERATOR")
+@SequenceGenerator(sequenceName ="REDEMPTION_SEQ",  allocationSize = 1, name ="REDEMPTION_SEQ_GENERATOR")
 public class Redemption {
 
     @Id
@@ -23,39 +24,43 @@ public class Redemption {
     @Column(name = "redemption_information_no")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "debt_id", referencedColumnName = "debt_id", unique = true)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "debt_id", referencedColumnName = "debt_id",nullable = false, unique = true)
+    @JsonIgnore
     private Debt debt;
 
     @Column
     private Long loanAmount;
 
     @Column
-    private Long overduePeriod;
+    private Long debtPeriod;
+
+
 
     public void updateRedemption(RedemptionRequestDto redemptionRequestDto){
-//        this.debt = redemptionRequestDto.getDebt();
-        this.loanAmount = redemptionRequestDto.getLoanAmount();
-        this.overduePeriod = redemptionRequestDto.getOverduePeriod();
+        if (this.debt != null) {
+            this.loanAmount = this.debt.getLoanAmount();
+        }
+        this.debtPeriod = redemptionRequestDto.getDebtPeriod();
     }
 
 
-    public RedemptionResponseDto toDto() {
+    public RedemptionResponseDto toDto(Redemption redemption) {
         return RedemptionResponseDto.builder()
-                .id(this.id)
-                .debtId(this.debt != null ? this.debt.getId() : null)
-                .loanAmount(this.loanAmount)
-                .overduePeriod(this.overduePeriod)
+                .id(redemption.getId())
+                .debtId(redemption.getDebt().getId())
+                .loanAmount(redemption.getLoanAmount())
+                .debtPeriod(redemption.getDebtPeriod())
                 .build();
     }
 
 
-    public void setDebt(Debt debt) { this.debt = debt;
-    }
+    public void setDebt(Debt debt) { this.debt = debt;}
+    public void setLoanAmount(Long loanAmount) {this.loanAmount = loanAmount;}
 
     public void resetRedemption() {
         this.loanAmount = null;
-        this.overduePeriod = null;
+        this.debtPeriod = null;
     }
 }
 

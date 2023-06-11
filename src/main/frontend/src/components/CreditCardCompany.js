@@ -46,12 +46,12 @@ export default function CreditCardCompany ( props ) {
         <div className="ps_box occupation_code">
           <select id="transactionPeriod" name="transactionPeriod" className="sel" onChange={(e) => props.setTransactionPeriod(e.target.value)}>
             <option value="" >거래 기간</option>
-            <option value="1">1년 이하</option>
-            <option value="2">1년 이상</option>
+            <option value="0">1년 이하</option>
+            <option value="1">1년 이상</option>
             <option value="3">3년 이상</option>
-            <option value="4">6년 이상</option>
-            <option value="5">9년 이상</option>
-            <option value="6">15년 이상</option>
+            <option value="6">6년 이상</option>
+            <option value="9">9년 이상</option>
+            <option value="15">15년 이상</option>
           </select>
         </div>
       </div>
@@ -63,12 +63,11 @@ export default function CreditCardCompany ( props ) {
           <span className="ps_box box_right_space">
             <select id="limit" name="limit" className="sel" onChange={(e) => props.setLimit(e.target.value)} >
               <option value="" >한도</option>
-              <option value="1">100</option>
-              <option value="2">500 </option>
-              <option value="3">1000</option>
-              <option value="4">2000</option>
-              <option value="5">3000</option>
-              <option value="6">4000</option>
+              <option value="0">500만원</option>
+              <option value="0">1000만원</option>
+              <option value="3">3000만원</option>
+              <option value="5">5000만원</option>
+              <option value="7">7000만원</option>
             </select>
           </span>
         </div>
@@ -81,12 +80,11 @@ export default function CreditCardCompany ( props ) {
           <span className="ps_box box_right_space">
             <select id="overdueCount" name="overdueCount" className="sel" onChange={(e) => props.setOverdueCount(e.target.value)} >
               <option value="" >연체 횟수</option>
-              <option value="1">1회 미만</option>
-              <option value="2">1회 </option>
-              <option value="3">2회</option>
-              <option value="4">3회</option>
-              <option value="5">4회</option>
-              <option value="6">1년 이상</option>
+              <option value="0">1회 미만</option>
+              <option value="1">1회 </option>
+              <option value="2">2회</option>
+              <option value="3">3회</option>
+              <option value="4">4회</option>
             </select>
           </span>
         </div>
@@ -98,12 +96,11 @@ export default function CreditCardCompany ( props ) {
         <div className="ps_box occupation_code">
           <select id="overduePeriod" name="overduePeriod" className="sel" onChange={(e) => props.setOverduePeriod(e.target.value)} >
             <option value="" >연체 기간</option>
-            <option value="1">1주일 이하</option>
-            <option value="2">1주일 이상</option>
-            <option value="3">1개월 이상</option>
-            <option value="4">3개월 이상</option>
-            <option value="5">6개월 이상</option>
-            <option value="6">1년 이상</option>
+            <option value="0">1개월 미만</option>
+            <option value="3">3개월 이하</option>
+            <option value="6">6개월 이하</option>
+            <option value="9">9개월 이하</option>
+            <option value="12">1년 이상</option>
           </select>
         </div>
 
