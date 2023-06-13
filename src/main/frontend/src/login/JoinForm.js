@@ -576,7 +576,7 @@ function JoinForm() {
                                  </h3>
                                    <span className="ps_box join_phone">
                                      <input
-                                       type="tel"
+                                       type="text"
                                        id="phoneNo"
                                        name="phoneNo"
                                        placeholder="전화번호 입력"

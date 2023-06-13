@@ -46,7 +46,7 @@ public class Customer {
     private Gender gender;
 
     @Column(nullable = false)
-    private Long phoneNum;
+    private String phoneNum;
 
     @Column(nullable = false, length = 30)
     private String email;

@@ -18,12 +18,13 @@ public class CustomerModifyDto {
     //회원정보 수정 목록, 아래 그 외는 수정 금지!
     private String password;
     @JsonProperty(value="phoneNo")
-    private Long phone_num;
+    private String phone_num;
     private String email;
     @JsonProperty(value = "occupation")
     private JobDomain job;
     @JsonProperty(value="education")
     private EducationLevel education_level;
+    private Authority authority;
 
 
     public Customer toEntity(CustomerModifyDto dto, PasswordEncoder passwordEncoder) {
@@ -34,6 +35,7 @@ public class CustomerModifyDto {
                 .email(dto.getEmail())
                 .job(dto.getJob())
                 .educationLevel(dto.getEducation_level())
+                .authority(dto.getAuthority())
                 .build();
     }
 }
