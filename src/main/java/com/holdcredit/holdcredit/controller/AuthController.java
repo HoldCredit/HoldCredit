@@ -4,8 +4,8 @@ import com.holdcredit.holdcredit.domain.dto.customerDto.*;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.AuthService;
-import com.holdcredit.holdcredit.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,4 +66,12 @@ public class AuthController {
         responseDto.setEmail(foundEmail);
         return ResponseEntity.ok(responseDto);
     }
+    @PostMapping("/findPwd")
+    public ResponseEntity<FindPwdResponseDto> findPwd(@RequestBody FindPwdRequestDto findPwdRequestDto) {
+        findPwdRequestDto.setCustomer_name(findPwdRequestDto.getCustomer_name());
+
+        FindPwdResponseDto responseDto = authService.findPwd(findPwdRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
 }

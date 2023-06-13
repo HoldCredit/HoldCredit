@@ -74,7 +74,7 @@ public class Customer {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
-    // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
+   // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
 
     /* ================================================================================= */
     /* 연관 관계 설정 */
@@ -153,6 +153,9 @@ public class Customer {
     public void setNotices(Notice notice) {
         this.notices.add(notice);
         notice.setCustomer(this);
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 
