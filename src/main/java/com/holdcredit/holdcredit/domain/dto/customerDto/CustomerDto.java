@@ -22,7 +22,7 @@ public class CustomerDto {
     private String customer_name;
     private LocalDate birth;
     private Gender gender;
-    private Long phone_num;
+    private String phone_num;
     private String email;
     private LocalDateTime join_Date;
 

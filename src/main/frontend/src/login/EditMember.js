@@ -20,8 +20,7 @@ function EditMember() {
     const [isIdLengthValid, setIsIdLengthValid] = useState(true);
     const [isIdValid, setIsIdValid] = useState(true);
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
-     const[update, setUpdate] = useState({});
-
+    const[update, setUpdate] = useState({});
     // 세션에 저장된 토큰값 가져오기
      const storedToken = sessionStorage.getItem("loginData");
      // 토큰값 해석
@@ -40,6 +39,8 @@ function EditMember() {
      .then((res) => {
         console.log(res.data);
         setMemberInfo(res.data);
+
+
      })
      .catch((error) => {
         console.log('회원수정 페이지 에러:' + error);
@@ -228,6 +229,7 @@ const updateCustomer = (event) => {
                                     name="email"
                                     className="int"
                                     maxLength="100"
+                                    disabled
                                     value={memberInfo.email}
 //                                            onChange={handleEmailChange}
                                     onChange={(e) => setMemberInfo({ ...memberInfo, email: e.target.value})}
@@ -327,13 +329,16 @@ const updateCustomer = (event) => {
                                             title="gender"
                                             maxLength={20}
                                             disabled
-                                            value={memberInfo.gender}
+                                            value = {
+                                                memberInfo.gender == "MALE" ? "남자" :  "여자"
+                                            }
+//                                            value={memberInfo.gender}
                                         />
                                     </span>
 
-          <div className="join_birthday">
+                               <div className="join_birthday">
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
-     <div className="birthday">
+                               <div className="birthday">
                                     <span className="edit_box">
                                         <input
                                             type="text"
@@ -410,41 +415,27 @@ const updateCustomer = (event) => {
                                 )}
                             </div>
 
-
-                            <div>
-                                <div className="join_row join_email">
-
-                                </div>
-                            </div>
-                            <div>
-
-                            </div>
-                            <div className="join_row join_mobile1" id="mobDiv">
-                                <div className="join_row join_mobile">
-                                    <h3 className="join_title">
-                                        <label htmlFor="pphoneNo">휴대전화</label>
-                                    </h3>
-                                    <div className="int_mobile_area1">
-                                        <span className="edit_box int_mobile1">
-                                            <input type="tel" id="phoneNo" name="phoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력"  value={memberInfo.phone_num}
-                                            className="int" maxLength="16" onChange={(e) => setMemberInfo({ ...memberInfo, phone_num: e.target.value})} />
-                                        </span>
-                                        <a href="#" className="btn_verify1 btn_primary1" id="btnPrtsSend" role="button">
-                                            <span>인증번호 받기</span>
-                                        </a>
-                                    </div>
-                                    <div className="edit_box_disable box_right_space" id="pauthNoBox">
-                                        <input type="tel" id="pauthNo" name="pauthNo" placeholder="인증번호 입력하세요" aria-label="인증번호 입력하세요" aria-describedby="pwa_verify" className="int" disabled maxLength="6" />
-                                        <label id="pwa_verify" htmlFor="pauthNo" className="lbl">
-                                            <span className="wa_blind">인증받은 후 인증번호를 입력해야 합니다.</span>
-                                            <span className="input_code" id="pauthNoCode">일치 <CheckIcon /></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                           <div className="join_row join_phone">
+                                <h3 className="join_title">
+                                  <label htmlFor="phoneNo">전화번호</label>
+                                </h3>
+                                  <span className="ps_box join_phone">
+                                    <input
+                                      type="text"
+                                      id="phoneNo"
+                                      name="phoneNo"
+                                      placeholder="전화번호 입력"
+                                      aria-label="전화번호 입력"
+                                      className="int"
+                                      maxLength="11"
+                                      value={memberInfo.phone_num}
+                                      onChange={(e) => setMemberInfo({ ...memberInfo, phone_num: e.target.value})}
+                                    />
+                                  </span>
+                           </div>
                             <div className="btn_area">
                                 <button type="button" id="btnJoin" className="btn_type1 btn_primary1" onClick={updateCustomer}><span>수정</span></button>
-                                <a href="/DeleteMember" id="btnJoin" className="btn_type2 btn_primary2" class="btn_delete">회원탈퇴</a>
+                                <button type="button" className="btn_type2 btn_primary2" onClick={() => { window.location.href = '/DeleteMember'; }}>회원탈퇴</button>
                             </div>
                         </div>
                     </div>

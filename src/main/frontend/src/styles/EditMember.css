@@ -323,3 +323,24 @@ select:hover:not(:focus) {
 .address-form button:hover {
     background-color: #0069d9;
 }
+
+/* 라디오 버튼 컨테이너에 대한 스타일 */
+.radio-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* 원하는 간격 설정 */
+
+}
+
+/* 라디오 버튼에 대한 스타일 */
+.radio-input {
+  width: 20px; /* 원하는 가로 크기 */
+  height: 20px; /* 원하는 세로 크기 */
+  margin-right: 5px; /* 원하는 간격 설정 */
+}
+.radio-label {
+  font-size: 19px; /* 원하는 폰트 크기 */
+}
+.radio-container label + label {
+  margin-left: 15px; /* 원하는 간격 설정 */
+}

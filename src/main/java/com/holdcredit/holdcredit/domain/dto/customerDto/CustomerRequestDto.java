@@ -25,7 +25,7 @@ public class CustomerRequestDto {
     private String customer_name;
     private Gender gender;
     @JsonProperty(value="phoneNo")
-    private Long phone_num;
+    private String phone_num;
     private Authority authority;
     @JsonProperty(value = "occupation")
     private JobDomain job;
