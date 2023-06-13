@@ -7,6 +7,7 @@ import com.holdcredit.holdcredit.jwt.TokenProvider;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.RefreshTokenRepository;
 import com.holdcredit.holdcredit.service.AuthService;
+import com.holdcredit.holdcredit.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,8 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -105,5 +105,39 @@ public class AuthServiceImpl implements AuthService {
         FindIdResponseDto responseDto = new FindIdResponseDto();
         responseDto.setEmail(foundEmail);
         return responseDto;
+    }
+
+    @Transactional
+    public FindPwdResponseDto findPwd(FindPwdRequestDto findPwdRequestDto) {
+        String customerName = findPwdRequestDto.getCustomer_name();
+        String email = findPwdRequestDto.getEmail();
+
+        Optional<Customer> existingCustomer = customerRepository.findByCustomerNameAndEmail(customerName, email);
+        if (existingCustomer.isPresent()) {
+            // 임시 비밀번호 생성
+            String tempPassword = PasswordUtil.generateTempPassword();
+
+            // 엔티티 업데이트
+            Customer customer = existingCustomer.get();
+            String encodedPassword = passwordEncoder.encode(tempPassword);
+            customer.setPassword(encodedPassword);
+
+            customerRepository.save(customer);
+
+            FindPwdResponseDto responseDto = new FindPwdResponseDto();
+            responseDto.setSuccess(true);
+            responseDto.setMessage("임시 비밀번호를 발송했습니다.");
+
+            // 임시 비밀번호 반환
+            responseDto.setTempPassword(tempPassword);
+
+            return responseDto;
+        } else {
+            FindPwdResponseDto responseDto = new FindPwdResponseDto();
+            responseDto.setSuccess(false);
+            responseDto.setMessage("일치하는 계정을 찾을 수 없습니다.");
+
+            return responseDto;
+        }
     }
 }

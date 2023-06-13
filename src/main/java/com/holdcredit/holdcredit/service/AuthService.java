@@ -12,4 +12,7 @@ public interface AuthService {
 
     FindIdResponseDto findId(FindIdRequestDto findIdRequestDto);
 
+    FindPwdResponseDto findPwd(FindPwdRequestDto findPwdRequestDto);
+
+
 }

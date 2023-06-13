@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from "react";
 import "../styles/JoinForm.css";
-import CheckIcon from '@mui/icons-material/Check';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
