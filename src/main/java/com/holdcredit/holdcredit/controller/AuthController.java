@@ -4,6 +4,7 @@ import com.holdcredit.holdcredit.domain.dto.customerDto.*;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.AuthService;
+import com.holdcredit.holdcredit.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class AuthController {
     private final AuthService authService;
     private final CustomerRepository customerRepository;
+
+    private final EmailSender emailSender;
 
     @PostMapping("/signup")
     public ResponseEntity<CustomerResponseDto> signup(@RequestBody CustomerRequestDto customerRequestDto) {
@@ -48,13 +51,13 @@ public class AuthController {
         Customer findCustomer = customerRepository.findById(loginRequestDto.getCustomerNo()).get();
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         loginResponseDto.setCustomerName(findCustomer.getCustomerName());
-        return  ResponseEntity.ok(loginResponseDto);
+        return ResponseEntity.ok(loginResponseDto);
     }
 
     @PostMapping("/findId")
     public ResponseEntity<FindIdResponseDto> findId(@RequestBody FindIdRequestDto findIdRequestDto) {
         String customerName = findIdRequestDto.getCustomer_name();
-        long phoneNum = findIdRequestDto.getPhone_num();
+        String phoneNum = findIdRequestDto.getPhone_num();
 
         String foundEmail = customerRepository.findByCustomerNameAndPhoneNum(
                         customerName, phoneNum
@@ -66,12 +69,18 @@ public class AuthController {
         responseDto.setEmail(foundEmail);
         return ResponseEntity.ok(responseDto);
     }
+
     @PostMapping("/findPwd")
     public ResponseEntity<FindPwdResponseDto> findPwd(@RequestBody FindPwdRequestDto findPwdRequestDto) {
-        findPwdRequestDto.setCustomer_name(findPwdRequestDto.getCustomer_name());
-
-        FindPwdResponseDto responseDto = authService.findPwd(findPwdRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        try {
+            authService.findPwd(findPwdRequestDto);
+            FindPwdResponseDto responseDto = new FindPwdResponseDto();
+            responseDto.setMessage("임시 비밀번호가 이메일로 전송되었습니다.");
+            return ResponseEntity.ok(responseDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
+
 
 }

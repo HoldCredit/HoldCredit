@@ -22,6 +22,17 @@ spring:
   sql:
     init:
       mode: embedded
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: smwkdiek@naver.com
+    password: u@1771001516
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
 
 thymeleaf:
   enabled: true
