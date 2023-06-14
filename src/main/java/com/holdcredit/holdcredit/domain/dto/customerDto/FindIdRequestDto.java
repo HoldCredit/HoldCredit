@@ -7,7 +7,7 @@ import lombok.Data;
 public class FindIdRequestDto {
 
     private String customer_name;
-    private Long phone_num;
+    private String phone_num;
 
 
 }

@@ -4,9 +4,7 @@ import lombok.Data;
 
 @Data
 public class FindPwdResponseDto {
-    private boolean success;
     private String message;
-    private String tempPassword;
 
 }
 

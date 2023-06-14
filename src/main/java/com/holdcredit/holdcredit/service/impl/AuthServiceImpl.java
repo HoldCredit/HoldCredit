@@ -7,6 +7,7 @@ import com.holdcredit.holdcredit.jwt.TokenProvider;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.RefreshTokenRepository;
 import com.holdcredit.holdcredit.service.AuthService;
+import com.holdcredit.holdcredit.util.EmailSender;
 import com.holdcredit.holdcredit.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final EmailSender emailSender;
 
     @Transactional
     public CustomerResponseDto signup(CustomerRequestDto customerRequestDto) {
@@ -94,7 +99,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public FindIdResponseDto findId(FindIdRequestDto findIdRequestDto) {
         String customerName = findIdRequestDto.getCustomer_name();
-        long phoneNum = findIdRequestDto.getPhone_num();
+        String phoneNum = findIdRequestDto.getPhone_num();
 
         String foundEmail = customerRepository.findByCustomerNameAndPhoneNum(
                         customerName, phoneNum
@@ -112,32 +117,39 @@ public class AuthServiceImpl implements AuthService {
         String customerName = findPwdRequestDto.getCustomer_name();
         String email = findPwdRequestDto.getEmail();
 
-        Optional<Customer> existingCustomer = customerRepository.findByCustomerNameAndEmail(customerName, email);
-        if (existingCustomer.isPresent()) {
-            // 임시 비밀번호 생성
-            String tempPassword = PasswordUtil.generateTempPassword();
+        // 임시 비밀번호 생성 로직
+        String temporaryPassword = generateTemporaryPassword();
 
-            // 엔티티 업데이트
-            Customer customer = existingCustomer.get();
-            String encodedPassword = passwordEncoder.encode(tempPassword);
-            customer.setPassword(encodedPassword);
-
+        // 비밀번호 변경
+        Optional<Customer> optionalCustomer = customerRepository.findByCustomerNameAndEmail(customerName, email);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            String encryptedPassword = passwordEncoder.encode(temporaryPassword);
+            customer.setPassword(encryptedPassword);
             customerRepository.save(customer);
-
-            FindPwdResponseDto responseDto = new FindPwdResponseDto();
-            responseDto.setSuccess(true);
-            responseDto.setMessage("임시 비밀번호를 발송했습니다.");
-
-            // 임시 비밀번호 반환
-            responseDto.setTempPassword(tempPassword);
-
-            return responseDto;
         } else {
-            FindPwdResponseDto responseDto = new FindPwdResponseDto();
-            responseDto.setSuccess(false);
-            responseDto.setMessage("일치하는 계정을 찾을 수 없습니다.");
-
-            return responseDto;
+            throw new RuntimeException("일치하는 사용자가 없습니다.");
         }
+
+        // 임시 비밀번호 이메일 전송
+        emailSender.sendTemporaryPassword(email, temporaryPassword);
+
+        FindPwdResponseDto responseDto = new FindPwdResponseDto();
+        responseDto.setMessage("임시 비밀번호가 이메일로 전송되었습니다.");
+        return responseDto;
+    }
+
+    private String generateTemporaryPassword() {
+        int length = 10; // 임시 비밀번호 길이
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()"; // 사용할 문자 조합
+        StringBuilder password = new StringBuilder();
+
+        Random random = new SecureRandom();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            password.append(characters.charAt(index));
+        }
+
+        return password.toString();
     }
 }
