@@ -86,7 +86,7 @@ function JoinForm() {
         if (passwordValue.length === 0) {
             setIsPasswordValid(false);
             setIsPasswordRequired(true);
-        } else if (passwordValue.length < 8) {
+        } else if (passwordValue.length < 4) {
             setIsPasswordValid(false);
             setIsPasswordRequired(false);
         } else {
@@ -370,9 +370,9 @@ function JoinForm() {
                                         필수 정보입니다.
                                     </span>
                                 )}
-                                {password.length > 0 && password.length < 8 && (
+                                {password.length > 0 && password.length < 4 && (
                                     <span className="error_next_box" id="passwordMsg">
-                                        8자 이상 입력해주세요.
+                                        4자 이상 입력해주세요.
                                     </span>
                                 )}
                             </div>
