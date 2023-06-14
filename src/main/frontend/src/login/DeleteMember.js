@@ -114,7 +114,7 @@ const handleDeleteMember = async (event) => {
                                  </div>
                                     <div className="wrap_btn3 wrap_btn4">
                                         <button type="submit" className="btn_g3" onClick={handleDeleteMember}>회원 계정 삭제</button>
-                                        <button type="submit" className="btn_g4" onClick={() => navigate('/Service')}>다른 서비스 둘러보기</button>
+                                        <button type="submit" className="btn_g4" onClick={() => navigate('/EditMember')}>돌아가기</button>
                                     </div>
                                 </fieldset>
                             </form>

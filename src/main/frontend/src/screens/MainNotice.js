@@ -207,6 +207,13 @@ if (totalPages <= 5) { for (let i=0; i < totalPages; i++) { pages.push( <a key={
                 <div className="board_title">
                     <strong className="title_notice">공지사항</strong>
                     <div className="notice_search">
+                        <div className="select_wrapper">
+                            <select className="select" id="select_value" title="검색유형 선택" onChange={handleSelectChange}>
+                                <option className="option" value="제목">제목</option>
+                                <option className="option" value="내용">내용</option>
+                                <option className="option" value="작성자">작성자</option>
+                            </select>
+                        </div>
                         <form className="search_form" onSubmit={handleSubmit}>
                             <div className="search_input_wrapper">
                                 <input type="text" name="keyword" className="form-control" id="search"
@@ -216,13 +223,6 @@ if (totalPages <= 5) { for (let i=0; i < totalPages; i++) { pages.push( <a key={
                                 </button>
                             </div>
                         </form>
-                        <div className="select_wrapper">
-                            <select className="select" id="select_value" title="검색유형 선택" onChange={handleSelectChange}>
-                                <option value="제목">제목</option>
-                                <option value="내용">내용</option>
-                                <option value="작성자">작성자</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
