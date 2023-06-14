@@ -25,14 +25,14 @@ public class QnaController {
     private final ReplyService replyService;
     //게시글 리스트
     @GetMapping("/Qna")
-    public Page<QnaResponseDto> list(Pageable pageable, String keyword) throws Exception {
+    public Page<QnaResponseDto> list(Pageable pageable, String keyword, String field) throws Exception {
 
         Page<QnaResponseDto> qnaList = null;
 
         if(keyword == null){
             qnaList = qnaService.list(pageable);
         }else {
-            qnaList = qnaService.findByContentContaining(keyword, pageable);
+            qnaList = qnaService.searchQna(field, keyword, pageable);
         }
 
         return qnaList;

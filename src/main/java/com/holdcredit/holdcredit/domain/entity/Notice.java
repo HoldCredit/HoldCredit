@@ -121,6 +121,7 @@ public class Notice extends Date{
         responseDto.setCreateDate(notice.getCreateDate());
         responseDto.setLastModifiedDate(notice.getLastModifiedDate());
         responseDto.setAttach(notice.getAttach());
+        responseDto.setAuthority(notice.getCustomer().getAuthority());
 
         return responseDto;
     }

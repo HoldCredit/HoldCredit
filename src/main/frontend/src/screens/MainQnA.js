@@ -82,20 +82,85 @@ function MainQna(props) {
      return pages;
    };
 
+  const handleSelectChange = (event) => {
+    const selectedOption = event.target.value;
+    const searchInput = document.getElementById("search");
+
+    switch (selectedOption) {
+      case "제목":
+        searchInput.placeholder = "제목을 입력해주세요";
+        break;
+      case "내용":
+        searchInput.placeholder = "내용을 입력해주세요";
+        break;
+      case "작성자":
+        searchInput.placeholder = "작성자를 입력해주세요";
+        break;
+      default:
+        searchInput.placeholder = "검색어를 입력해주세요";
+        break;
+    }
+  };
+
+
  const handleSubmit = (event) => {
-     event.preventDefault();
+    event.preventDefault();
 
-     const keyword = event.target.keyword.value;
+    const keyword = event.target.keyword.value;
+    const selectElement = document.getElementById("select_value");
+    const selectedOption = selectElement.options[selectElement.selectedIndex].text;
 
-     axios.get(`http://localhost:8080/api/Qna?keyword=${keyword}&page=${currentPage}&size=5`)
-       .then(res => {
-         setQna(res.data.content);
-         setTotalPages(res.data.totalPages);
-       })
-       .catch(error => {
-         console.error(error);
-       });
-   };
+    switch (selectedOption) {
+      case "제목":
+        handleSubmitTitle(keyword);
+        break;
+      case "내용":
+        handleSubmitContent(keyword);
+        break;
+      case "작성자":
+        handleSubmitWriter(keyword);
+        break;
+      default:
+        console.error("Invalid search option");
+        break;
+    }
+  };
+
+  const handleSubmitTitle = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api/Qna?keyword=${keyword}&page=${currentPage}&size=5&field=title`)
+      .then((res) => {
+        setQna(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitContent = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api/Qna?keyword=${keyword}&page=${currentPage}&size=5&field=content`)
+      .then((res) => {
+        setQna(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitWriter = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api/Qna?keyword=${keyword}&page=${currentPage}&size=5&field=writer`)
+      .then((res) => {
+        setQna(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div>
@@ -105,11 +170,18 @@ function MainQna(props) {
           <strong>Q & A</strong>
            <div className="notice_search">
              <form className="search_form" onSubmit={handleSubmit}>
-             <input type="text" name="keyword" className="form-control" id="search" placeholder="궁금하신 내용이 있으면 검색어를 입력해주세요" />
+             <input type="text" name="keyword" className="form-control" id="search" placeholder="검색어를 입력해주세요" />
              <button type="submit" className="search_btn">
              <span class="img_search">검색</span>
              </button>
             </form>
+                <div className="select_wrapper">
+                   <select className="select" id="select_value" title="검색유형 선택" onChange={handleSelectChange}>
+                     <option value="제목">제목</option>
+                     <option value="내용">내용</option>
+                     <option value="작성자">작성자</option>
+                   </select>
+                </div>
            </div>
         </div>
         <div class="btn_wrap_2">

@@ -3,6 +3,7 @@ package com.holdcredit.holdcredit.domain.dto.boardDto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.entity.Attach;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class NoticeResponseDto {
     private int hits;
     private Date createDate;
     private Date lastModifiedDate;
+    private Authority authority;
     private String path;
     private List<Attach> attach;
 

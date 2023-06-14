@@ -12,8 +12,11 @@ public interface NoticeService {
     //게시글 리스트, 페이징 처리
     Page<NoticeResponseDto> list(Pageable pageable) throws Exception;
 
+
+
     //게시글 검색기능
-    Page<NoticeResponseDto> findByContentContaining(String keyword, Pageable pageable);
+    @Transactional
+    Page<NoticeResponseDto> searchNotices(String field, String keyword, Pageable pageable);
 
     //글 상세보기
     NoticeResponseDto getNotice(Long id);

@@ -1,8 +1,10 @@
 package com.holdcredit.holdcredit.service.impl;
 
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
+import com.holdcredit.holdcredit.domain.entity.Notice;
 import com.holdcredit.holdcredit.domain.entity.Qna;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.QnaRepository;
@@ -33,12 +35,27 @@ public class QnaServiceImpl implements QnaService {
 
     //게시글 검색 기능
     @Override
-    public Page<QnaResponseDto> findByContentContaining(String keyword, Pageable pageable) {
+    @Transactional
+    public Page<QnaResponseDto> searchQna(String field, String keyword, Pageable pageable) {
         PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
-        Page<Qna> qnaPage = qnaRepository.findByContentContaining(keyword, paging);
+        Page<Qna> qnaPage;
+
+        switch (field) {
+            case "content":
+                qnaPage = qnaRepository.findByContentContaining(keyword, paging);
+                break;
+            case "title":
+                qnaPage = qnaRepository.findByTitleContaining(keyword, paging);
+                break;
+            case "writer":
+                qnaPage = qnaRepository.findByWriterContaining(keyword, paging);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid search field: " + field);
+        }
+
         return qnaPage.map(Qna::responseDto);
     }
-
     //게시글 상세조회
     @Override
     public QnaResponseDto getQna(Long id) {

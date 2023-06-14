@@ -22,20 +22,22 @@ import java.util.List;
 public class NoticeController {
     private final NoticeService noticeService;
 
-    //게시글 리스트, 페이징처리
+    //게시글 리스트, 페이징처리, 검색기능
     @GetMapping
-    public Page<NoticeResponseDto> list(Pageable pageable, String keyword) throws Exception {
+    public Page<NoticeResponseDto> searchNotice(Pageable pageable, String keyword, String field) throws Exception {
 
         Page<NoticeResponseDto> noticeList = null;
 
         if(keyword == null){
             noticeList = noticeService.list(pageable);
         }else {
-            noticeList = noticeService.findByContentContaining(keyword, pageable);
+            noticeList = noticeService.searchNotices(field, keyword, pageable);
         }
 
         return noticeList;
     }
+
+  
     //게시글 상세조회
     @GetMapping("/Notice/{id}")
     public ResponseEntity<NoticeResponseDto> getNotice(@PathVariable Long id) {

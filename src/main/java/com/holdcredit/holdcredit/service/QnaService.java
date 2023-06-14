@@ -1,5 +1,6 @@
 package com.holdcredit.holdcredit.service;
 
+import com.holdcredit.holdcredit.domain.dto.boardDto.NoticeResponseDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Qna;
@@ -13,7 +14,8 @@ public interface QnaService {
     Page<QnaResponseDto> list(Pageable pageable) throws Exception;
 
     //게시글 검색 기능
-    Page<QnaResponseDto> findByContentContaining(String keyword, Pageable pageable);
+    @Transactional
+    Page<QnaResponseDto> searchQna(String field, String keyword, Pageable pageable);
 
     //게시글 상세조회
     QnaResponseDto getQna(Long id);

@@ -1,13 +1,35 @@
-import React, { useEffect, useState } from 'react';
 import BoardService from '../service/BoardService';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import jwtDecode from "jwt-decode";
+import '../store/CustomerNameStore'
 import './css/Board.css';
 
 function MainNotice(props) {
+  const { id } = useParams();
   const [notice, setNotice] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [notices, setNotices] = useState({});
+
+  // 세션에 저장된 토큰값 가져오기
+  const storedToken = sessionStorage.getItem("loginData");
+  // 토큰값 해석
+  const decodedToken = jwtDecode(storedToken);
+  // 해석한 정보에서 회원번호만 추출
+  const customerNo = decodedToken.sub;
+
+  useEffect(() => {
+    axios.get(`/customerModify/${customerNo}`)
+      .then((res) => {
+        console.log(res.data);
+        setNotices(res.data);
+      })
+      .catch((error) => {
+        console.log('회원수정 페이지 에러:' + error);
+      });
+  }, []);
 
   useEffect(() => {
     fetchNotice();
@@ -23,9 +45,18 @@ function MainNotice(props) {
 
   const navigate = useNavigate();
 
-  const createNotice = () => {
+const createNotice = () => {
+  console.log("notices.authority:", notices.authority);
+
+  if (notices.authority !== "ADMIN") {
+    console.log(notices.authority);
+    alert('관리자만 글을 수정할 수 있습니다.');
+  } else {
+    console.log("Inside else statement");
     navigate('/NoticeWrite');
-  };
+  }
+};
+
 
   const readNotice = (id) => {
     try {
@@ -38,8 +69,8 @@ function MainNotice(props) {
   }
 
   const handlePaginationClick = (page) => {
-    if(page >= 0 ){
-    setCurrentPage(page);
+    if (page >= 0) {
+      setCurrentPage(page);
     }
   };
 
@@ -79,20 +110,86 @@ function MainNotice(props) {
     return pages;
   };
 
-   const handleSubmit = (event) => {
-     event.preventDefault();
+  const handleSelectChange = (event) => {
+    const selectedOption = event.target.value;
+    const searchInput = document.getElementById("search");
 
-     const keyword = event.target.keyword.value;
+    switch (selectedOption) {
+      case "제목":
+        searchInput.placeholder = "제목을 입력해주세요";
+        break;
+      case "내용":
+        searchInput.placeholder = "내용을 입력해주세요";
+        break;
+      case "작성자":
+        searchInput.placeholder = "작성자를 입력해주세요";
+        break;
+      default:
+        searchInput.placeholder = "검색어를 입력해주세요";
+        break;
+    }
+  };
 
-     axios.get(`http://localhost:8080/api?keyword=${keyword}&page=${currentPage}&size=5`)
-       .then(res => {
-         setNotice(res.data.content);
-         setTotalPages(res.data.totalPages);
-       })
-       .catch(error => {
-         console.error(error);
-       });
-   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const keyword = event.target.keyword.value;
+    const selectElement = document.getElementById("select_value");
+    const selectedOption = selectElement.options[selectElement.selectedIndex].text;
+
+  switch (selectedOption) {
+    case "제목":
+      handleSubmitTitle(keyword);
+      break;
+    case "내용":
+      handleSubmitContent(keyword);
+      break;
+    case "작성자":
+      handleSubmitWriter(keyword);
+      break;
+    default:
+      console.error("Invalid search option");
+      break;
+  }
+};
+
+  const handleSubmitTitle = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api?keyword=${keyword}&page=${currentPage}&size=5&field=title`)
+      .then((res) => {
+        setNotice(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitContent = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api?keyword=${keyword}&page=${currentPage}&size=5&field=content`)
+      .then((res) => {
+        setNotice(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitWriter = (keyword) => {
+    axios
+      .get(`http://localhost:8080/api?keyword=${keyword}&page=${currentPage}&size=5&field=writer`)
+      .then((res) => {
+        setNotice(res.data.content);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+
 
   return (
     <div>
@@ -100,14 +197,30 @@ function MainNotice(props) {
         <div className="board_title">
           <strong className="title_notice">공지사항</strong>
           <div className="notice_search">
-           <form className="search_form" onSubmit={handleSubmit}>
-           <input type="text" name="keyword" className="form-control" id="search" placeholder="궁금하신 내용이 있으면 검색어를 입력해주세요" />
-           <button type="submit" className="search_btn">
-           <span class="img_search">검색</span>
-           </button>
-          </form>
+            <form className="search_form" onSubmit={handleSubmit}>
+              <div className="search_input_wrapper">
+                <input
+                  type="text"
+                  name="keyword"
+                  className="form-control"
+                  id="search"
+                  placeholder="검색어를 입력해주세요"
+                />
+                <button type="submit" className="search_btn">
+                  <span className="img_search">검색</span>
+                </button>
+              </div>
+            </form>
+              <div className="select_wrapper">
+                  <select className="select" id="select_value" title="검색유형 선택" onChange={handleSelectChange}>
+                    <option value="제목">제목</option>
+                    <option value="내용">내용</option>
+                    <option value="작성자">작성자</option>
+                  </select>
+              </div>
           </div>
         </div>
+
 
         <div className="btn_wrap_2">
           <a href="#" className="btn_insert" onClick={createNotice}>
@@ -129,8 +242,8 @@ function MainNotice(props) {
                   <input type="checkbox" id="check_box" />
                   {item.id}
                 </div>
-                <div className="title" onClick={() => readNotice(item.id)} >
-                  <a onClick = {() => readNotice(item.id)} className="content">
+                <div className="title" onClick={() => readNotice(item.id)}>
+                  <a onClick={() => readNotice(item.id)} className="content">
                     {item.title}
                   </a>
                 </div>

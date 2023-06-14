@@ -39,12 +39,26 @@ public class NoticeServiceImpl implements NoticeService {
     //게시글 검색기능
     @Override
     @Transactional
-    public Page<NoticeResponseDto> findByContentContaining(String keyword, Pageable pageable) {
+    public Page<NoticeResponseDto> searchNotices(String field, String keyword, Pageable pageable) {
         PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
-        Page<Notice> noticePage = noticeRepository.findByContentContaining(keyword, paging);
+        Page<Notice> noticePage;
+
+        switch (field) {
+            case "content":
+                noticePage = noticeRepository.findByContentContaining(keyword, paging);
+                break;
+            case "title":
+                noticePage = noticeRepository.findByTitleContaining(keyword, paging);
+                break;
+            case "writer":
+                noticePage = noticeRepository.findByWriterContaining(keyword, paging);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid search field: " + field);
+        }
+
         return noticePage.map(Notice::responseDto);
     }
-
     //게시글 상세조회
     @Override
     @Transactional

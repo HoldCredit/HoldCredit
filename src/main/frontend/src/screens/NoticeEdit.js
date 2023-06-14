@@ -42,6 +42,12 @@ const NoticeEdit = () => {
   };
 
 
+  const changeFileHandler = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const fileList = Array.from(event.target.files);
+      setFiles((prevFiles) => [...prevFiles, ...fileList]);
+    }
+  };
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
@@ -96,6 +102,22 @@ const NoticeEdit = () => {
                     />
                   </dd>
                 </dl>
+                <dl>
+                  <dt>첨부파일</dt>
+                  <dd>
+                    <label htmlFor="fileInput" className="fileInputButton">
+                      파일첨부
+                    </label>
+                    <input
+                      id="fileInput"
+                      type="file"
+                      name="file"
+                      multiple
+                      onChange={changeFileHandler}
+                      style={{ display: 'none' }}
+                    />
+                  </dd>
+                </dl>
               </div>
             </div>
             <div className="title_back">
@@ -147,6 +169,7 @@ const NoticeEdit = () => {
                   </div>
                 ))}
               </div>
+
             </div>
             <div className="btn_wrap">
               <a onClick={updateNotice} className="btn_insert">
