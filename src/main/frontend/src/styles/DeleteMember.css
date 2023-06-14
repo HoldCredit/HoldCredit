@@ -78,14 +78,7 @@
 }
 
 
-fieldset {
-    min-width: 0;
-    max-width: 100%;
-    width: 100%;
-}
-fieldset {
-    border: 0 none;
-}
+
 .screen_out3 {
     overflow: hidden;
     position: absolute;
@@ -157,17 +150,9 @@ fieldset {
     font-size: 15px;
     color: #191919;
     background: #fee500;
+    margin-bottom:10px;
 }
 
-.btn_g3 {
-    display: inline-block;
-    height: 42px;
-    padding: 0 31px;
-    color: #252525;
-    border: 1px solid #dbdbdb;
-    border-radius: 30px;
-    box-sizing: border-box;
-}
 .btn_g3 {
     display: inline-block;
     height: 42px;
