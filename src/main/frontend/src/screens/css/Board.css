@@ -412,31 +412,32 @@ a {
 .search_btn {
 
   top: 250px;
-  left: 770px;
+  left: 450px;
   width: 48px;
   height: 60px;
   position: absolute;
-  top: -0.24rem;
-  left: -3rem;
+  top: -0.45rem;
+  right: -40rem;
 }
 
 .search_form {
   position: relative;
   width: 500px;
-  margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
   display: block;
+  margin-left: 5px;
 }
 
 .notice_search {
-
+  display: flex;
+  justify-content: center;
   margin-top: 50px;
 }
 
 .form-control {
-  height: 55px;
+  height: 45px;
 }
 
 .CommentBox {
@@ -767,10 +768,11 @@ textarea.comment_inbox_text {
 }
 
 .select{
-    height: 55px;
+    height: 45px;
     width: 75px;
-    font-size: 15px;
+    font-size: 14px;
     border-radius: 0.375rem;
     border-color: #ced4da;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    text-align:center;
 }
