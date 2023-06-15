@@ -7,11 +7,39 @@ import Deposits from "../components/Deposits";
 import DashboardFooter from "../DashboardFooter";
 import * as React from "react";
 import BoardList from "../components/BoardList";
+import { useEffect, useState } from 'react';
+import jwtDecode from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function MyAssets() {
+  // 세션에 저장된 토큰값 가져오기
+  const storedToken = sessionStorage.getItem("loginData");
+  // 토큰값 해석
+  const decodedToken = jwtDecode(storedToken);
+  // 해석한 정보에서 회원번호만 추출
+  const customerNo = decodedToken.sub;
+
+  const navigate = useNavigate();
+  const customerName = useSelector((state) => state.customerName);
+
+  useEffect(() => {
+    console.log(customerName);
+  }, [customerName]);
+
+  const memberInfo = {
+    name: customerName,
+  };
+
   return (
     <>
       <Toolbar />
+      <div>
+      <h1>환영합니다. {memberInfo.name}님의 정보입니다. </h1>
+        <h3>여기 신용 정보 불러와야함{memberInfo.financial_no} </h3>
+        <h1>전체 정보와 비교해보세요</h1>
+      </div>
+
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           {/* Left Graph: 전체 인구 별 지역 비율 */}
