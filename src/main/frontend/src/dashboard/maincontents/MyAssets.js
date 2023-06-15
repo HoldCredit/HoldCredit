@@ -13,15 +13,47 @@ export default function MyAssets() {
     <>
       <Toolbar />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <h1>전체 인구 별 지역 비율</h1>
         <Grid container spacing={3}>
-          <div style={{ marginTop: "20px" }}>
-            <iframe
-              src="http://192.168.30.156:5601/app/visualize#/create?embed=true&type=pie&indexPattern=7b6dc170-0a86-11ee-9786-9f3f90fca4c7&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(filters:!(),linked:!f,query:(language:kuery,query:''),savedQuery:locationData,uiState:(),vis:(aggs:!((enabled:!t,id:'1',params:(field:column1),schema:metric,type:sum),(enabled:!t,id:'2',params:(field:column2,missingBucket:!t,missingBucketLabel:Missing,order:desc,orderBy:'1',otherBucket:!f,otherBucketLabel:Other,size:27),schema:segment,type:terms)),params:(addLegend:!t,addTooltip:!t,isDonut:!t,labels:(last_level:!t,show:!f,truncate:100,values:!t),legendPosition:right,row:!f,type:pie),title:'',type:pie))"
-              height="400"
-              width="600"
-            ></iframe>
-          </div>
+          {/* Left Graph: 전체 인구 별 지역 비율 */}
+          <Grid item xs={12} md={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 400,
+                marginBottom: 20,
+              }}
+            >
+              <h1>전체 인구 별 지역 비율</h1>
+              <iframe
+                src="http://192.168.30.156:5601/app/visualize#/create?embed=true&type=pie&indexPattern=7b6dc170-0a86-11ee-9786-9f3f90fca4c7&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(filters:!(),linked:!f,query:(language:kuery,query:''),savedQuery:locationData,uiState:(),vis:(aggs:!((enabled:!t,id:'1',params:(field:column1),schema:metric,type:sum),(enabled:!t,id:'2',params:(field:column2,missingBucket:!t,missingBucketLabel:Missing,order:desc,orderBy:'1',otherBucket:!f,otherBucketLabel:Other,size:27),schema:segment,type:terms)),params:(addLegend:!t,addTooltip:!t,isDonut:!t,labels:(last_level:!t,show:!f,truncate:100,values:!t),legendPosition:right,row:!f,type:pie),title:'',type:pie))"
+                height="100%"
+                width="100%"
+              ></iframe>
+            </Paper>
+          </Grid>
+
+          {/* Right Graph: 전체 지역 별 등급 순위 */}
+          <Grid item xs={12} md={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 600,
+                marginBottom: 20,
+              }}
+            >
+              <h1>전체 지역 별 등급 순위</h1>
+              <iframe
+                src="http://192.168.30.156:5601/app/visualize#/edit/690ba2c0-0b55-11ee-92c5-5d18061afd01?embed=true&type=table&indexPattern=ac5c3c90-0aad-11ee-b66d-9b7d79f3dacc&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(filters:!(),linked:!f,query:(language:kuery,query:''),uiState:(),vis:(aggs:!((enabled:!t,id:'1',params:(),schema:metric,type:count),(enabled:!t,id:'2',params:(field:%EB%93%B1%EA%B8%89,missingBucket:!f,missingBucketLabel:Missing,order:desc,orderBy:'1',otherBucket:!f,otherBucketLabel:Other,size:12),schema:bucket,type:terms),(enabled:!t,id:'3',params:(field:%EC%A7%80%EC%97%AD,missingBucket:!f,missingBucketLabel:Missing,order:desc,orderBy:'1',otherBucket:!f,otherBucketLabel:Other,size:5),schema:split,type:terms)),params:(perPage:10,percentageCol:'',row:!f,showMetricsAtAllLevels:!f,showPartialRows:!f,showToolbar:!f,showTotal:!t,totalFunc:sum),title:'CB%20by%20Loc',type:table))"
+                height="100%"
+                width="100%"
+              ></iframe>
+            </Paper>
+          </Grid>
+
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
             <Paper
