@@ -153,7 +153,7 @@ export default function CreditForm() {
            updateDebtValue(debtData.index, "debtId", debtId);
         } else {
            // debtId가 없는 경우, debt를 저장하고 debtId 얻음
-           const debtResponse = await axios.post( "http://localhost:8090/debt/save", debtData );
+           const debtResponse = await axios.post( "http://localhost:8080/debt/save", debtData );
            const savedDebtId = debtResponse.data.id;
            updateDebtId(debtData.index, savedDebtId);
         }
@@ -163,7 +163,7 @@ export default function CreditForm() {
             loanAmount: debtData.loanAmount,
             debtPeriod: debtData.debtPeriod,
         };
-        const redemptionResponse = await axios.post("http://localhost:8090/redemption/save", redemptionRequestDto);
+        const redemptionResponse = await axios.post("http://localhost:8080/redemption/save", redemptionRequestDto);
         console.log("상환 정보 저장 완료:", redemptionResponse.data);
 
         // 대출 ID 출력
@@ -236,12 +236,12 @@ export default function CreditForm() {
     });
 
      try {
-           const financePromise = await axios.post("http://localhost:8090/finance/save", financeData);
-           const nonFinancePromise = await axios.post("http://localhost:8090/nonFinancial/save", nonFinanceData);
+           const financePromise = await axios.post("http://localhost:8080/finance/save", financeData);
+           const nonFinancePromise = await axios.post("http://localhost:8080/nonFinancial/save", nonFinanceData);
            const creditPromise = creditDataArray.map((creditData) =>
-             axios.post("http://localhost:8090/creditCard/save", creditData));
+             axios.post("http://localhost:8080/creditCard/save", creditData));
            const debtPromise = debtDataArray.map((debtData) =>
-              axios.post("http://localhost:8090/debt/save", debtData));
+              axios.post("http://localhost:8080/debt/save", debtData));
 
            // 클릭시 한번에 데이터 전송
            const financeResponse = await financePromise;
