@@ -7,10 +7,10 @@ import Deposits from "../components/Deposits";
 import DashboardFooter from "../DashboardFooter";
 import * as React from "react";
 import BoardList from "../components/BoardList";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function MyAssets() {
   // 세션에 저장된 토큰값 가져오기
@@ -34,13 +34,17 @@ export default function MyAssets() {
   return (
     <>
       <Toolbar />
-      <div>
+      <div style={{ flex: 1, marginLeft: "30px" }}>
       <h1>환영합니다. {memberInfo.name}님의 정보입니다. </h1>
         <h3>여기 신용 정보 불러와야함{memberInfo.financial_no} </h3>
+             <h3>나의 지역 : {memberInfo.financial_no} </h3>
+            <h3>여기 신용 정보 불러와야함{memberInfo.financial_no} </h3>
         <h1>전체 정보와 비교해보세요</h1>
       </div>
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+    <div style={{ float: "left", marginLeft: "30px"}}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} style={{ display: "flex", gap: "30px" }}>
         <Grid container spacing={3}>
           {/* Left Graph: 전체 인구 별 지역 비율 */}
           <Grid item xs={12} md={6}>
@@ -50,7 +54,7 @@ export default function MyAssets() {
                 display: "flex",
                 flexDirection: "column",
                 height: 400,
-                marginBottom: 20,
+                marginBottom: 20
               }}
             >
               <h1>전체 인구 별 지역 비율</h1>
@@ -70,7 +74,7 @@ export default function MyAssets() {
                 display: "flex",
                 flexDirection: "column",
                 height: 600,
-                marginBottom: 20,
+                marginBottom: 20
               }}
             >
               <h1>전체 지역 별 등급 순위</h1>
@@ -81,44 +85,26 @@ export default function MyAssets() {
               ></iframe>
             </Paper>
           </Grid>
-
-          {/* Chart */}
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper
-              sx={{
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-                height: 240,
-              }}
-            >
-              <Chart />
-            </Paper>
-          </Grid>
-
-          {/* Recent Deposits */}
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper
-              sx={{
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-                height: 240,
-              }}
-            >
-              <Deposits />
-            </Paper>
-          </Grid>
-
-          {/* Recent Orders */}
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <BoardList />
-            </Paper>
-          </Grid>
         </Grid>
+
+
+        <div>
+              <div>
+                <div style={{ flex: 1}}height="100%"
+                                                       width="100%">
+                  <h2 style={{ fontWeight: 'bold' }}>시각화 설명</h2>
+                  <p style={{ fontWeight: 'bold' }}>1️⃣️ 신용 평가를 실시한 전체 인구 중 지역 비율입니다.</p>
+                  <p> ➜ 가장 많은 지역은 27.05%로 경기도 지역이 차지하였습니다.</p>
+                  <p>️ ➜ 가장 적은 지역은 0.02%로 전라도 지역이 차지하였습니다.</p>
+
+                  <p style={{ fontWeight: 'bold' }}>2️⃣ 신용 평가를 실시한 전체 인구 중 등급 비율입니다.</p>
+                  <p> ➜ 각 지역 별 가장 많은 등급순으로 나열하였습니다.</p>
+                </div>
+              </div>
+       </div>
       </Container>
-      <DashboardFooter sx={{ pt: 4 }} />
+      </div>
+
     </>
   );
 }
