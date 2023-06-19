@@ -14,12 +14,12 @@ import {handleLogout} from "../store/CustomerNameStore";
 function DeleteMember() {
     const navigate = useNavigate();
     const [memberInfo, setMemberInfo] = useState({});
-     // 세션에 저장된 토큰값 가져오기
-     const storedToken = sessionStorage.getItem("loginData");
-     // 토큰값 해석
-     const decodedToken = jwtDecode(storedToken);
-     // 해석한 정보에서 회원번호만 추출
-     const customerNo = decodedToken.sub;
+    // 세션에 저장된 토큰 값을 가져옵니다.
+    const storedToken = sessionStorage.getItem("loginData");
+    // 토큰이 존재할 경우 해독합니다.
+    const decodedToken = storedToken ? jwtDecode(storedToken) : null;
+    // 해독된 정보에서 고객 번호를 추출합니다.
+    const customerNo = decodedToken ? decodedToken.sub : null;
 
      //로그아웃
      const dispatch = useDispatch();
