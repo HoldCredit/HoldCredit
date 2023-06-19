@@ -7,25 +7,24 @@ import '../store/CustomerNameStore'
 import {useSelector} from "react-redux";
 
 
-function QnaWrite(props) {
+function MainFaqWrite(props) {
 
-      const[qna, setQna] = useState([]);
+      const[faq, setFaq] = useState([]);
       const[title, setTitle] = useState('');
       const[content, setContent] = useState('');
-      const[pwd, setPwd] = useState('');
 
-    // 세션에 저장된 토큰 값을 가져옵니다.
-    const storedToken = sessionStorage.getItem("loginData");
-    // 토큰이 존재할 경우 해독합니다.
-    const decodedToken = storedToken ? jwtDecode(storedToken) : null;
-    // 해독된 정보에서 고객 번호를 추출합니다.
-    const customerNo = decodedToken ? decodedToken.sub : null;
+// 세션에 저장된 토큰 값을 가져옵니다.
+const storedToken = sessionStorage.getItem("loginData");
+// 토큰이 존재할 경우 해독합니다.
+const decodedToken = storedToken ? jwtDecode(storedToken) : null;
+// 해독된 정보에서 고객 번호를 추출합니다.
+const customerNo = decodedToken ? decodedToken.sub : null;
 
       const writer = useSelector((state) => state.customerName);
 
          useEffect(() => {
-            BoardService.getQna().then((res) => {
-            setQna(res.data);
+            BoardService.getFaq().then((res) => {
+            setFaq(res.data);
           });
          }, []);
 
@@ -37,39 +36,35 @@ function QnaWrite(props) {
              setContent(event.target.value);
          }
 
-         const changePwdHandler = (event) => {
-            setPwd(event.target.value);
-         }
 
       const navigate = useNavigate();
 
-      const createQna = (event) => {
+      const createFaq = (event) => {
           event.preventDefault();
-          let qna = {
+          let faq = {
 
             title: title,
             content: content,
-            pwd: pwd,
-            writer: writer,
+            name: writer,
             customerNo: customerNo,
 
           };
-          console.log("notice => " + JSON.stringify(qna));
-            BoardService.createQna(qna).then(res => {
+          console.log("notice => " + JSON.stringify(faq));
+            BoardService.createFaq(faq).then(res => {
             alert('등록되었습니다.');
-            navigate('/MainQna');
+            navigate('/MainFaQ');
           });
         };
 
       const cancel = () => {
-        navigate('/MainQna');
+        navigate('/MainFaQ');
       }
     return (
         <div>
 
             <div class="board_wrap">
                 <div class="board_title">
-                <strong>Q & A</strong>
+                <strong>자주 묻는 질문</strong>
             </div>
                 <div class="board_write_wrap">
                     <div class="board_write">
@@ -88,11 +83,6 @@ function QnaWrite(props) {
                             <dt>글쓴이</dt>
                             <dd>{writer}</dd>
                         </dl>
-                        <dl>
-                            <dt>비밀번호</dt>
-                            <dd><input type="password" id="write_input" placeholder="password" name="pwd" value={pwd}
-                            onChange={changePwdHandler}/></dd>
-                        </dl>
                         </div>
                         </div>
                         <div className="cont">
@@ -101,7 +91,7 @@ function QnaWrite(props) {
                         </div>
 
                         <div className="btn_wrap">
-                            <a href="#" class="btn_insert" onClick={createQna}>등록</a>
+                            <a href="#" class="btn_insert" onClick={createFaq}>등록</a>
                             <a href="#" class="btn_update" onClick={cancel}>취소</a>
                         </div>
                     </div>
@@ -111,4 +101,4 @@ function QnaWrite(props) {
     )
 }
 
-export default QnaWrite;
+export default MainFaqWrite;

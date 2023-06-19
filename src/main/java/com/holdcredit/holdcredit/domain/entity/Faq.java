@@ -26,7 +26,7 @@ public class Faq extends Date {
     @Column(length = 500, nullable = false )
     private String title;
 
-    @Column(length = 5000, nullable = false)
+    @Column(length = 500, nullable = false)
     private String content;
 
     public FaqResponseDto responseDto(){
@@ -36,4 +36,5 @@ public class Faq extends Date {
                 .content(this.getContent())
                 .build();
     }
+
 }

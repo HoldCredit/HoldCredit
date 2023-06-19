@@ -27,8 +27,8 @@ const createQna = (qna) => {
     return axios.post(QNA_API_BASE_URL, qna);
 };
 
-const createFaq = (qna) => {
-  return axios.post(FAQ_API_BASE_URL, qna);
+const createFaq = (faq) => {
+  return axios.post(FAQ_API_BASE_URL, faq);
 };
 
 

@@ -2,8 +2,10 @@ package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.boardDto.FaqRequestDto;
 import com.holdcredit.holdcredit.domain.dto.boardDto.FaqResponseDto;
+import com.holdcredit.holdcredit.domain.dto.boardDto.QnaResponseDto;
 import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Faq;
+import com.holdcredit.holdcredit.domain.entity.Qna;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.FaqRepository;
 import com.holdcredit.holdcredit.service.FaqService;
@@ -30,6 +32,27 @@ public class FaqServiceImpl implements FaqService {
         Page<Faq> faqPage = faqRepository.findAll(paging);
         return faqPage.map(Faq::responseDto);
     }
+    @Override
+    @Transactional
+    public Page<FaqResponseDto> searchFaq(String field, String keyword, Pageable pageable) {
+        PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
+        Page<Faq> faqPage;
+
+        switch (field) {
+            case "content":
+                faqPage = faqRepository.findByContentContaining(keyword, paging);
+                break;
+            case "title":
+                faqPage = faqRepository.findByTitleContaining(keyword, paging);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Invalid search field: " + field);
+        }
+
+        return faqPage.map(Faq::responseDto);
+    }
+
 
     @Override
     public void postFaq(FaqRequestDto faqRequestDto) {

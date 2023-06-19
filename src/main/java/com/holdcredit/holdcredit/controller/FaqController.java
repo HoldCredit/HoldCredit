@@ -17,8 +17,17 @@ public class FaqController {
     private final FaqService faqService;
 
     @GetMapping("/faq")
-    public Page<FaqResponseDto> list(Pageable pageable) throws Exception {
-        return faqService.list(pageable);
+    public Page<FaqResponseDto> list(Pageable pageable, String keyword, String field) throws Exception {
+
+        Page<FaqResponseDto> faqList = null;
+
+        if(keyword == null){
+            faqList = faqService.list(pageable);
+        }else {
+            faqList = faqService.searchFaq(field, keyword, pageable);
+        }
+
+        return faqList;
     }
 
     @PostMapping("/faq")
