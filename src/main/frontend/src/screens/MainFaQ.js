@@ -192,24 +192,23 @@ if (totalPages <= 5) { for (let i=0; i < totalPages; i++) { pages.push( <a key={
                 </div>
                 <div className="board_list_wrap">
                     <div className="board_list">
-                        <div className="top">
-                            <div className="num">번호</div>
-                            <div className="title">제목</div>
+                        <div className="faq_top">
+                            <div className="faq_num">번호</div>
+                            <div className="faq_title">제목</div>
                         </div>
                       {faq.map((item) => (
-                        <div className="notice_read" key={item.id}>
-                          <div className="num">{item.id}</div>
-                          <div className="title" onClick={() => setSelectedFaq(item.id === selectedFaq ? null : item.id)}>
-                            <a className="content">
-                              {item.title}
-                            </a>
+                        <div className="faq_top_2" key={item.id}>
+                          <div className="test">
+                            <div className="faq_num">{item.id}</div>
+                              <div className="faq_title" onClick={() => setSelectedFaq(item.id === selectedFaq ? null : item.id)}>
+                                  {item.title}
+                              </div>
                           </div>
                           {item.id === selectedFaq && (
-                            <div className="title">
-                            <a className="content">{item.content}</a>
+                            <div className="faq_content">
+                                <div className="txt">{item.content}</div>
                             </div>
                           )}
-                          <div className="writer">{item.writer}</div>
                         </div>
                       ))}
 
