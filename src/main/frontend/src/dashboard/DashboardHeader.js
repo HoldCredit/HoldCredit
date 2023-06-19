@@ -16,6 +16,11 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import { useState } from 'react';
+import {useDispatch} from "react-redux";
+import {handleLogout} from "../store/CustomerNameStore";
+
+
 
 const drawerWidth = 280;
 
@@ -65,15 +70,27 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function DashBoardHeader() {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true)
+  const dispatch = useDispatch();
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const handleEditProfile = () => {
+    navigate('/EditMember')
+  }
+  const doLogout = () => {
+      dispatch(handleLogout(''))
+      navigate("/loginPage");
+      window.alert("로그아웃 되었습니다.");
+    }
+
   return(
     <>
       {/* Header */}
-      <AppBar position="absolute" open={open} elevation={1} sx={{backgroundColor:'#FFE34A', color:'#464646'}}>
+      <AppBar position="absolute" open={open} elevation={1} sx={{backgroundColor:'#FEE500', color:'#464646', boxShadow:'none'}}>
         <Toolbar sx={{ pr: '24px'}} >
           <IconButton edge="start" color="inherit" aria-label="open drawer"
             onClick={toggleDrawer} sx={{ marginRight: '36px',...(open && { display: 'none' }), }} >
@@ -89,14 +106,14 @@ function DashBoardHeader() {
 
           {/* 개인정보수정 */}
           <Box>
-            <Button sx={{ color: '#464646' }}>
-              <AutoFixHighIcon/>개인정보 수정
+            <Button sx={{ color: '#464646' }} onClick={handleEditProfile}>
+              <AutoFixHighIcon/>회원정보 수정
             </Button>
           </Box>
 
           {/* 로그아웃 */}
           <Box>
-            <Button sx={{ color: '#464646' }}>
+            <Button sx={{ color: '#464646' }} onClick={doLogout}>
               <LogoutIcon /> Logout
             </Button>
           </Box>
