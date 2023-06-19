@@ -104,7 +104,6 @@ a {
   border: 1px solid #ffe400;
   border-radius: 2px;
   font: 0.5rem;
-  cursor: pointer;
 }
 
 
@@ -776,10 +775,54 @@ textarea.comment_inbox_text {
     border-color: #ced4da;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
     text-align:center;
-    cursor: pointer;
 }
 
-.btn_insert:hover {
-  color: inherit;
-  text-decoration: none;
+.faq_top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+}
+
+.faq_top_2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.faq_top_2 > .test {
+    display: flex;
+    justify: center;
+    align-items: center;
+    width: 100%
+}
+
+.faq_num{
+    width: 10%;
+    font-weight: bold;
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+.faq_title{
+    margin-right: 100px;
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+}
+
+.faq_content {
+    width: 100%;
+    display: inline-block;
+    padding: 20px 10px;
+    background-color: #f7f7f7f7;
+    font-size: 14px;
+    position: relative;
+
+}
+
+.faq_content .txt {
+    display: inline-block;
 }
