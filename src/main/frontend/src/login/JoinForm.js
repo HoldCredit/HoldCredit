@@ -328,7 +328,7 @@ function JoinForm() {
                                      <span className="terms_choice">(필수)</span>
                                    </label>
                                  </h3>
-                                 <span className="ps_box1 int_email box_right_space1">
+                                 <span className="ps_box1 int_email">
                                    <input
                                      type="email"
                                      id="email"
