@@ -59,7 +59,13 @@ setTotalPages(res.data.totalPages);
 const navigate = useNavigate();
 
 const createFaq = () => {
+
+if( customerNo == null){
+    alert("로그인후 진행해주세요")
+    return;
+}else{
 navigate('/MainFaqWrite');
+}
 };
 
 const handlePaginationClick = (page) => {

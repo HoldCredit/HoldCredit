@@ -78,6 +78,11 @@ const customerNo = decodedToken ? decodedToken.sub : null;
 
 //댓글 등록
   const handleSubmitReply = (e) => {
+  if(customerNo == null){
+    alert("로그인후 진행해주세요")
+    return;
+  }
+
     e.preventDefault();
 
     let replyData = {

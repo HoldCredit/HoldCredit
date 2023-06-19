@@ -56,6 +56,10 @@ const navigate = useNavigate();
 
 const createNotice = () => {
 console.log("notices.authority:", notices.authority);
+if( customerNo == null){
+    alert("로그인후 진행해주세요")
+    return;
+}
 
 if (notices.authority !== "ADMIN") {
 console.log(notices.authority);

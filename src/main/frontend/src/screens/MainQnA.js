@@ -56,7 +56,12 @@ setTotalPages(res.data.totalPages);
 const navigate = useNavigate();
 
 const createQna = () => {
+
+if( customerNo == null){
+    alert("로그인후 진행해주세요")
+}else{
 navigate('/QnaWrite');
+}
 };
 
 const readQna = (id) => {
