@@ -1,7 +1,14 @@
 import React from 'react'
 import './css/Home.css'
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
+ const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`/CreditForm`);
+  }
   return (
     <div class="home_page">
       <div class="intro_main_content">
@@ -14,7 +21,7 @@ const Home = () => {
           당신의 신용을 평가하세요 !<br></br>
         </p>
         <ul class="list_store">
-          <li><button class="button">평가하기</button></li>
+          <li><button class="button" onClick={onClick}>평가하기</button></li>
         </ul>
       </div>
       <div class = "row">

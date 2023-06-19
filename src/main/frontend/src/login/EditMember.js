@@ -205,9 +205,9 @@ const updateCustomer = (event) => {
         <div id="wrap">
             <div id="header1" className="join_membership">
                 <h1>
-                    <span className="h_logo">
-                        <span className="blind">HOLD CREDIT</span>
-                    </span>
+                   <a href="/" className="h_logo">
+                   <span className="blind1">HOLD CREDIT</span>
+                    </a>
                 </h1>
             </div>
             <div id="container1">
