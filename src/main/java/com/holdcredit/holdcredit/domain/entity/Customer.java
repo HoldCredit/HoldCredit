@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SequenceGenerator(sequenceName ="CUSTOMER_SEQ", initialValue = 1, allocationSize = 1, name ="CUSTOMER_SEQ_GENERATOR") //G_generator = S_name
+@SequenceGenerator(sequenceName ="CUSTOMER_SEQ", initialValue = 1000001, allocationSize = 1, name ="CUSTOMER_SEQ_GENERATOR") //G_generator = S_name
 public class Customer {
 
     @Id //회원번호
@@ -105,18 +105,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<CreditCard> creditCards = new ArrayList<>();
 
-    //개인 금융
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Finance finance;
-
-    //비금융
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private NonFinancial nonFinancial;
-
-    //점수
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Score scores;
-
+    // Score
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Score score;
 
     //근쭈 쓸꺼임>> 회원 수정
     public CustomerDto toDto(){
