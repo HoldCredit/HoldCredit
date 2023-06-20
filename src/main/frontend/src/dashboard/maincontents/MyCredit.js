@@ -15,14 +15,16 @@ export default function MyCredit() {
   const decodedToken = jwtDecode(storedToken);
   // 해석한 정보에서 회원번호만 추출
   const customerNo = decodedToken.sub;
-
+  // 지정한 곳으로 가
   const navigate = useNavigate();
+  // 고객 이름 가져오기
   const customerName = useSelector((state) => state.customerName);
-
+  //콘솔에 이름찍어서 확인
   useEffect(() => {
     console.log(customerName);
   }, [customerName]);
 
+  // 고객 인포에 모든 정보 담아
   const memberInfo = {
     name: customerName,
   };
