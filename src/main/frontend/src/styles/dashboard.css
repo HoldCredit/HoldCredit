@@ -1,6 +1,6 @@
 .under::after {position: absolute; content:''; top:0; left:0;
     background: rgb(255,227,74);
-    background: linear-gradient(180deg, rgba(185,265,205,1) 0%, rgba(235,255,245,1) 70%);
+    background: linear-gradient(180deg, rgba(255,275,71,1) 0%, rgba(245,255,245,1) 70%);
     width:100%; height:700px; z-index: -1;}
 
 div[class^=table_custom] table {width: 100%; table-layout: fixed;}
