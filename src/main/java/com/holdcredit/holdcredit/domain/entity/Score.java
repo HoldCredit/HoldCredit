@@ -48,7 +48,15 @@ public class Score {
     /* 비금융점수 */
     private Integer nonFinancialScore;
 
+    private Integer cbScore;
+    private Integer overdueCnt;
 
+    public void setCbScore(Integer cbScore) {
+        this.cbScore = cbScore;
+    }
+    public void setOverdueCnt(Integer overdueCnt) {
+        this.overdueCnt = overdueCnt;
+    }
 
     public ScoreDto toDto(Score score) {
         return ScoreDto.builder()
