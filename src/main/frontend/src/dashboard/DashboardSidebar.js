@@ -15,13 +15,19 @@ import {useNavigate} from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import {useDispatch, useSelector} from "react-redux";
 import {handleMenu} from "../store/DashboardMenuStore";
+import GroupsIcon from '@mui/icons-material/Groups';
+import jwtDecode from "jwt-decode";
 
 export function SidebarMenus() {
 
   const navigate = useNavigate();
   const menu = useSelector((state) => {return state.selectMenu.name});
-
+  // 세션에 저장된 토큰값 가져오기
+  const storedToken = sessionStorage.getItem("loginData");
+  const decodedToken = jwtDecode(storedToken);
+  const auth = decodedToken.auth;
   const dispatch = useDispatch();
+  console.log(auth)
 
   return (
     <React.Fragment>
@@ -52,6 +58,19 @@ export function SidebarMenus() {
         </ListItemIcon>
         <ListItemText primary="Lisk Analysis" onClick={() => {navigate('/Dashboard/liskanalysis'); dispatch(handleMenu('Lisk Analysis'));}}/>
       </ListItemButton>
+
+      {
+        decodedToken.auth == 'ADMIN' ?
+        <ListItemButton>
+          <ListItemIcon>
+            <GroupsIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Customer List" onClick={() => {navigate('/Dashboard/customerList'); dispatch(handleMenu('customerList'));}}/>
+        </ListItemButton>
+
+          : null
+
+      }
 
       <Divider sx={{ my: 1 }} />
 

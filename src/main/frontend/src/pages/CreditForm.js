@@ -219,7 +219,6 @@ export default function CreditForm() {
           overduePeriod: parseInt(creditCard.overduePeriod),
         };
     });
-
     //Debt 부채
     //debts 배열을 debtData 배열로 변환
     const debtDataArray = debts.map((debt, index) => {
@@ -242,6 +241,8 @@ export default function CreditForm() {
              axios.post("http://localhost:8080/creditCard/save", creditData));
            const debtPromise = debtDataArray.map((debtData) =>
               axios.post("http://localhost:8080/debt/save", debtData));
+
+           await axios.get(`http://localhost:8080/api/ext/${customerNo}`)
 
            // 클릭시 한번에 데이터 전송
            const financeResponse = await financePromise;
@@ -282,6 +283,7 @@ export default function CreditForm() {
            redemptionResponses.forEach((redemptionResponse, index) => {
              console.log(`Redemption ${index + 1}:`, redemptionResponse);
            });
+           navigate('/')
 
          } catch (error) {
            console.error("Error:", error);

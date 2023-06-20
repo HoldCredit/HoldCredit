@@ -1,10 +1,18 @@
 package com.holdcredit.holdcredit.service.impl;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerListDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
+import com.holdcredit.holdcredit.domain.entity.AnonymousData;
 import com.holdcredit.holdcredit.domain.entity.Customer;
+import com.holdcredit.holdcredit.domain.entity.Notice;
+import com.holdcredit.holdcredit.repository.AnonymousDataRepository;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,5 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByEmail(email)
                 .map(CustomerResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+    }
+
+    @Override
+    public Page<CustomerListDto> findCustomerAll(Pageable pageable) {
+        PageRequest paging = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
+        Page<Customer> customerListPage = customerRepository.findAll(paging);
+        return customerListPage.map(Customer::customerListDto);
     }
 }

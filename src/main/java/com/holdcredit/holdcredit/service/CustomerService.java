@@ -1,7 +1,10 @@
 package com.holdcredit.holdcredit.service;
 
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerListDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,4 +22,6 @@ public  interface CustomerService {
 
     CustomerResponseDto findCustomerInfoById(String customerId);
     CustomerResponseDto findCustomerInfoByEmail(String email);
+
+    Page<CustomerListDto> findCustomerAll(Pageable pageable);
 }

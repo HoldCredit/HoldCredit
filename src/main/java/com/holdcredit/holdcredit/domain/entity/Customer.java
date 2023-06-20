@@ -2,6 +2,7 @@ package com.holdcredit.holdcredit.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerListDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
@@ -150,6 +151,19 @@ public class Customer {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static CustomerListDto customerListDto(Customer customer) {
+        CustomerListDto customerListDto = new CustomerListDto();
+        return customerListDto.builder()
+                .name(customer.getCustomerName())
+                .birth(customer.getBirth())
+                .birth(customer.getBirth())
+                .gender(customer.getGender())
+                .job(customer.getJob())
+                .educationLevel(customer.getEducationLevel())
+                .phone_num(customer.getPhoneNum())
+                .build();
     }
 }
 
