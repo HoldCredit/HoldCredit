@@ -47,6 +47,9 @@ function LoginPage() {
 
                 dispatch(setName(res.data.customerName));
                 navigate('/');
+
+                alert(`${res.data.customerName}님 환영합니다.`);
+
             }
         } catch (error) {
             console.error(error);
