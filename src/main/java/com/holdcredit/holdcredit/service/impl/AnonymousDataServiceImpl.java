@@ -43,9 +43,10 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
         if(score == null){
             score = new Score();
             score.setCustomer(customer);
+            scoreRepository.save(score);
+        } else {
+            score.setCbScore(cbScore);
         }
-        score.setCbScore(cbScore);
-        scoreRepository.save(score);
 //        findScore.setOverdueCnt(Integer.parseInt(overdueCnt));
     }
 
@@ -92,16 +93,10 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
         AnonymousData findData = anonymousDataRepository.findById(customer.getId()).orElseThrow(() -> new IllegalArgumentException("입력된 금융 정보가 없습니다."));
 
-        URL resourceUrl = getClass().getClassLoader().getResource("ExtractingOutput.py");
-        if (resourceUrl == null) {
-            throw new IllegalArgumentException("파일을 찾을 수 없습니다.");
-        }
-        String filePath = resourceUrl.getPath();
-
         List<String> dataList = new ArrayList<>();
 
         dataList.add("python");
-        dataList.add(filePath);
+        dataList.add("C:\\dev\\HoldCredit\\py\\ExtractingOutput.py");
 
         Field[] fields = findData.getClass().getDeclaredFields();
         for (Field field : fields) {

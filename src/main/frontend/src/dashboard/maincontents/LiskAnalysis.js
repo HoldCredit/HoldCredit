@@ -1,12 +1,6 @@
 import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Chart from "../components/Chart";
-import Deposits from "../components/Deposits";
 import DashboardFooter from "../DashboardFooter";
 import * as React from "react";
-import BoardList from "../components/BoardList";
 import { useEffect, useState } from 'react';
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";

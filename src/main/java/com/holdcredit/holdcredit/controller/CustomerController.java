@@ -2,16 +2,19 @@
 package com.holdcredit.holdcredit.controller;
 
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerListDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerResponseDto;
 import com.holdcredit.holdcredit.service.CustomerService;
 import com.holdcredit.holdcredit.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/customer")
 public class CustomerController {
@@ -40,5 +43,11 @@ public class CustomerController {
     @GetMapping("/{email}")
     public ResponseEntity<CustomerResponseDto> findCustomerInfoByEmail(@PathVariable String email) {
         return ResponseEntity.ok(customerService.findCustomerInfoByEmail(email));
+    }
+
+    @GetMapping("/list")
+    public Page<CustomerListDto> customerList(Pageable pageable) {
+        Page<CustomerListDto> customerList = customerService.findCustomerAll(pageable);
+        return customerList;
     }
 }

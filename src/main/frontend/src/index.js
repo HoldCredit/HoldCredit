@@ -35,6 +35,7 @@ import Error404 from "./pages/Error404";
 import CreditForm from "./pages/CreditForm";
 import {Provider} from "react-redux";
 import Store from "./store/Store";
+import CustomerList from "./dashboard/maincontents/CustomerList";
 
 
 
@@ -65,7 +66,7 @@ root.render(
             <Route path="/FindPwd" element={<FindPwd/>}/>
             <Route path="/EditMember" element={<EditMember/>}/>
             <Route path="/DeleteMember" element={<DeleteMember/>}/>
-            <Route path="/CreditForm" element={<CreditForm/>}/>
+            <Route path="/CreditForm/" element={<CreditForm/>}/>
           </Route>
 
           <Route path="/Dashboard" element={<Dashboard/>}>
@@ -73,6 +74,7 @@ root.render(
             <Route path="Myassets" element={<MyAssets/>}/>
             <Route path="Mycredit" element={<MyCredit/>}/>
             <Route path="Liskanalysis" element={<LiskAnalysis/>}/>
+            <Route path="customerList" element={<CustomerList/>}/>
             <Route path="Notice/" element={<Board/>}/>
             <Route path="Notice/:id" element={<Board/>}/>
             <Route path="Notice/post" element={<BoardPost/>}/>
