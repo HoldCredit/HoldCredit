@@ -56,7 +56,7 @@ public class EmailSender {
                     + "<div class='container'>"
                     + "<h2>임시 비밀번호 안내</h2>"
                     + "<p>안녕하세요,</p>"
-                    + "<p>임시 비밀번호를 안내해드립니다. 아래의 임시 비밀번호를 사용하여 로그인하세요.</p>"
+                    + "<p>HoldCredit 임시 비밀번호를 안내해드립니다. 아래의 임시 비밀번호를 사용하여 로그인하세요.</p>"
                     + "<br>"
                     + "<div class='password-box' style='border: 2px solid #3333FF; padding: 10px; border-radius: 5px; width: 300px; margin: 0; text-align: left;'>"
                     + "<strong>임시 비밀번호:</strong> " + temporaryPassword

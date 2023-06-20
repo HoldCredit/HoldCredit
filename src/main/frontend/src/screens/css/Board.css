@@ -41,6 +41,9 @@ a {
   text-decoration: none;
 
 }
+.btn_list:hover {
+  color:inherit;
+}
 
 .btn_update {
   background-color: #ffe400;
@@ -94,6 +97,7 @@ a {
   border: 1px solid #ffe400;
   border-radius: 2px;
   font: 0.5rem;
+  cursor:pointer;
 }
 
 .btn_wrap_2 a {
