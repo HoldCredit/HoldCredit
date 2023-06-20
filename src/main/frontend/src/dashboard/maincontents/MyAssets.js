@@ -11,6 +11,9 @@ import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styles from "../../styles/MyAssets.css"; // Import CSS module
+import { Card, CardContent, Typography } from "@mui/material";
+
 
 export default function MyAssets() {
   // 세션에 저장된 토큰값 가져오기
@@ -20,26 +23,52 @@ export default function MyAssets() {
   // 해석한 정보에서 회원번호만 추출
   const customerNo = decodedToken.sub;
 
+  // 지정한 곳으로 가
   const navigate = useNavigate();
+  // 고객 이름 가져오기
   const customerName = useSelector((state) => state.customerName);
-
+  //콘솔에 이름찍어서 확인
   useEffect(() => {
     console.log(customerName);
   }, [customerName]);
 
+  // 고객 인포에 모든 정보 담기
   const memberInfo = {
     name: customerName,
   };
+
+  //AnonymousData 정보 담기
+  const [creditInfo, setCreditInfo] = React.useState(null);
+
+    useEffect(() => {
+      fetch(`http://localhost:8080/api/creditInfo/${customerNo}`)
+        .then((response) => response.json())
+        .then((data) => setCreditInfo(data))
+        .catch((error) => console.error(error));
+    }, []);
+
+
 
   return (
     <>
       <Toolbar />
       <div style={{ flex: 1, marginLeft: "30px" }}>
-      <h1>환영합니다. {memberInfo.name}님의 정보입니다. </h1>
-        <h3>여기 신용 정보 불러와야함{memberInfo.financial_no} </h3>
-             <h3>나의 지역 : {memberInfo.financial_no} </h3>
-            <h3>여기 신용 정보 불러와야함{memberInfo.financial_no} </h3>
-        <h1>전체 정보와 비교해보세요</h1>
+      <Container>
+             <Card variant="outlined">
+               <CardContent>
+                 <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                 {creditInfo && (
+                   <div>
+                     <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
+                     <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
+                     <Typography variant="h6">🔸나의 지역: {creditInfo.res_Add}</Typography>
+                     <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
+                   </div>
+                 )}
+                 <Typography variant="h5">전체 정보와 인구별 지역을 비교해보세요</Typography>
+               </CardContent>
+             </Card>
+           </Container>
       </div>
 
 
@@ -90,14 +119,13 @@ export default function MyAssets() {
 
         <div>
               <div>
-                <div style={{ flex: 1}}height="100%"
-                                                       width="100%">
-                  <h2 style={{ fontWeight: 'bold' }}>시각화 설명</h2>
-                  <p style={{ fontWeight: 'bold' }}>1️⃣️ 신용 평가를 실시한 전체 인구 중 지역 비율입니다.</p>
+                <div>
+                  <h2>시각화 설명</h2>
+                  <p>1️⃣️ 신용 평가를 실시한 전체 인구 중 지역 비율입니다.</p>
                   <p> ➜ 가장 많은 지역은 27.05%로 경기도 지역이 차지하였습니다.</p>
                   <p>️ ➜ 가장 적은 지역은 0.02%로 전라도 지역이 차지하였습니다.</p>
 
-                  <p style={{ fontWeight: 'bold' }}>2️⃣ 신용 평가를 실시한 전체 인구 중 등급 비율입니다.</p>
+                  <p>2️⃣ 신용 평가를 실시한 전체 인구 중 등급 비율입니다.</p>
                   <p> ➜ 각 지역 별 가장 많은 등급순으로 나열하였습니다.</p>
                 </div>
               </div>
