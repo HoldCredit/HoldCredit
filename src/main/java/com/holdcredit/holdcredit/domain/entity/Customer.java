@@ -98,15 +98,18 @@ public class Customer {
     //부채수준
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Debt> debts = new ArrayList<>();
 
     //신용카드 형태
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<CreditCard> creditCards = new ArrayList<>();
 
     // Score
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Score score;
 
     //근쭈 쓸꺼임>> 회원 수정

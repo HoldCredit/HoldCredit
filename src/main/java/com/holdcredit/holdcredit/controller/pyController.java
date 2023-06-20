@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,15 @@ public class pyController {
 
         AnonymousData findData = anonymousDataService.findById(id);
 
+        URL resourceUrl = getClass().getClassLoader().getResource("ExtractingOutput.py");
+        if (resourceUrl == null) {
+            throw new IllegalArgumentException("파일을 찾을 수 없습니다.");
+        }
+        String filePath = resourceUrl.getPath();
+
         List<String> dataList = new ArrayList<>();
         dataList.add("python");
-        dataList.add("C:\\dev\\HoldCredit\\py\\ExtractingOutput.py");
+        dataList.add(filePath);
 
         Field[] fields = findData.getClass().getDeclaredFields();
         for (Field field : fields) {
