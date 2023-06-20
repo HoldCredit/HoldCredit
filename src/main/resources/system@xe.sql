@@ -19,7 +19,7 @@ drop table member;
 drop table score;
 drop table modeling_information;
 drop table refresh_token;
-
+drop table anonymous_data;
 
 --아래 굳이 필요한가
 
