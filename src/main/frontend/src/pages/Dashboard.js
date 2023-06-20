@@ -17,9 +17,9 @@ function Dashboard() {
           <DashBoardHeader/>
 
           {/* Content */}
-          <Box component="main"
+          <Box component="main" className="under"
                sx={{padding:"25px 0px",position:"relative", zIndex: "0",
-                 flexGrow: 1, height: '100vh', overflow: 'auto', backgroundColor:'rgba(235,255,245,1)'}}>
+              flexGrow: 1, height: '100vh', overflow: 'auto'}}>
             {/*<Provider PageTitleStore={PageTitleStore}>*/}
               <Outlet/>
             {/*</Provider>*/}
