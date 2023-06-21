@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-
+import styles from "../../styles/MyAssets.css"; // Import CSS module
+import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 
 export default function LiskAnalysis() {
   // 세션에 저장된 토큰값 가져오기
@@ -25,6 +27,17 @@ export default function LiskAnalysis() {
   const memberInfo = {
     name: customerName,
   };
+
+  //AnonymousData 정보 담기
+    const [creditInfo, setCreditInfo] = React.useState(null);
+
+      useEffect(() => {
+        fetch(`http://localhost:8080/api/creditInfo/${customerNo}`)
+          .then((response) => response.json())
+          .then((data) => setCreditInfo(data))
+          .catch((error) => console.error(error));
+      }, []);
+
 
   const [financeInfo, setFinanceInfo]= useState(null);
 
@@ -50,15 +63,23 @@ export default function LiskAnalysis() {
   return (
     <>
       <Toolbar/>
-      <div>
-        <h1 style={{ marginLeft: "22px"}}>환영합니다. {memberInfo?.name}님의 신용정보입니다. </h1>
-        <h3> 수익률:  {financeInfo?.annulIncome}   </h3>
-        <h3> 대출횟수:  {financeInfo?.continuousService} </h3>
-        <h3> 대출금액:  {financeInfo?.extraMonthlyFund} </h3>
-        <h3> 연체횟수:   </h3>
-
-        <h1 style={{ marginLeft: "380px",marginTop: "50px", fontWeight: "bold"}}> 나의 신용정보를 비교해보세요</h1>
-      </div>
+      <Container>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                        {creditInfo && (
+                          <div>
+                            <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
+                            <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
+                            <Typography variant="h6">🔸수익률: {creditInfo.pre_RT}% </Typography>
+                            <Typography variant="h6">🔸연체 횟수: {creditInfo.ps0001897}회</Typography>
+                            <Typography variant="h6">🔸남은 대출 금액: {creditInfo.l00000002}원</Typography>
+                          </div>
+                        )}
+                        <Typography variant="h5">나의 신용 정보를 전체 정보와 비교해보세요</Typography>
+                      </CardContent>
+                    </Card>
+                  </Container>
 
     <div style={{ backgroundColor: "#FAFBFD" }}>
       <div style={{ marginTop: "10px", marginBottom: "50px", display: "flex" }}>

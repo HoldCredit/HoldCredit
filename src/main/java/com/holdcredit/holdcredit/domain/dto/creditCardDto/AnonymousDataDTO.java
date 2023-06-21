@@ -19,7 +19,10 @@ public class AnonymousDataDTO {
 
     // 수익율 관련
     private float pre_RT;
+    //대출 횟수
     private Long L00000001;
+    //대출금액
     private Long L00000002;
+    //연체 횟수
     private Long PS0001897;
 }
