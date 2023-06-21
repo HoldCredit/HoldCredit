@@ -35,28 +35,28 @@ export function SidebarMenus() {
         <ListItemIcon>
           <BarChartIcon/>
         </ListItemIcon>
-        <ListItemText primary="Reports Summary" />
+        <ListItemText primary="개인 신용등급" />
       </ListItemButton>
 
       <ListItemButton onClick={() => {navigate('/Dashboard/Myassets'); dispatch(handleMenu('My Assets'));}}>
         <ListItemIcon>
           <AttachMoneyIcon/>
         </ListItemIcon>
-        <ListItemText primary="My Assets" />
+        <ListItemText primary="지역별 데이터" />
       </ListItemButton>
 
       <ListItemButton onClick={() => {navigate('/Dashboard/Mycredit'); dispatch(handleMenu('My Credit')); }}>
         <ListItemIcon>
           <CreditCardIcon/>
         </ListItemIcon>
-        <ListItemText primary="My Credit"/>
+        <ListItemText primary="등급별 한도수준"/>
       </ListItemButton>
 
       <ListItemButton>
         <ListItemIcon>
           <RunningWithErrorsIcon/>
         </ListItemIcon>
-        <ListItemText primary="Lisk Analysis" onClick={() => {navigate('/Dashboard/liskanalysis'); dispatch(handleMenu('Lisk Analysis'));}}/>
+        <ListItemText primary="전체 현황" onClick={() => {navigate('/Dashboard/liskanalysis'); dispatch(handleMenu('Lisk Analysis'));}}/>
       </ListItemButton>
 
       {
