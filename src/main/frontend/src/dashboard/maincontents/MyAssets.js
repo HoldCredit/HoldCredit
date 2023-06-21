@@ -52,27 +52,28 @@ export default function MyAssets() {
   return (
     <>
       <Toolbar />
-      <div style={{ flex: 1, marginLeft: "30px" }}>
-      <Container>
-             <Card variant="outlined">
-               <CardContent>
-                 <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
-                 {creditInfo && (
-                   <div>
-                     <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
-                     <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
-                     <Typography variant="h6">🔸나의 지역: {creditInfo.res_Add}</Typography>
-                     <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
-                   </div>
-                 )}
-                 <Typography variant="h5">전체 정보와 인구별 지역을 비교해보세요</Typography>
-               </CardContent>
-             </Card>
-           </Container>
-      </div>
+        <div style={{ marginLeft: "30px" }}>
+            <Container>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                  {creditInfo && (
+                    <div>
+                      <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
+                      <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
+                      <Typography variant="h6">🔸나의 지역: {creditInfo.res_Add}</Typography>
+                      <Typography variant="h6">🔸나의 수익율: {creditInfo.pre_RT}%</Typography>
+                      <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
+                    </div>
+                  )}
+                  <Typography variant="h5">전체 정보와 인구별 지역을 비교해보세요</Typography>
+                </CardContent>
+              </Card>
+            </Container>
+          </div>
 
 
-    <div style={{ float: "left", marginLeft: "30px"}}>
+    <div style={{ marginLeft: "30px"}}>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} style={{ display: "flex", gap: "30px" }}>
         <Grid container spacing={3}>
           {/* Left Graph: 전체 인구 별 지역 비율 */}

@@ -62,11 +62,10 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
         anonymousDataDTO.setAdNo(anonymousData.getAD_NO());
         anonymousDataDTO.setRes_Add(anonymousData.getRES_ADD());
         anonymousDataDTO.setPRE_LMT(anonymousData.getPRE_LMT());
-        anonymousDataDTO.setPRE_RT(anonymousData.getPRE_RT());
+        anonymousDataDTO.setPre_RT(anonymousData.getPRE_RT());
         anonymousDataDTO.setL00000001(anonymousData.getL00000001());
         anonymousDataDTO.setL00000002(anonymousData.getL00000002());
         anonymousDataDTO.setPS0001897(anonymousData.getPS0001897());
-
         return anonymousDataDTO;
         //이 구현은 AnonymousData 저장소에서 엔터티를 검색하고 새 AnonymousDataDTO 개체를 만들고 엔터티의 해당 값을 DTO 개체로 설정합니다. 마지막으로 DTO 개체를 반환합니다.
     }
