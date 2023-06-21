@@ -63,7 +63,6 @@ const NoticeEdit = () => {
     const update = {
       title: notice.title,
       content: notice.content,
-      pwd: notice.pwd,
     };
 
     axios
@@ -126,19 +125,7 @@ const NoticeEdit = () => {
                   <dt>글쓴이</dt>
                   <dd>{notice.writer}</dd>
                 </dl>
-                <dl>
-                  <dt>비밀번호</dt>
-                  <dd>
-                    <input
-                      type="password"
-                      id="write_input"
-                      placeholder="password"
-                      name="pwd"
-                      value={notice.pwd}
-                      onChange={changeHandler}
-                    />
-                  </dd>
-                </dl>
+
               </div>
             </div>
             <div className="cont">

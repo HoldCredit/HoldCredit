@@ -64,25 +64,44 @@ navigate('/QnaWrite');
 }
 };
 
-const readQna = (id) => {
-const selectedQna = qna.find(item => item.id === id);
-if( auth.authority == "ADMIN"){
-navigate(`/QnaView/${id}`);
-return;
-}
-if (selectedQna.isPrivate) {
-const password = prompt("비밀번호를 입력하세요:");
-if (password === selectedQna.pwd) {
-navigate(`/QnaView/${id}`);
-} else {
-alert("비밀번호가 일치하지 않습니다.");
-console.log("비밀번호가 일치하지 않습니다.");
-}
-} else {
-navigate(`/QnaView/${id}`);
-}
-
+const readCount = (id) => {
+  try {
+    axios.put(`http://localhost:8080/api/qnaHits/${id}`)
+      .then(res => {
+        console.log("조회수 증가 완료");
+      })
+      .catch(error => {
+        console.error("조회수 증가 실패:", error);
+      });
+  } catch (error) {
+    console.error("조회수 증가 에러:", error);
+  }
 };
+
+const readQna = (id) => {
+  const selectedQna = qna.find(item => item.id === id);
+
+  if (auth.authority === "ADMIN") {
+    navigate(`/QnaView/${id}`);
+    return;
+  }
+
+  if (selectedQna.isPrivate) {
+    const password = prompt("비밀번호를 입력하세요:");
+    if (password === selectedQna.pwd) {
+      readCount(id);
+      navigate(`/QnaView/${id}`);
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+      console.log("비밀번호가 일치하지 않습니다.");
+    }
+  } else {
+    readCount(id);
+    navigate(`/QnaView/${id}`);
+  }
+};
+
+
 
 
 const handlePaginationClick = (page) => {

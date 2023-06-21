@@ -30,9 +30,7 @@ const customerNo = decodedToken ? decodedToken.sub : null;
     setContent(event.target.value);
   };
 
-  const changePwdHandler = (event) => {
-    setPwd(event.target.value);
-  };
+
 
   const changeFileHandler = (event) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -89,7 +87,7 @@ const customerNo = decodedToken ? decodedToken.sub : null;
                     <input
                       type="text"
                       id="write_input"
-                      placeholder="title"
+                      placeholder="제목을 입력해주세요."
                       name="title"
                       value={title}
                       onChange={changeTitleHandler}
@@ -119,19 +117,6 @@ const customerNo = decodedToken ? decodedToken.sub : null;
                 <dl>
                   <dt>글쓴이</dt>
                   <dd>{writer}</dd>
-                </dl>
-                <dl>
-                  <dt>비밀번호</dt>
-                  <dd>
-                    <input
-                      type="password"
-                      id="write_input"
-                      placeholder="password"
-                      name="pwd"
-                      value={pwd}
-                      onChange={changePwdHandler}
-                    />
-                  </dd>
                 </dl>
               </div>
             </div>

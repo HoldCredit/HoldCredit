@@ -63,7 +63,7 @@ function MainNotice(props) {
 
     if (notices.authority !== "ADMIN") {
       console.log(notices.authority);
-      alert('관리자만 글을 수정할 수 있습니다.');
+      alert('관리자만 글을 작성할 수 있습니다.');
     } else {
       console.log("Inside else statement");
       navigate('/NoticeWrite');
@@ -71,27 +71,15 @@ function MainNotice(props) {
   };
 
 
-  const readNotice = (id) => {
-    const selectedNotice = notice.find(item => item.id === id);
-    if (notices.authority == "ADMIN") {
-      navigate(`/NoticeView/${id}`);
-      return;
+   const readNotice = (id) => {
+    try {
+        axios.put(`http://localhost:8080/api/hits/${id}`).then(res => {
+            navigate(`/NoticeView/${id}`);
+        });
+    } catch (error) {
+          console.error('Error hit count : error');
+        }
     }
-    if (selectedNotice.isPrivate) {
-      const password = prompt("비밀번호를 입력하세요:");
-      if (password === selectedNotice.pwd) {
-        navigate(`/NoticeView/${id}`);
-      } else {
-        alert("비밀번호가 일치하지 않습니다.");
-        console.log("비밀번호가 일치하지 않습니다.");
-      }
-    } else {
-      navigate(`/NoticeView/${id}`);
-    }
-
-  };
-
-
   const handlePaginationClick = (page) => {
     if (page >= 0) {
       setCurrentPage(page);
