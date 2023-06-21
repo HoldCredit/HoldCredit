@@ -18,7 +18,7 @@ public class AnonymousDataDTO {
     private Long PRE_LMT;
 
     // 수익율 관련
-    private Float PRE_RT;
+    private float pre_RT;
     private Long L00000001;
     private Long L00000002;
     private Long PS0001897;

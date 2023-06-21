@@ -17,6 +17,7 @@ const Header = () => {
 
   const doLogout = () => {
     dispatch(handleLogout(''))
+    navigate("/loginPage");
     alert('로그아웃 되었습니다.')
   }
 
