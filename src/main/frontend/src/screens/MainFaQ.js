@@ -68,7 +68,7 @@ function MainFaQ(props) {
 
 
     if (decodedToken.auth == "CUSTOMER") {
-      alert('관리자만 글을 수정할 수 있습니다.');
+      alert('관리자만 글을 작성할 수 있습니다.');
     } else {
       console.log("Inside else statement");
       navigate('/MainFaqWrite');

@@ -203,7 +203,7 @@ function JoinForm() {
     setGender(selectedGender);
     };
 
-    // 직업구분
+    // 직업
     const [isOccupation, setIsOccupation] = useState(false);
     const [occupation, setOccupation] = useState('');
 
@@ -517,18 +517,18 @@ function JoinForm() {
                             </div>
                             <div className="join_row join_occupation">
                                 <h3 className="join_title">
-                                    <label htmlFor="occupation">직업구분</label>
+                                    <label htmlFor="occupation">직업</label>
                                 </h3>
                                 <div className="ps_box occupation_code">
                                     <select
                                         id="occupation"
                                         name="occupation"
                                         className="sel"
-                                        aria-label="직업구분"
+                                        aria-label="직업"
                                         onBlur={occupationBlur}
                                     >
                                         <option value="" defaultValue>
-                                            직업구분
+                                            직업
                                         </option>
                                         <option value="ENTREPRENEUR">개인사업자</option>
                                         <option value="PUBLICOFFICIAL">공무원</option>
@@ -544,18 +544,18 @@ function JoinForm() {
                             </div>
                             <div className="join_row join_education">
                                 <h3 className="join_title">
-                                    <label htmlFor="ed_level">교육 수준</label>
+                                    <label htmlFor="ed_level">학력</label>
                                 </h3>
                                 <div className="ps_box education_code">
                                     <select
                                         id="education"
                                         name="education"
                                         className="sel"
-                                        aria-label="교육 수준"
+                                        aria-label="학력"
                                         onBlur={educationBlur}
                                     >
                                         <option value="" defaultValue>
-                                            교육 수준
+                                            학력
                                         </option>
                                         <option value="ELEMENTARY">초등학교 졸업</option>
                                         <option value="MIDDLE">중학교 졸업</option>

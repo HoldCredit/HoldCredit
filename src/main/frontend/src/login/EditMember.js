@@ -126,7 +126,7 @@ const handleUpdatePassword = () => {
 };
 
 
-   // 직업구분
+   // 직업
       const [isOccupation, setIsOccupation] = useState(false);
 
       const [occupation, setOccupation] = useState('');
@@ -135,7 +135,7 @@ const handleUpdatePassword = () => {
           setIsOccupation(document.querySelector("#occupation").value === "");
       }
 
-    // 교육 수준
+    // 학력
     const [isEducation, setIsEducation] = useState(false);
 
     const [education, setEducation] = useState('');
@@ -355,7 +355,7 @@ const updateCustomer = (event) => {
                             </div>
                           <div className="join_row join_occupation">
                                   <h3 className="join_title">
-                                      <label htmlFor="occupation">직업구분</label>
+                                      <label htmlFor="occupation">직업</label>
                                   </h3>
                                   <div className="edit_box occupation_code">
                                       <select
@@ -364,13 +364,13 @@ const updateCustomer = (event) => {
                                           className="sel1"
                                           className={`int${isOccupation ? " required" : ""}`}
                                           value={memberInfo.job}
-                                          aria-label="직업구분"
+                                          aria-label="직업"
                                           onBlur={occupationBlur}
                                           // onChange={changeHandler}
                                           onChange={(e) => setMemberInfo({ ...memberInfo, job: e.target.value})}
                                       >
                                           <option value="" defaultValue>
-                                              직업구분
+                                              직업
                                           </option>
                                           <option value="ENTREPRENEUR">개인사업자</option>
                                           <option value="PUBLICOFFICIAL">공무원</option>
@@ -386,20 +386,20 @@ const updateCustomer = (event) => {
                             </div>
                             <div className="join_row join_education">
                                 <h3 className="join_title">
-                                    <label htmlFor="ed_level">교육 수준</label>
+                                    <label htmlFor="ed_level">학력</label>
                                 </h3>
                                 <div className="edit_box education_code">
                                     <select
                                         id="education"
                                         name="education"
-                                        aria-label="교육 수준"
+                                        aria-label="학력"
                                         className={`int${isEducation ? " required" : ""}`}
                                         value={memberInfo.education_level}
                                         onBlur={educationBlur}
                                         onChange={changeHandler}
                                     >
                                         <option value="memberInfo.education_level" defaultValue>
-                                            교육 수준
+                                            학력
                                         </option>
                                         <option value="ELEMENTARY">초졸</option>
                                           <option value="MIDDLE">중졸</option>

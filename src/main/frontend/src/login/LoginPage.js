@@ -25,15 +25,14 @@ function LoginPage() {
         event.preventDefault();
         try {
             const response = await axios.post("http://localhost:8080/auth/login", {
-                  email,
-                  password,
-              },
-              {
-                  headers: {"Content-Type": "application/json"},
-              });
+                email,
+                password,
+            }, {
+                headers: { "Content-Type": "application/json" },
+            });
             const data = response.data;
 
-            if (response.status == 200) {
+            if (response.status === 200) {
                 sessionStorage.setItem("loginData", JSON.stringify(data));
                 const storedToken = sessionStorage.getItem("loginData");
                 const decodedToken = jwtDecode(storedToken);
@@ -41,20 +40,26 @@ function LoginPage() {
 
                 const res = await axios.post("http://localhost:8080/auth/customer/", {
                     customerNo
-                },{
-                    headers:{"Content-Type": "application/json"},
+                }, {
+                    headers: { "Content-Type": "application/json" },
                 });
 
                 dispatch(setName(res.data.customerName));
                 navigate('/');
 
                 alert(`${res.data.customerName}님 환영합니다.`);
-
             }
         } catch (error) {
             console.error(error);
+            if (error.response && error.response.status === 401) {
+                alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+            } else {
+                alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+            }
         }
     };
+
+
 
     return (
         <div className="container-doc">
