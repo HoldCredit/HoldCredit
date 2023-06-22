@@ -75,26 +75,26 @@ export default function MyAssets() {
         <div style={{ marginLeft: "30px" }}>
             <Container>
             <div style={{  marginBottom: "30px",  textAlign: "center"}}>
-                <Typography variant="h4" style={{fontWeight: "bold"}}> 전체 정보와 인구별 지역을 비교해보세요! </Typography>
+                <Typography variant="h4" style={{fontWeight: "bold", color:"#fff"}}> 전체 정보와 인구별 지역을 비교해보세요! </Typography>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
               <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                 <CardContent>
-                  <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                  <Typography variant="h4" style={{fontWeight: "bold", color: "#000"}}>환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                   {creditInfo && (
                     <div>
-                      <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
-                      <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
-                      <Typography variant="h6">🔸나의 지역: {creditInfo.res_Add}</Typography>
-                      <Typography variant="h6">🔸나의 수익률: {creditInfo.pre_RT}%</Typography>
-                      <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
+                      <Typography variant="h6">✅고객 번호: <strong>{creditInfo.customerNo}</strong></Typography>
+                      <Typography variant="h6">✅대출 번호: <strong>{creditInfo.adNo}</strong></Typography>
+                      <Typography variant="h6">✅나의 지역: <strong>{creditInfo.res_Add}</strong></Typography>
+                      <Typography variant="h6">✅나의 수익률: <strong>{creditInfo.pre_RT}%</strong></Typography>
+                      <Typography variant="h6">✅대출 한도: <strong>{creditInfo.pre_LMT}원</strong></Typography>
                     </div>
                   )}
                 </CardContent>
               </Card>
               <Card style={{ width: "20%", marginRight: "10px" }}>
-                 <CardContent>
-                    <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
+                 <CardContent style={{backgroundColor:"#eee", height:"35%"}}>
+                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "30px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
                     <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
                  </CardContent>
               </Card>
@@ -114,7 +114,8 @@ export default function MyAssets() {
                 display: "flex",
                 flexDirection: "column",
                 height: 400,
-                marginBottom: 20
+                marginBottom: 20,
+                backgroundColor:"#fafafa"
               }}
             >
               <h1>전체 인구 별 지역 비율</h1>
@@ -134,7 +135,8 @@ export default function MyAssets() {
                 display: "flex",
                 flexDirection: "column",
                 height: 600,
-                marginBottom: 20
+                marginBottom: 20,
+                backgroundColor:"#fafafa"
               }}
             >
               <h1>전체 지역 별 등급 순위</h1>
@@ -150,8 +152,8 @@ export default function MyAssets() {
 
         <div>
               <Card>
-                <CardContent>
-                  <Typography variant="h5" style={{ marginBottom: "20px" , fontWeight: "bold", textAlign: "center"  }}> 시각화 설명 </Typography>
+                <CardContent style={{backgroundColor:"#fafafa"}}>
+                  <Typography variant="h5" style={{ marginBottom: "20px" , fontWeight: "bold", textAlign: "center",   }}> 시각화 설명 </Typography>
                   <p>1️⃣️ 신용 평가를 실시한 전체 인구 중 지역 비율입니다.</p>
                   <p> ➜ 가장 많은 지역은 27.05%로 경기도 지역이 차지하였습니다.</p>
                   <p>️ ➜ 가장 적은 지역은 0.02%로 전라도 지역이 차지하였습니다.</p>
@@ -163,7 +165,7 @@ export default function MyAssets() {
        </div>
       </Container>
       </div>
-
+                  <DashboardFooter sx={{marginTop:"30px", marginBottom:"30px", pt: 4}}/>
     </>
   );
 }
