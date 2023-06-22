@@ -27,14 +27,14 @@ public class pyController {
 
     private final AnonymousDataService anonymousDataService;
 
-    @GetMapping("/ext/{id}")
-    public ResponseEntity<?> executePython(@RequestBody @PathVariable Long id) throws IOException, InterruptedException {
+    @GetMapping("/ext/{customerNo}")
+    public ResponseEntity<?> executePython(@PathVariable("customerNo") Long id) throws IOException, InterruptedException {
 
         AnonymousData findData = anonymousDataService.findById(id);
 
         List<String> dataList = new ArrayList<>();
         dataList.add("python");
-        dataList.add("C:\\dev\\HoldCredit\\py\\ExtractingOutput.py");
+        dataList.add("../HoldCredit/py/ExtractingOutput.py");
 
         Field[] fields = findData.getClass().getDeclaredFields();
         for (Field field : fields) {
