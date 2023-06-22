@@ -23,4 +23,15 @@ public class ScoreController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/cb/{customerNo}")
+    public ResponseEntity<Integer> getCbScore(@PathVariable Long customerNo) {
+        Integer cbScore = scoreService.getCbScore(customerNo);
+        if (cbScore != null) {
+            return ResponseEntity.ok(cbScore);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

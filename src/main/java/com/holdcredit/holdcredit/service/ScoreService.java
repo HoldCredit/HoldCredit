@@ -5,4 +5,7 @@ import com.holdcredit.holdcredit.domain.entity.Score;
 
 public interface ScoreService {
     ScoreDto read(Long id);
+
+
+    Integer getCbScore(Long customerNo);
 }
