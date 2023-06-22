@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # from tensorflow.keras.models import load_model
 # import pandas as pd
 # from learning.preprocessing import StandardScaler

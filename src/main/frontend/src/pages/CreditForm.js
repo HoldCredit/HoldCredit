@@ -26,7 +26,7 @@ export default function CreditForm() {
   const navigate = useNavigate();
   const handleSaveComplete = () => {
     alert("신용평가가 완료되었습니다.");
-    navigate("/");
+    navigate("/Dashboard");
   };
 
   /* 개인금융 정보 */
@@ -283,8 +283,9 @@ export default function CreditForm() {
            redemptionResponses.forEach((redemptionResponse, index) => {
              console.log(`Redemption ${index + 1}:`, redemptionResponse);
            });
-           navigate('/')
 
+
+         handleSaveComplete();
          } catch (error) {
            console.error("Error:", error);
          }
