@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface ScoreRepository  extends JpaRepository<Score, Long> {
     Score findByCustomer(Customer customer);
+
+    Optional<Score> findByCustomer_Id(Long customerNo);
 }

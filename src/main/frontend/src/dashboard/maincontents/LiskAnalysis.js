@@ -38,37 +38,41 @@ export default function LiskAnalysis() {
           .catch((error) => console.error(error));
       }, []);
 
+  //cb등급
+     const [cbScore, setCbScore] = useState(null);
 
-  const [financeInfo, setFinanceInfo]= useState(null);
-
-
-  useEffect(() => {
-      const fetchFinanceData = async () => {
-        try {
-            const financeResponse = await fetch(`/finance/${customerNo}`);
-            if (financeResponse.ok) {
-                const financeData = await financeResponse.json();
-                setFinanceInfo(financeData);
+     useEffect(() => {
+        const fetchCbScore = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
+            if (response.ok) {
+              const scoreData = await response.json();
+              setCbScore(scoreData);
             } else {
-                console.error("Failed to fetch finance data:", financeResponse.status);
+              console.error('신용등급 실패:', response.status);
             }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchFinanceData();
-  }, [customerNo]);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchCbScore();
+     }, [customerNo]);
+
 
 
   return (
     <>
       <Toolbar/>
       <Container>
-                    <Card variant="outlined">
+                <div style={{  marginBottom: "30px",  textAlign: "center"}}>
+                    <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 자산 수준을 전체 정보와 비교해보세요! </Typography>
+                </div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
+                    <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                       <CardContent>
                         <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                         {creditInfo && (
-                          <div>
+                          <div style={{  marginTop: "20px"}}>
                             <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
                             <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
                             <Typography variant="h6">🔸수익률: {creditInfo.pre_RT}% </Typography>
@@ -76,12 +80,19 @@ export default function LiskAnalysis() {
                             <Typography variant="h6">🔸남은 대출 금액: {creditInfo.l00000002}원</Typography>
                           </div>
                         )}
-                        <Typography variant="h5">나의 신용 정보를 전체 정보와 비교해보세요</Typography>
                       </CardContent>
                     </Card>
+
+                    <Card style={{ width: "20%", marginRight: "10px" }}>
+                        <CardContent>
+                            <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
+                            <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                        </CardContent>
+                    </Card>
+        </div>
       </Container>
 
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginLeft:"30px", marginRight:"30px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px", marginLeft:"30px", marginRight:"30px" }}>
                 <Card style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
                   <CardContent>
                     <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 수익 현황</h2>
@@ -92,18 +103,16 @@ export default function LiskAnalysis() {
                 <Card style={{ width: "40%", marginLeft: "8px" }}>
                   <CardContent>
                     <Typography variant="h5" style={{ marginBottom: "20px" , fontWeight: "bold", textAlign: "center"  }}> 수익 현황 설명 </Typography>
-                    <Typography variant="body1" style={{ marginBottom: "10px", fontWeight: "bold" }}>
-                      1️⃣️ 신용 평가를 실시한 전체 인구의 평균 수익률입니다.
-                    </Typography>
-                    <Typography variant="body1">➜ 전체 등급의 평균 수익률은 7.695 입니다.</Typography>
-                    <Typography variant="body1" style={{ marginTop: "20px" , fontWeight: "bold" }}> 2️⃣ 등급 및 지역 별 평균 수익률입니다.</Typography>
+                    <Typography variant="body1" style={{ marginBottom: "10px", fontWeight: "bold" }}>1️⃣️ 신용 평가를 실시한 전체 인구의 평균 수익률입니다.</Typography>
+                    <Typography variant="body1" style={{ marginBottom: "20px"}} >➜ 전체 등급의 평균 수익률은 7.695 입니다.</Typography>
+                    <Typography variant="body1" style={{ marginTop: "50px" , fontWeight: "bold" }}> 2️⃣ 등급 및 지역 별 평균 수익률입니다.</Typography>
                     <Typography variant="body1">➜ 모든 등급의 평균 수익률은 서울이 가장 높습니다.</Typography>
                   </CardContent>
                 </Card>
         </div>
 
      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginLeft:"30px", marginRight:"30px"  }}>
-         <Card style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
+         <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
            <CardContent>
              <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 부채 현황</h2>
              <img src="/debtDash.png" alt="부채 대쉬보드" style={{ width: "100%", height: "400px" }}/>
@@ -124,7 +133,7 @@ export default function LiskAnalysis() {
 
 
      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginLeft:"30px", marginRight:"30px"  }}>
-        <Card style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
+        <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
           <CardContent>
             <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 상환 현황</h2>
             <img src="/redemptionDash.png" alt="상환 대쉬보드" style={{ width: "100%", height: "400px" }} />

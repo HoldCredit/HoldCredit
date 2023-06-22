@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/MyAssets.css"; // Import CSS module
 import { Card, CardContent, Typography } from "@mui/material";
+import { useState } from 'react';
 
 
 export default function MyAssets() {
@@ -47,6 +48,25 @@ export default function MyAssets() {
         .catch((error) => console.error(error));
     }, []);
 
+  //cb등급
+     const [cbScore, setCbScore] = useState(null);
+
+     useEffect(() => {
+        const fetchCbScore = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
+            if (response.ok) {
+              const scoreData = await response.json();
+              setCbScore(scoreData);
+            } else {
+              console.error('신용등급 실패:', response.status);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchCbScore();
+      }, [customerNo]);
 
 
   return (
@@ -54,7 +74,11 @@ export default function MyAssets() {
       <Toolbar />
         <div style={{ marginLeft: "30px" }}>
             <Container>
-              <Card variant="outlined">
+            <div style={{  marginBottom: "30px",  textAlign: "center"}}>
+                <Typography variant="h4" style={{fontWeight: "bold"}}> 전체 정보와 인구별 지역을 비교해보세요! </Typography>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
+              <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                 <CardContent>
                   <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                   {creditInfo && (
@@ -62,13 +86,19 @@ export default function MyAssets() {
                       <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
                       <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
                       <Typography variant="h6">🔸나의 지역: {creditInfo.res_Add}</Typography>
-                      <Typography variant="h6">🔸나의 수익율: {creditInfo.pre_RT}%</Typography>
+                      <Typography variant="h6">🔸나의 수익률: {creditInfo.pre_RT}%</Typography>
                       <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
                     </div>
                   )}
-                  <Typography variant="h5">전체 정보와 인구별 지역을 비교해보세요</Typography>
                 </CardContent>
               </Card>
+              <Card style={{ width: "20%", marginRight: "10px" }}>
+                 <CardContent>
+                    <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
+                    <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                 </CardContent>
+              </Card>
+            </div>
             </Container>
           </div>
 
@@ -119,17 +149,17 @@ export default function MyAssets() {
 
 
         <div>
-              <div>
-                <div>
-                  <h2>시각화 설명</h2>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" style={{ marginBottom: "20px" , fontWeight: "bold", textAlign: "center"  }}> 시각화 설명 </Typography>
                   <p>1️⃣️ 신용 평가를 실시한 전체 인구 중 지역 비율입니다.</p>
                   <p> ➜ 가장 많은 지역은 27.05%로 경기도 지역이 차지하였습니다.</p>
                   <p>️ ➜ 가장 적은 지역은 0.02%로 전라도 지역이 차지하였습니다.</p>
 
-                  <p>2️⃣ 신용 평가를 실시한 전체 인구 중 등급 비율입니다.</p>
+                  <p style={{ marginTop: "50px"}}>2️⃣ 신용 평가를 실시한 전체 인구 중 등급 비율입니다.</p>
                   <p> ➜ 각 지역 별 가장 많은 등급순으로 나열하였습니다.</p>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
        </div>
       </Container>
       </div>

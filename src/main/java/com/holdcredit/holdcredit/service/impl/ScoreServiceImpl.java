@@ -1,6 +1,7 @@
 package com.holdcredit.holdcredit.service.impl;
 
 import com.holdcredit.holdcredit.domain.dto.scoreDto.ScoreDto;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.Score;
 import com.holdcredit.holdcredit.repository.CustomerRepository;
 import com.holdcredit.holdcredit.repository.ScoreRepository;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Transactional
 public class ScoreServiceImpl implements ScoreService {
     private final ScoreRepository scoreRepository;
-    private final CustomerRepository customerRepository;
+
 
     @Override
     public ScoreDto read(Long id){
@@ -30,5 +31,17 @@ public class ScoreServiceImpl implements ScoreService {
             return null;
         }
     }
+
+    @Override
+    public Integer getCbScore(Long customerNo) {
+        Optional<Score> optionalScore = scoreRepository.findByCustomer_Id(customerNo);
+        if (optionalScore.isPresent()) {
+            Score score = optionalScore.get();
+            return score.getCbScore();
+        }
+        return null;
+    }
+
+
 
 }

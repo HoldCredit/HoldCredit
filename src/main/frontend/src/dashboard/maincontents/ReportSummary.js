@@ -9,6 +9,7 @@ import { Container } from "@mui/material";
 import "../../styles/MyAssets.css"; // Import CSS module
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 import creditscoreImage from "../../images/creditscore.png"; // Import the image
+import { useState } from 'react';
 
 
 
@@ -43,22 +44,55 @@ export default function ReportSummary() {
            .catch((error) => console.error(error));
        }, []);
 
+  //cb등급
+     const [cbScore, setCbScore] = useState(null);
+
+     useEffect(() => {
+        const fetchCbScore = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
+            if (response.ok) {
+              const scoreData = await response.json();
+              setCbScore(scoreData);
+            } else {
+              console.error('신용등급 실패:', response.status);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchCbScore();
+      }, [customerNo]);
+
    return (
      <>
        <Toolbar/>
              <Container>
-               <Card variant="outlined">
+             <div style={{  marginBottom: "30px",  textAlign: "center"}}>
+                <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 등급 별 점수를 전체 점수와 비교해보세요! </Typography>
+             </div>
+             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
+               <Card variant="outlined"  style={{ width: "80%", marginRight: "10px" }}>
                  <CardContent>
                    <Typography variant="h4">Report Summary for {memberInfo.name}님</Typography>
                    {creditInfo && (
-                     <div>
+                     <div style={{ marginTop: "20px" }}>
                        <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
                        <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
+                       <Typography variant="h6">🔸수익률: {creditInfo.pre_RT}%</Typography>
+
                      </div>
                    )}
-                   <Typography variant="h5">나의 등급 별 점수를 전체 점수와 비교해보세요</Typography>
                  </CardContent>
                </Card>
+
+               <Card style={{ width: "20%", marginRight: "10px" }}>
+                 <CardContent>
+                   <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
+                   <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                 </CardContent>
+               </Card>
+             </div>
              </Container>
 
          <Container>

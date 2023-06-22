@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { Container } from "@mui/material";
 import styles from "../../styles/MyAssets.css"; // Import CSS module
 import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { useState } from 'react';
 
 
 export default function MyCredit() {
@@ -41,11 +42,37 @@ export default function MyCredit() {
           .catch((error) => console.error(error));
       }, []);
 
+  //cb등급
+     const [cbScore, setCbScore] = useState(null);
+
+     useEffect(() => {
+        const fetchCbScore = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
+            if (response.ok) {
+              const scoreData = await response.json();
+              setCbScore(scoreData);
+            } else {
+              console.error('신용등급 실패:', response.status);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchCbScore();
+     }, [customerNo]);
+
+
   return (
     <>
       <Toolbar/>
-            <Container>
-              <Card variant="outlined">
+         <Container>
+            <div style={{  marginBottom: "30px",  textAlign: "center"}}>
+                <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 한도 수준을 전체 정보와 비교해보세요! </Typography>
+            </div>
+
+           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
+              <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                 <CardContent>
                   <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                   {creditInfo && (
@@ -56,10 +83,16 @@ export default function MyCredit() {
                       <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
                     </div>
                   )}
-                  <Typography variant="h5">나의 한도 수준을 전체 정보와 비교해보세요</Typography>
                 </CardContent>
               </Card>
-            </Container>
+              <Card style={{ width: "20%", marginRight: "10px" }}>
+                <CardContent>
+                    <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
+                    <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                </CardContent>
+              </Card>
+           </div>
+         </Container>
 
             <Container>
             <Card style={{ marginTop: '30px' }}>

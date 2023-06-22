@@ -23,4 +23,5 @@ public class ScoreDto {
     private Integer creditTypeScore;
     private Integer nonFinancialScore;
     private LocalDateTime evaluationDate;
+    private Integer cbScore;
 }
