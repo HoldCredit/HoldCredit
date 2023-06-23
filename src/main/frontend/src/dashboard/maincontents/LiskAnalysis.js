@@ -65,27 +65,27 @@ export default function LiskAnalysis() {
       <Toolbar/>
       <Container>
                 <div style={{  marginBottom: "30px",  textAlign: "center"}}>
-                    <Typography variant="h4" style={{fontWeight: "bold", color:"#fff"}}> 나의 자산 수준을 전체 정보와 비교해보세요! </Typography>
+                    <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 자산 수준을 전체 정보와 비교해보세요! </Typography>
                 </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
                     <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                       <CardContent>
-                        <Typography variant="h4" style={{marginBottom:"15px", fontWeight: "bold"}}>환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                        <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                         {creditInfo && (
                           <div style={{  marginTop: "20px"}}>
-                            <Typography variant="h6">✅고객 번호: <strong>{creditInfo.customerNo}</strong></Typography>
-                            <Typography variant="h6">✅대출 번호: <strong>{creditInfo.adNo}</strong></Typography>
-                            <Typography variant="h6">✅수익률: <strong>{creditInfo.pre_RT}% </strong></Typography>
-                            <Typography variant="h6">✅연체 횟수: <strong>{creditInfo.ps0001897}회</strong></Typography>
-                            <Typography variant="h6">✅남은 대출 금액: <strong>{creditInfo.l00000002}원</strong></Typography>
+                            <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
+                            <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
+                            <Typography variant="h6">🔸수익률: {creditInfo.pre_RT}% </Typography>
+                            <Typography variant="h6">🔸연체 횟수: {creditInfo.ps0001897}회</Typography>
+                            <Typography variant="h6">🔸남은 대출 금액: {creditInfo.l00000002}원</Typography>
                           </div>
                         )}
                       </CardContent>
                     </Card>
 
                     <Card style={{ width: "20%", marginRight: "10px" }}>
-                 <CardContent style={{backgroundColor:"#eee", height:"35%"}}>
-                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "40px", textAlign: "center",fontWeight: "bold" , marginTop:"15px"}}> 신용등급</Typography>
+                        <CardContent>
+                            <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
                             <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
                         </CardContent>
                     </Card>
@@ -93,14 +93,14 @@ export default function LiskAnalysis() {
       </Container>
 
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px", marginLeft:"30px", marginRight:"30px" }}>
-                <Card style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#fafafa" }}>
+                <Card style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
                   <CardContent>
                     <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 수익 현황</h2>
                     <img src="/reditDash.png" alt="수익 대쉬보드" style={{ width: "100%", height: "300px" }} />
                   </CardContent>
                 </Card>
 
-                <Card style={{ width: "40%", marginLeft: "8px",backgroundColor:"#fafafa" }}>
+                <Card style={{ width: "40%", marginLeft: "8px" }}>
                   <CardContent>
                     <Typography variant="h5" style={{ marginBottom: "20px" , fontWeight: "bold", textAlign: "center"  }}> 수익 현황 설명 </Typography>
                     <Typography variant="body1" style={{ marginBottom: "10px", fontWeight: "bold" }}>1️⃣️ 신용 평가를 실시한 전체 인구의 평균 수익률입니다.</Typography>
@@ -112,13 +112,13 @@ export default function LiskAnalysis() {
         </div>
 
      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginLeft:"30px", marginRight:"30px"  }}>
-         <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#fafafa" }}>
+         <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
            <CardContent>
              <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 부채 현황</h2>
              <img src="/debtDash.png" alt="부채 대쉬보드" style={{ width: "100%", height: "400px" }}/>
            </CardContent>
          </Card>
-         <Card style={{ width: "40%", marginLeft: "10px", backgroundColor:"#fafafa" }}>
+         <Card style={{ width: "40%", marginLeft: "10px" }}>
            <CardContent>
              <Typography variant="h5" style={{  marginBottom: "20px" , fontWeight: "bold", textAlign: "center" }}> 대출 설명</Typography>
              <Typography style={{ fontWeight: "bold", marginTop: "10px" }}>1️⃣️ 신용 평가를 실시한 전체 인구의 평균 대출 횟수 및 금액입니다.</Typography>
@@ -133,14 +133,14 @@ export default function LiskAnalysis() {
 
 
      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginLeft:"30px", marginRight:"30px"  }}>
-        <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#fafafa" }}>
+        <Card variant="outlined" style={{ width: "80%", marginRight: "10px" ,  backgroundColor: "#FAFBFD" }}>
           <CardContent>
             <h2 style={{  marginBottom: "10px", fontWeight: "bold",  textAlign: "center" }}> 상환 현황</h2>
             <img src="/redemptionDash.png" alt="상환 대쉬보드" style={{ width: "100%", height: "400px" }} />
          </CardContent>
         </Card>
 
-      <Card style={{ width: "40%", marginLeft: "10px", backgroundColor:"#fafafa" }}>
+      <Card style={{ width: "40%", marginLeft: "10px" }}>
         <CardContent>
           <Typography variant="h5" style={{  marginBottom: "20px" , fontWeight: "bold", textAlign: "center" }}> 상환 설명</Typography>
           <Typography style={{ fontWeight: "bold", marginTop: "10px" }}>1️⃣️ 신용 평가를 실시한 전체 인구의 평균 연체 횟수 입니다.</Typography>
@@ -154,7 +154,7 @@ export default function LiskAnalysis() {
       </Card>
      </div>
 
-      <DashboardFooter sx={{marginTop:"30px", marginBottom:"30px", pt: 4}}/>
+      <DashboardFooter sx={{pt: 4}}/>
     </>
 
   )

@@ -10,7 +10,7 @@ public interface AnonymousDataService {
 
     AnonymousData findById(Long id);
 
-    void extractDataSave(Long id, Integer cbScore);
+    void extractDataSave(Long id, Integer cbScore, Integer overduCnt);
 
 
     AnonymousDataDTO getAnonymousDataByCustomerId(Long id);
