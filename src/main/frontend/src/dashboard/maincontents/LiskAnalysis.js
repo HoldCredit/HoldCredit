@@ -70,7 +70,7 @@ export default function LiskAnalysis() {
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
                     <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                       <CardContent>
-                        <Typography variant="h4" style={{marginBottom:"-15px", fontWeight: "bold"}}>환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                        <Typography variant="h4" style={{marginBottom:"15px", fontWeight: "bold"}}>환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
                         {creditInfo && (
                           <div style={{  marginTop: "20px"}}>
                             <Typography variant="h6">✅고객 번호: <strong>{creditInfo.customerNo}</strong></Typography>
@@ -84,8 +84,8 @@ export default function LiskAnalysis() {
                     </Card>
 
                     <Card style={{ width: "20%", marginRight: "10px" }}>
-                 <CardContent style={{backgroundColor:"#eee", height:"50%"}}>
-                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "30px", textAlign: "center",fontWeight: "bold" , marginTop:"15px"}}> 신용등급</Typography>
+                 <CardContent style={{backgroundColor:"#eee", height:"35%"}}>
+                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "40px", textAlign: "center",fontWeight: "bold" , marginTop:"15px"}}> 신용등급</Typography>
                             <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
                         </CardContent>
                     </Card>
