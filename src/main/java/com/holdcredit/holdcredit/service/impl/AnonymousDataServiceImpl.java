@@ -37,17 +37,20 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
     }
 
     @Override
-    public void extractDataSave(Long id, Integer cbScore) {
+    public void extractDataSave(Long id, Integer cbScore, Integer overdueCnt) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
         Score score = scoreRepository.findByCustomer(customer);
+
         if(score == null){
             score = new Score();
             score.setCustomer(customer);
+            score.setCbScore(cbScore);
+            score.setOverdueCnt(overdueCnt);
             scoreRepository.save(score);
         } else {
             score.setCbScore(cbScore);
+            score.setOverdueCnt(overdueCnt);
         }
-//        findScore.setOverdueCnt(Integer.parseInt(overdueCnt));
     }
 
     @Override
@@ -72,22 +75,30 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
 
 
 
-    @Scheduled(cron = "0 0 4 * * *") // 매시간마다 실행 (0s 0m 4h)
+    @Scheduled(cron = "0 3 5 * * *") // 매시간마다 실행 (0s 0m 4h)
     public void checkAndInsert() throws IOException, InterruptedException {
         List<Customer> cutomerList = customerRepository.findAll();
 
         for (Customer customer : cutomerList) {
             if (customer.getScore() == null) {
-                Integer cbScore = runPythonScriptExtractCB(customer.getId());
+                List newScore = runPythonScriptExtractCB(customer.getId());
                 Score score = new Score();
-                score.setCbScore(cbScore);
+                score.setCbScore((Integer) newScore.get(0));
+                score.setOverdueCnt(((Integer) newScore.get(1)));
                 score.setCustomer(customer);
                 scoreRepository.save(score);
+            } else {
+                List<Score> customerScoreList = scoreRepository.findAll();
+                for (Score score : customerScoreList) {
+                    List newScore = runPythonScriptExtractCB(customer.getId());
+                    score.setCbScore((Integer) newScore.get(0));
+                    score.setOverdueCnt((Integer) newScore.get(1));
+                }
             }
         }
     }
 
-    private Integer runPythonScriptExtractCB(Long customerId) throws IOException, InterruptedException {
+    private List<Integer> runPythonScriptExtractCB(Long customerId) throws IOException, InterruptedException {
 
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
         AnonymousData findData = anonymousDataRepository.findById(customer.getId()).orElseThrow(() -> new IllegalArgumentException("입력된 금융 정보가 없습니다."));
@@ -95,10 +106,14 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
         List<String> dataList = new ArrayList<>();
 
         dataList.add("python");
-        dataList.add("C:\\dev\\HoldCredit\\py\\ExtractingOutput.py");
+        dataList.add("../HoldCredit/py/ExtractingOutput.py");
 
         Field[] fields = findData.getClass().getDeclaredFields();
+
         for (Field field : fields) {
+            if (field.getName().equals("id")) {
+                continue;
+            }
             field.setAccessible(true);
             try {
                 Object fieldValue = field.get(findData);
@@ -125,11 +140,17 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
                 System.err.println(errorLine);  // 오류 메시지를 출력합니다.
             }
         } else {
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(),"UTF-8"));
-            String result = br.readLine();
-            return Integer.parseInt(result);
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+            String line;
+            List<String> results = new ArrayList<>();
+            while ((line = br.readLine()) != null) {
+                results.add(line);
+            }
+            List<Integer> newScore = new ArrayList<>();
+            newScore.add(Integer.parseInt(results.get(0)));
+            newScore.add(Integer.parseInt(results.get(1)));
+            return newScore;
         }
-
         return null;
     }
 
