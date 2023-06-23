@@ -93,7 +93,7 @@ public class Customer {
 
     // QNA
     @Builder.Default
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Qna> qnas = new ArrayList<>();
 
     //부채수준
@@ -109,7 +109,7 @@ public class Customer {
     private List<CreditCard> creditCards = new ArrayList<>();
 
     // Score
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer")
     @JsonIgnore
     private Score score;
 

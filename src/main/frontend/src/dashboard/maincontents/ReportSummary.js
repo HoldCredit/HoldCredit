@@ -69,17 +69,17 @@ export default function ReportSummary() {
        <Toolbar/>
              <Container>
              <div style={{  marginBottom: "30px",  textAlign: "center"}}>
-                <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 등급 별 점수를 전체 점수와 비교해보세요! </Typography>
+                <Typography variant="h4" style={{fontWeight: "bold", color: "#fff"}}> 나의 등급 별 점수를 <br /> 전체 점수와 비교해보세요! </Typography>
              </div>
              <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
                <Card variant="outlined"  style={{ width: "80%", marginRight: "10px" }}>
                  <CardContent>
-                   <Typography variant="h4">Report Summary for {memberInfo.name}님</Typography>
+                   <Typography variant="h4" style={{fontWeight: "bold", color: "#000"}}>환영합니다. {memberInfo.name}님</Typography>
                    {creditInfo && (
                      <div style={{ marginTop: "20px" }}>
-                       <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
-                       <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
-                       <Typography variant="h6">🔸수익률: {creditInfo.pre_RT}%</Typography>
+                       <Typography variant="h6">✅고객 번호: <strong>{creditInfo.customerNo}</strong></Typography>
+                       <Typography variant="h6">✅대출 번호: <strong>{creditInfo.adNo}</strong></Typography>
+                       <Typography variant="h6">✅수익률: <strong>{creditInfo.pre_RT}%</strong></Typography>
 
                      </div>
                    )}
@@ -87,26 +87,25 @@ export default function ReportSummary() {
                </Card>
 
                <Card style={{ width: "20%", marginRight: "10px" }}>
-                 <CardContent>
-                   <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
-                   <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                 <CardContent style={{backgroundColor:"#eee", height:"40%"}}>
+                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "35px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
                  </CardContent>
+                   <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
                </Card>
              </div>
              </Container>
 
-         <Container>
+         <Container style={{ borderRadius: '3px', height: "800px"}}>
+         <div >
            <Card style={{ marginTop: '30px' }}>
              <Card>
-               <img src={creditscoreImage} alt="Credit Score" className={"image"} />
+               <img src={creditscoreImage} alt="Credit Score" className={"image"}  style={{ marginTop: '30px' }}/>
              </Card>
-
            </Card>
-
 
                <Grid container spacing={2} style={{ marginTop: '30px' }}>
                  <Grid item xs={12} sm={6}>
-                   <Card variant="outlined">
+                   <Card variant="outlined" style={{backgroundColor:"#fafafa"}} >
                      <CardContent>
                        <Typography variant="h6" style={{ fontWeight: 'bold' }}>등급제 설명</Typography>
                        <Typography variant="body1" style={{ fontWeight: 'bold' }}>1️⃣️  신용 평가 등급 별 점수를 더 세세하게 변경했습니다.</Typography>
@@ -118,7 +117,7 @@ export default function ReportSummary() {
                    </Card>
                  </Grid>
                  <Grid item xs={12} sm={6}>
-                   <Card variant="outlined">
+                   <Card variant="outlined" style={{backgroundColor:"#fafafa"}}>
                      <CardContent>
                        <Typography variant="h6" style={{ fontWeight: 'bold' }}>등급 결과 설명</Typography>
                        <Typography variant="body1" style={{ fontWeight: 'bold' }}>2️⃣  신용 평가 등급 별 산출 목록</Typography>
@@ -133,7 +132,10 @@ export default function ReportSummary() {
                    </Card>
                  </Grid>
                </Grid>
+             </div>
              </Container>
+                               <DashboardFooter sx={{marginTop:"30px", marginBottom:"30px", pt: 4}}/>
+
            </>
-   );
- }
+           );
+          }
