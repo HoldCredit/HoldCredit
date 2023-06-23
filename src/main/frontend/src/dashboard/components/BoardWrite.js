@@ -60,52 +60,74 @@ export default function BoardWrite() {
     }
   };
 
-  const postBoard = (event) => {
-    event.preventDefault();
+const postBoard = (event) => {
+  event.preventDefault();
 
-    switch (menu.menuName) {
-      case 'Notice':
-        let formData = new FormData();
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('pwd', pwd);
-        files.forEach((file) => {
-          formData.append('file', file);
-        });
-        const config = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-        return BoardService.createNotice(formData, config)
-          .then(res => {
-          alert('등록되었습니다.');
-          navigate(-1);
-        });
-
-      case 'Qna' :
-        let data = {
-          title: title,
-          content: content,
-          pwd: pwd,
-        };
-        return BoardService.createQna(data).then(res => {
-          alert('등록되었습니다.');
-          navigate(-1);
-        });
-
-      case 'Faq' :
-        let faqData = {
-          name: writer,
-          title: title,
-          content: content
-        };
-        return BoardService.createFaq(faqData).then(res => {
+  switch (menu.menuName) {
+    case 'Notice':
+      let formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('pwd', pwd);
+      files.forEach((file) => {
+        formData.append('file', file);
+      });
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      BoardService.createNotice(formData, config)
+        .then(() => {
           alert('등록되었습니다.');
           navigate(-1);
         })
-    }
-  };
+        .catch((error) => {
+          console.error(error);
+          alert('등록에 실패했습니다.');
+        });
+      break;
+
+    case 'Qna':
+      let qnaData = {
+        title: title,
+        content: content,
+        pwd: pwd,
+      };
+      BoardService.createQna(qnaData)
+        .then(() => {
+          alert('등록되었습니다.');
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('등록에 실패했습니다.');
+        });
+      break;
+
+    case 'Faq':
+      let faqData = {
+        name: writer,
+        title: title,
+        content: content,
+      };
+      BoardService.createFaq(faqData)
+        .then(() => {
+          alert('등록되었습니다.');
+          navigate(-1);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('등록에 실패했습니다.');
+        });
+      break;
+
+    default:
+      break;
+  }
+};
+
+
 
 
 

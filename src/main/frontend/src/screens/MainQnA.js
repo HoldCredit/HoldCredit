@@ -82,6 +82,7 @@ const readQna = (id) => {
   const selectedQna = qna.find(item => item.id === id);
 
   if (auth.authority === "ADMIN") {
+    readCount(id);
     navigate(`/QnaView/${id}`);
     return;
   }

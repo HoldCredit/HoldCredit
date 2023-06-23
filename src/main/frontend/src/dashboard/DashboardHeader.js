@@ -90,7 +90,7 @@ function DashBoardHeader() {
   return(
     <>
       {/* Header */}
-            <AppBar position="absolute" open={open} elevation={1} sx={{backgroundColor:'rgba(255,275,71,1)', color:'#464646', boxShadow:'none'}}>
+            <AppBar className = "dashboard_header" position="absolute" open={open} elevation={1} sx={{backgroundColor:'#35A67D', color:'#FFF', boxShadow:'none'}}>
         <Toolbar sx={{ pr: '24px'}} >
           <IconButton edge="start" color="inherit" aria-label="open drawer"
             onClick={toggleDrawer} sx={{ marginRight: '36px',...(open && { display: 'none' }), }} >
@@ -138,4 +138,3 @@ function DashBoardHeader() {
   )
 }
 export default DashBoardHeader;
-

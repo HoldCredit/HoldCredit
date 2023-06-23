@@ -68,27 +68,27 @@ export default function MyCredit() {
       <Toolbar/>
          <Container>
             <div style={{  marginBottom: "30px",  textAlign: "center"}}>
-                <Typography variant="h4" style={{fontWeight: "bold"}}> 나의 한도 수준을 전체 정보와 비교해보세요! </Typography>
+                <Typography variant="h4" style={{fontWeight: "bold", color: "#fff"}}> 나의 한도 수준을 전체 정보와 비교해보세요! </Typography>
             </div>
 
            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px", marginBottom: "50px", marginLeft:"30px", marginRight:"30px" }}>
               <Card variant="outlined" style={{ width: "80%", marginRight: "10px" }}>
                 <CardContent>
-                  <Typography variant="h4">환영합니다. {memberInfo.name}님의 정보입니다.</Typography>
+                  <Typography variant="h4" style={{fontWeight: "bold"}}>환영합니다. {memberInfo.name}님의 정보입니다.</Typography><br/>
                   {creditInfo && (
                     <div>
-                      <Typography variant="h6">🔸고객 번호: {creditInfo.customerNo}</Typography>
-                      <Typography variant="h6">🔸대출 번호: {creditInfo.adNo}</Typography>
-                      <Typography variant="h6">🔸신용평가 점수: {creditInfo.res_Add}</Typography>
-                      <Typography variant="h6">🔸대출 한도: {creditInfo.pre_LMT}원</Typography>
+                      <Typography variant="h6">✅고객 번호: <strong>{creditInfo.customerNo}</strong></Typography>
+                      <Typography variant="h6">✅대출 번호: <strong>{creditInfo.adNo}</strong></Typography>
+                      <Typography variant="h6">✅신용평가 점수: <strong>{creditInfo.res_Add}</strong></Typography>
+                      <Typography variant="h6">✅대출 한도: <strong>{creditInfo.pre_LMT}원</strong></Typography>
                     </div>
                   )}
                 </CardContent>
               </Card>
               <Card style={{ width: "20%", marginRight: "10px" }}>
-                <CardContent>
-                    <Typography variant="h4" style={{  marginBottom: "30px", textAlign: "center", fontWeight: "bold" }}> 신용등급</Typography>
-                    <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
+                 <CardContent style={{backgroundColor:"#eee", height:"35%"}}>
+                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "30px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
+                    <Typography variant="h1" style={{ marginTop:"16px", textAlign: "center"}}> {cbScore} </Typography>
                 </CardContent>
               </Card>
            </div>
@@ -103,9 +103,9 @@ export default function MyCredit() {
             </Card>
               <Grid container spacing={2} style={{ marginTop: '30px' }}>
                 <Grid item xs={12} sm={6}>
-                  <Card variant="outlined">
+                  <Card variant="outlined" style={{backgroundColor:"#fafafa"}}>
                     <CardContent>
-                      <Typography variant="h6" style={{ fontWeight: 'bold' }}>시각화 설명</Typography>
+                      <Typography variant="h6" style={{ fontWeight: 'bold', }}>시각화 설명</Typography>
                       <Typography variant="body1" style={{ fontWeight: 'bold' }}>1️⃣️  신용 평가 등급 별 한도 수준</Typography>
                       <Typography variant="body2">➜ 1등급의 가장 많은 한도 수준은 1,200만원이며,</Typography>
                       <Typography variant="body2">➜ 7등급의 가장 많은 한도 수준은 520만원으로 결과가 나왔습니다.</Typography>
@@ -113,7 +113,7 @@ export default function MyCredit() {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card variant="outlined">
+                  <Card variant="outlined" style={{backgroundColor:"#fafafa"}}>
                     <CardContent>
                       <Typography variant="h6" style={{ fontWeight: 'bold' }}>시각화 설명</Typography>
                       <Typography variant="body1" style={{ fontWeight: 'bold' }}>2️⃣  신용 평가 등급 별 1년간 총 연체 건수</Typography>
@@ -128,6 +128,7 @@ export default function MyCredit() {
                 </Grid>
               </Grid>
             </Container>
-          </>
-  );
-}
+                  <DashboardFooter sx={{marginTop:"30px", marginBottom:"30px", pt: 4}}/>
+         </>
+       );
+     }

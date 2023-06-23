@@ -60,7 +60,7 @@ const handleDeleteMember = async (event) => {
         })
         .then((res) => {
             dispatch(handleLogout(''));
-            alert("그동안 찾아주셔서 감사했습니다~");
+            alert("회원 탈퇴 되었습니다.");
             // 회원 삭제 성공 처리
             navigate("/");
         })
