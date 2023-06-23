@@ -88,7 +88,7 @@ export default function MyCredit() {
               <Card style={{ width: "20%", marginRight: "10px" }}>
                  <CardContent style={{backgroundColor:"#eee", height:"35%"}}>
                    <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "30px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
-                    <Typography variant="h1" style={{ marginTop:"160px", textAlign: "center"}}> {cbScore} </Typography>
+                    <Typography variant="h1" style={{ marginTop:"16px", textAlign: "center"}}> {cbScore} </Typography>
                 </CardContent>
               </Card>
            </div>

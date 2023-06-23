@@ -88,7 +88,7 @@ export default function ReportSummary() {
 
                <Card style={{ width: "20%", marginRight: "10px" }}>
                  <CardContent style={{backgroundColor:"#eee", height:"40%"}}>
-                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "30px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
+                   <Typography variant="h4" style={{ fontFamily:'Yoon 윤고딕', marginBottom: "35px", textAlign: "center",fontWeight: "bold" , marginTop:"5px"}}> 신용등급</Typography>
                  </CardContent>
                    <Typography variant="h1" style={{ textAlign: "center"}}> {cbScore} </Typography>
                </Card>
