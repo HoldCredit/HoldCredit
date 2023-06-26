@@ -18,7 +18,7 @@ KH 정보교육원 프로젝트
 - VS code, InteliJ, SourceTree 
 ### 사용한 기술 스택
 - Front-end: React
-- Back-end: Java, Spring boot, JPA, QueryDSL, OracleDatabase, Python
+- Back-end: Java, Spring boot, JPA, OracleDatabase, Python
 - 형상관리 : Git
 ---
 ### 구현기능
