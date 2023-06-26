@@ -19,7 +19,7 @@ function Dashboard() {
           {/* Content */}
           <Box component="main" className="under"
                sx={{padding:"25px 0px",position:"relative", zIndex: "0",
-                 flexGrow: 1, height: '100vh', overflow: 'auto', }}>
+              flexGrow: 1, height: '100vh', overflow: 'auto'}}>
             {/*<Provider PageTitleStore={PageTitleStore}>*/}
               <Outlet/>
             {/*</Provider>*/}

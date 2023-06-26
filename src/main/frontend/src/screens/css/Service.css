@@ -128,3 +128,28 @@ div {
     font-style: italic;
     font-weight: bold;
 }
+
+.contact {
+    border-top: solid 1px #ddd;
+    width: 1130px;
+    display: table;
+    margin: 0 auto;
+    margin-bottom: 120px;
+}
+
+
+
+.contact th{
+    border-top : sold 1px #ddd;
+    border-right : solid 1px #ddd;
+    border-left : solid 1px #ddd;
+    border-bottom : solid 1px #ddd;
+    height: 20px;
+    text-align: center;
+}
+
+.contact td{
+    border-bottom : solid 1px #ddd;
+    text-align: center;
+    border-right : solid 1px #ddd;
+}

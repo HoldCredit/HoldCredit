@@ -1,14 +1,18 @@
 .home_page{
-    min-width: 1024px;
 }
+
 .intro_main_content {
     position: relative;
+    width: 100%;
     height: 1200px;
+
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     background-image: url("../../images/main-bg3.png");
-
 }
+
+
 
 .tit_main {
     position: absolute;
@@ -42,10 +46,9 @@
 }
 
 .list_store {
-    overflow: hidden;
     position: absolute;
-    top: 480px;
-    margin-left: 85px;
+    top: 450px;
+    left: 50px;
 }
 
 .list_store li {
@@ -80,35 +83,31 @@ dl, ul, ol, menu, li {
     top: 2px;;
 }
 
-
+.home_page .row {margin: 100px auto; max-width: 1200px; height: 500px;}
 .cont_img {
-    font-size: 5px;
+    font-size: 10px;
     position: relative;
-    color : #c0bdbd;
-    max-width: 100%;
-    height: 500px;
+    color: #c0bdbd;
+    width: 60%;
+    height: 100%;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url("../../images/data.png");
+    background-image: url("../../images/main_bg4.jpg");
     z-index: 1;
-    margin-top: 300px;
 }
 
 .cont_txt{
-    max-width: 100%;
-    left: 50%;
-    margin-left: 800px;
-    margin-top: -300px;
+    width: 40%;
+
  }
 .cont_txt h3 {
     font-size: 35px;
     font-weight: bold;
-    line-height: 1.35;
+    line-height: 1.4;
+    margin-bottom: 30px;
 }
 
 .intro_cont {
-    margin-left: 250px;
-    display: block;
-    margin-top: -200px;
-    margin-bottom: 350px;
+    display: flex;
+    align-items: center;
 }

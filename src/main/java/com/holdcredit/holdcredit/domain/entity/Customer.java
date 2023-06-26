@@ -1,16 +1,18 @@
 package com.holdcredit.holdcredit.domain.entity;
 
-import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerListDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.Gender;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,14 +20,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel.CUSTOMER;
-
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SequenceGenerator(sequenceName ="CUSTOMER_SEQ", initialValue = 1, allocationSize = 1, name ="CUSTOMER_SEQ_GENERATOR") //G_generator = S_name
+@SequenceGenerator(sequenceName ="CUSTOMER_SEQ", initialValue = 1000001, allocationSize = 1, name ="CUSTOMER_SEQ_GENERATOR") //G_generator = S_name
 public class Customer {
 
     @Id //회원번호
@@ -33,10 +33,7 @@ public class Customer {
     @Column(name ="customer_no")
     private Long id;
 
-    @Column(nullable = false, length = 20)
-    private String customerId;
-
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 500)
     private String password;
 
     @Column(nullable = false, length = 20)
@@ -50,7 +47,7 @@ public class Customer {
     private Gender gender;
 
     @Column(nullable = false)
-    private Long phoneNum;
+    private String phoneNum;
 
     @Column(nullable = false, length = 30)
     private String email;
@@ -69,31 +66,16 @@ public class Customer {
      * */
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private JobDomain job = JobDomain.etc; // 기본값 : '기타'로 저장
+    private JobDomain job = JobDomain.ETC; // 기본값 : '기타'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private EducationLevel educationLevel = EducationLevel.university; // 기본값 : '고졸'로 저장
+    private EducationLevel educationLevel = EducationLevel.UNIVERSITY; // 기본값 : '고졸'로 저장
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private UserLevel adminLevel = CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
-
-    /*CREATE TABLE "Customer" (
-	"customer_no"	NUMBER		NOT NULL,
-	"customer_id"	VARCHAR2(20)		NOT NULL,
-	"password"	VARCHAR2(30)		NOT NULL,
-	"customer_name"	VARCHAR2(20)		NOT NULL,
-	"birth" DATE		NOT NULL,
-	"sex"	CHAR(1)		NOT NULL,
-	"phone_num"	NUMBER		NOT NULL,
-	"email"	VARCHAR2(30)		NOT NULL,
-	"join_date"	DATE		NOT NULL,
-	"admin_level"	NUMBER	DEFAULT customer	NOT NULL,
-	"job"	NUMBER	DEFAULT 기타	NOT NULL,
-	"education_level"	NUMBER	DEFAULT 고등졸	NOT NULL
-);
-    }*/
+    private Authority authority = Authority.CUSTOMER; // 기본값 : 자동 'CUSTOMER'로 저장
+   // private UserLevel userLevel = AUTHORITY; // AUTHORITY ㅁ
 
     /* ================================================================================= */
     /* 연관 관계 설정 */
@@ -106,41 +88,35 @@ public class Customer {
     // Notice
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Notice> notices = new ArrayList<>();
 
     // QNA
     @Builder.Default
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Qna> qnas = new ArrayList<>();
 
     //부채수준
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Debt> debts = new ArrayList<>();
 
     //신용카드 형태
     @Builder.Default
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<CreditCard> creditCards = new ArrayList<>();
 
-    //개인 금융
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Finance finance;
-
-    //비금융
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private NonFinancial nonFinancial;
-
-    //점수
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Score scores;
-
+    // Score
+    @OneToOne(mappedBy = "customer")
+    @JsonIgnore
+    private Score score;
 
     //근쭈 쓸꺼임>> 회원 수정
     public CustomerDto toDto(){
         return CustomerDto.builder()
                 .customer_no(id)
-                .customer_id(customerId)
                 .password(password)
                 .customer_name(customerName)
                 .birth(birth)
@@ -148,15 +124,46 @@ public class Customer {
                 .phone_num(phoneNum)
                 .email(email)
                 .join_Date(joinDate)
-                .admin_level(adminLevel)
+                .authority(authority)
                 .education_level(educationLevel)
                 .job(job)
                 .build();
     }
 
+    public void updateCustomer(CustomerModifyDto requestDto, PasswordEncoder passwordEncoder){
+        this.password = passwordEncoder.encode(requestDto.getPassword());
+        this.phoneNum = requestDto.getPhone_num();
+        this.email = requestDto.getEmail();
+        this.job = requestDto.getJob();
+        this.educationLevel = requestDto.getEducation_level();
+    }
+
+    @Builder
+    public Customer(String email, String password, Authority authority) {
+        this.email = email;
+        this.password = password;
+        this.authority = authority;
+    }
+
+    public void setNotices(Notice notice) {
+        this.notices.add(notice);
+        notice.setCustomer(this);
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public static CustomerListDto customerListDto(Customer customer) {
+        CustomerListDto customerListDto = new CustomerListDto();
+        return customerListDto.builder()
+                .name(customer.getCustomerName())
+                .birth(customer.getBirth())
+                .birth(customer.getBirth())
+                .gender(customer.getGender())
+                .job(customer.getJob())
+                .educationLevel(customer.getEducationLevel())
+                .phone_num(customer.getPhoneNum())
+                .build();
+    }
 }
-
-
-
-
 

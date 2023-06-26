@@ -19,25 +19,25 @@ public class Debt {
     @Column(name = "debt_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_no", /*nullable = false,*/ updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_no", nullable = false, updatable = false)
     private Customer customer;
 
-    @Column(nullable = false)
+    @Column
     private Long loanAmount;
 
-    @Column(nullable = false)
+    @Column
     private Long loanPeriod;
 
-    @Column(nullable = false)
+    @Column
     private Long loanCount;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "debt", cascade = CascadeType.REMOVE)
+    @OneToOne( mappedBy = "debt", cascade = CascadeType.REMOVE)
     private Redemption redemption;
 
 
     public void updateDebt(DebtRequestDto debtRequestDto){
-        this.customer = debtRequestDto.getCustomer();
+//        this.customer = debtRequestDto.getCustomer();
         this.loanAmount = debtRequestDto.getLoanAmount();
         this.loanPeriod = debtRequestDto.getLoanPeriod();
         this.loanCount = debtRequestDto.getLoanCount();
@@ -48,15 +48,36 @@ public class Debt {
         this.id = debtId;
     }
 
+    public Debt(Customer customer) {
+        this.customer = customer;}
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    } //먉
 
-    public DebtResponseDto toDto(Debt debt){
+    public void setRedemption(Redemption redemption) {
+        if (redemption != null) {
+            this.redemption = redemption;
+            redemption.setDebt(this);
+        } else {
+            if (this.redemption != null) {
+                this.redemption.setDebt(null);
+            }
+            this.redemption = null;
+        }
+    } //
+    public static DebtResponseDto toDto(Debt debt){
         return DebtResponseDto.builder()
                 .id(debt.getId())
-                .customer(debt.getCustomer())
+                .customerNo(debt.getCustomer().getId()) //먉
                 .loanAmount(debt.getLoanAmount())
                 .loanPeriod(debt.getLoanPeriod())
                 .loanCount(debt.getLoanCount()).build();
     }
+
+
+
+
+
 
 }

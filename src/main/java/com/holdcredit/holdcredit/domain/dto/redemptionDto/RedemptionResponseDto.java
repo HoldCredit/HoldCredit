@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class RedemptionResponseDto {
     private Long id;
     private Long debtId;
-//    private DebtResponseDto debt;
     private Long loanAmount;
-    private Long overduePeriod;
+    private Long debtPeriod;
 }

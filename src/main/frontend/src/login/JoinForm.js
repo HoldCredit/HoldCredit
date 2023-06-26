@@ -1,41 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import "../styles/JoinForm.css";
-import CheckIcon from '@mui/icons-material/Check';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 function JoinForm() {
-    const [isIdRequired, setIsIdRequired] = useState(false);
-    const [password, setPassword] = useState("");
-    const [passwordCheck, setPasswordCheck] = useState("");
-    const [isPasswordValid, setIsPasswordValid] = useState(false);
-    const [isPasswordRequired, setIsPasswordRequired] = useState(false);
-    const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(false);
-    const [isPasswordCheckRequired, setIsPasswordCheckRequired] = useState(false);
-    const [isIdLengthValid, setIsIdLengthValid] = useState(true);
-    const [isIdValid, setIsIdValid] = useState(true);
-    const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
+    const navigate = useNavigate();
 
-    // 아이디
-    const handleIdChange = (e) => {
-        const idValue = e.target.value;
-        if (idValue === "") {
-            setIsIdRequired(true);
-            setIsIdValid(true);
-        } else if (idValue.length <= 5 || !/^[a-z0-9_-]{5,20}$/.test(idValue)) {
-            setIsIdValid(false);
-        } else {
-            setIsIdRequired(false);
-            setIsIdValid(true);
+    const [email, setEmail] = useState("");
+    const [emailErrorMsg, setEmailErrorMsg] = useState("");
+    const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+        validateEmail(value);
+    };
+
+    const handleEmailBlur = () => {
+        if (email.trim() !== '' && !isValidEmail(email)) {
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
         }
     };
 
+    const handleCheckEmailAvailability = () => {
+        if (!isValidEmail(email)) {
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
+            return;
+        }
+        checkEmailAvailability(email);
+    };
+
+    const validateEmail = (email) => {
+        if (!isValidEmail(email)) {
+            setIsEmailAvailable(false);
+        } else {
+            setEmailErrorMsg("");
+            setIsEmailAvailable(true);
+        }
+    };
+
+    const isValidEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const checkEmailAvailability = async (email) => {
+      try {
+        const response = await fetch('/auth/check-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+          throw new Error('이메일 중복 확인에 실패했습니다.');
+        }
+
+        const data = await response.json();
+
+        if (data.available) {
+          setIsEmailAvailable(true);
+          alert('사용 가능한 이메일입니다.');
+        } else {
+          setIsEmailAvailable(false);
+          alert('중복된 이메일입니다. 다른 이메일을 입력해 주세요.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('이메일 중복 확인 중 오류가 발생했습니다.'); // 에러 알림을 추가하거나 적절한 처리를 해주세요.
+      }
+    };
+
+
+
+
     // 비밀번호
+    const [password, setPassword] = useState("");
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [isPasswordRequired, setIsPasswordRequired] = useState(false);
+
     const handlePasswordBlur = (e) => {
         const passwordValue = e.target.value;
         if (passwordValue.length === 0) {
             setIsPasswordValid(false);
             setIsPasswordRequired(true);
-        } else if (passwordValue.length < 8) {
+        } else if (passwordValue.length < 4) {
             setIsPasswordValid(false);
             setIsPasswordRequired(false);
         } else {
@@ -43,21 +94,36 @@ function JoinForm() {
             setIsPasswordRequired(false);
         }
     };
+     const handlePasswordChange = (e) => {
+            setPassword(e.target.value);
+            if (e.target.value.length > 0) {
+                setIsPasswordRequired(false);
+            }
+        };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (e.target.value.length > 0) {
-            setIsPasswordRequired(false);
-        }
-    };
     // 비밀번호 체크
+    const [passwordCheck, setPasswordCheck] = useState("");
+    const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(false);
+    const [isPasswordCheckRequired, setIsPasswordCheckRequired] = useState(false);
+
+    const handlePasswordCheckBlur = (e) => {
+            const passwordCheckValue = e.target.value;
+            if (passwordCheckValue.length === 0) {
+                setIsPasswordCheckRequired(true);
+            } else if (passwordCheckValue !== password) {
+                setIsPasswordCheckRequired(false);
+            } else {
+                setIsPasswordCheckRequired(false);
+            }
+        };
+
     const handlePasswordCheckChange = (e) => {
         const passwordCheckValue = e.target.value;
         setPasswordCheck(passwordCheckValue);
         if (passwordCheckValue.length === 0) {
             setIsPasswordCheckValid(false);
             setIsPasswordCheckRequired(true);
-        } else if (passwordCheckValue !== password) {
+        } else if (passwordCheckValue !== passwordCheck) {
             setIsPasswordCheckValid(false);
             setIsPasswordCheckRequired(false);
         } else {
@@ -66,98 +132,179 @@ function JoinForm() {
         }
     };
 
-    const handlePasswordCheckBlur = (e) => {
-        const passwordCheckValue = e.target.value;
-        if (passwordCheckValue.length === 0) {
-            setIsPasswordCheckRequired(true);
-        } else if (passwordCheckValue !== password) {
-            setIsPasswordCheckRequired(false);
-        } else {
-            setIsPasswordCheckRequired(false);
-        }
-    };
-
     // 이름
     const [name, setName] = useState("");
-    const [showNameMsg, setShowNameMsg] = useState(false);
+    const [isNameEmpty, setIsNameEmpty] = useState(false);
+
+    const handleNameChange = (e) => {
+    const enteredName = e.target.value;
+    setName(enteredName);
+    };
 
     const handleNameBlur = () => {
-        if (name === "") {
-            setShowNameMsg(true);
+        if (name.trim() === "") {
+            setIsNameEmpty(true);
         } else {
-            setShowNameMsg(false);
+        // 이름 값이 비어 있지 않으면 서버로 전송 또는 다른 작업 수행
+        setIsNameEmpty(false);
+        // 추가적인 로직 수행
         }
     };
 
-    // 생년 월 일
-    const [message, setMessage] = useState('');
+        // 생년 월 일
+        const [birth, setBirth] = useState('');
+        const [year, setYear] = useState("");
+        const [month, setMonth] = useState("");
+        const [day, setDay] = useState("");
 
-    function handleYearClick() {
-        setMessage('태어난 년도 4자리를 정확하게 입력하세요.');
-    }
+        const handleYearChange = (e) => {
+            setYear(e.target.value);
+        };
 
-    function handleMonthClick() {
-        setMessage('태어난 월을 선택하세요.');
-    }
+        const handleMonthChange = (e) => {
+            setMonth(e.target.value);
+        };
 
-    function handleDayClick() {
-        setMessage('태어난 일 (날짜) 2자리를 정확하게 입력하세요.');
-    }
-    function handleBlur() {
-        setMessage('');
-    }
+        const handleDayChange = (e) => {
+            setDay(e.target.value);
+        };
+
+        useEffect(() => {
+                if (year !== '' && month !== '' && day !== '') {
+                    const birth = `${year}-${month}-${day}`;
+                    setBirth(birth);
+                } else {
+                    setBirth('');
+                }
+            }, [year, month, day]);
+
 
     // 성별
     const [isRequired, setIsRequired] = useState(false);
-    
     const [gender, setGender] = useState('');
-    
+
     function genderBlur() {
         setIsRequired(document.querySelector("#gender").value === "");
     }
 
-    // 직업구분
+    // 성별 선택에 대한 이벤트 리스너 등록
+    useEffect(() => {
+    const genderSelect = document.querySelector("#gender");
+    genderSelect.addEventListener("change", handleGenderChange);
+
+    return () => {
+        genderSelect.removeEventListener("change", handleGenderChange);
+    };
+    }, []);
+
+    const handleGenderChange = (e) => {
+    const selectedGender = e.target.value;
+
+    setGender(selectedGender);
+    };
+
+    // 직업
     const [isOccupation, setIsOccupation] = useState(false);
-    
     const [occupation, setOccupation] = useState('');
 
     function occupationBlur() {
         setIsOccupation(document.querySelector("#occupation").value === "");
     }
 
-    // 교육 수준
-    const [isEducation, setIsEducation] = useState(false);
-    
-    const [education, setEducation] = useState('');
+    // 직업 선택에 대한 이벤트 리스너 등록
+    useEffect(() => {
+    const occupationSelect = document.querySelector("#occupation");
+    occupationSelect.addEventListener("change", handleOccupationChange);
 
-    function educationBlur() {
-        setIsEducation(document.querySelector("#education").value === "");
+    return () => {
+        occupationSelect.removeEventListener("change", handleOccupationChange);
+    };
+    }, []);
+
+    const handleOccupationChange = (e) => {
+    const selectedOccupation = e.target.value;
+
+    // 유효성 검사: "ENTREPRENEUR", "PUBLICOFFICIAL", "WORKER", "ETC" 중 하나만 허용
+    if (
+       selectedOccupation === "ENTREPRENEUR" ||
+       selectedOccupation === "PUBLICOFFICIAL" ||
+       selectedOccupation === "WORKER" ||
+       selectedOccupation === "ETC"
+     ) {
+       setOccupation(selectedOccupation);
+     }
+   };
+
+  // 교육 수준
+  const [isEducation, setIsEducation] = useState(false);
+  const [education, setEducation] = useState('');
+
+  function educationBlur() {
+    setIsEducation(document.querySelector("#education").value === "");
+  }
+
+  // 교육 수준 선택에 대한 이벤트 리스너 등록
+  useEffect(() => {
+    const educationSelect = document.querySelector("#education");
+    educationSelect.addEventListener("change", handleEducationChange);
+
+    return () => {
+      educationSelect.removeEventListener("change", handleEducationChange);
+    };
+  }, []);
+
+  const handleEducationChange = (e) => {
+    const selectedEducation = e.target.value;
+
+    // 유효성 검사: "ELEMENTARY", "MIDDLE", "HIGH", "UNIVERSITY", "DOCTORATE" 중 하나만 허용
+    if (
+      selectedEducation === "ELEMENTARY" ||
+      selectedEducation === "MIDDLE" ||
+      selectedEducation === "HIGH" ||
+      selectedEducation === "UNIVERSITY" ||
+      selectedEducation === "DOCTORATE"
+    ) {
+      setEducation(selectedEducation);
     }
+  };
+  //휴대전화
+  const [phoneNo, setPhone] = useState('');
+
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
+  };
 
 
-
-    // 메일
-    const [email, setEmail] = useState("");
-    const [emailErrorMsg, setEmailErrorMsg] = useState("");
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleEmailBlur = () => {
+    // 회원가입 버튼 클릭 이벤트
+    const handleJoinClick = () => {
         if (!isValidEmail(email)) {
-            setEmailErrorMsg("이메일 주소를 다시 확인해주세요.");
-        } else {
-            setEmailErrorMsg("");
-        }
+            alert("이메일 형식이 맞지 않습니다. 다시 입력해 주세요.");
+            return;
+          }
+          if (!isEmailAvailable) {
+            alert("중복된 이메일로 회원가입을 할 수 없습니다.");
+            return;
+          }
+        // 이 부분에 회원가입 요청을 보내는 로직을 작성합니다.
+        axios.post('http://localhost:8080/auth/signup', {
+            email: email,
+            password: password,
+            customer_name: name,
+            birth: birth,
+            gender: gender,
+            occupation: occupation,
+            education: education,
+            phoneNo: phoneNo
+        })
+            .then((response) => {
+               alert('회원가입이 완료되었습니다.');
+                navigate("/LoginPage");
+            })
+            .catch((error) => {
+                // 회원가입 요청이 실패한 경우, 에러 메시지를 출력합니다.
+                console.error("회원가입 요청 실패:", error);
+            });
     };
-
-
-    const isValidEmail = (email) => {
-        // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-  
 
 
     return (
@@ -165,48 +312,41 @@ function JoinForm() {
             <div id="header" className="join_membership">
                 <h1>
                     <a href="/LoginPage" className="h_logo">
-                        <span className="blind">HOLD CREDIT</span>
+                        <span className="blind1">HOLD CREDIT</span>
                     </a>
                 </h1>
             </div>
             <div id="container">
                 <div id="content">
-                    <h2 className="blind1">holdcredit 회원가입</h2>
                     <div className="join_content">
                         <div className="row_group">
-                            <div className="join_row">
-                                <h3 className="join_title">
-                                    <label htmlFor="id">아이디</label>
-                                </h3>
-                                <span className="ps_box int_id">
-                                    <input
-                                        type="text"
-                                        id="id"
-                                        name="id"
-                                        className="int1"
-                                        title="ID"
-                                        maxLength={20}
-                                        onBlur={(e) => {
-                                            if (e.target.value === "") {
-                                                setIsIdRequired(true);
-                                            } else {
-                                                setIsIdRequired(false);
-                                            }
-                                        }}
-                                        onChange={handleIdChange}
-                                    />
-                                    <span className="step_url">@holdcredit.com</span>
-                                </span>
-                                {isIdRequired && (
-                                    <span className="error_next_box" id="idMsg" style={{ display: isIdRequired ? "block" : "none" }}>
-                                        필수 정보입니다.
-                                    </span>
-                                )}
-                                {!isIdValid && (
-                                    <span style={{ color: "red" }}>
-                                        5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.
-                                    </span>
-                                )}
+                            <div>
+                               <div className="join_row join_email">
+                                 <h3 className="join_title">
+                                   <label htmlFor="email">
+                                     이메일
+                                     <span className="terms_choice">(필수)</span>
+                                   </label>
+                                 </h3>
+                                 <span className="ps_box1 int_email">
+                                   <input
+                                     type="email"
+                                     id="email"
+                                     name="email"
+                                     placeholder="이메일을 입력해주세요"
+                                     className="int"
+                                     maxLength="100"
+                                     value={email}
+                                     onChange={handleEmailChange}
+                                     onBlur={handleEmailBlur}
+                                   />
+                                 </span>
+                                <button type="button" className="emailBtn" onClick={handleCheckEmailAvailability}>중복 확인</button>
+
+                               </div>
+                               <span className="error_next_box" id="emailMsg" aria-live="assertive">
+                                 {!isEmailAvailable}
+                               </span>
                             </div>
                             <div className="join_row">
                                 <h3 className="join_title">
@@ -230,9 +370,9 @@ function JoinForm() {
                                         필수 정보입니다.
                                     </span>
                                 )}
-                                {password.length > 0 && password.length < 8 && (
+                                {password.length > 0 && password.length < 4 && (
                                     <span className="error_next_box" id="passwordMsg">
-                                        8자 이상 입력해주세요.
+                                        4자 이상 입력해주세요.
                                     </span>
                                 )}
                             </div>
@@ -270,7 +410,7 @@ function JoinForm() {
                                     <h3 className="join_title">
                                         <label htmlFor="name">이름</label>
                                     </h3>
-                                    <span className="ps_box box_right_space">
+                                    <span className="ps_box box_right_space1">
                                         <input
                                             type="text"
                                             id="name"
@@ -287,7 +427,7 @@ function JoinForm() {
                                         className="error_next_box"
                                         id="nameMsg"
                                         aria-live="assertive"
-                                        style={{ display: showNameMsg ? "block" : "none" }}
+                                        style={{ display: isNameEmpty ? "block" : "none" }}
                                     >
                                         이름을 입력해주세요.
                                     </span>
@@ -298,12 +438,26 @@ function JoinForm() {
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
                                 <div className="bir_yy">
                                     <span className="ps_box">
-                                        <input type="text" id="yy" placeholder="년(4자)" aria-label="년(4자)" className="int" maxLength="4" onClick={handleYearClick} onBlur={handleBlur} />
+                                        <input
+                                            type="text"
+                                            id="yy"
+                                            placeholder="년(4자)"
+                                            className="int"
+                                            maxLength="4"
+                                            value={year}
+                                            onChange={handleYearChange}
+                                        />
                                     </span>
                                 </div>
                                 <div className="bir_mm">
                                     <span className="ps_box">
-                                        <select id="mm" className="sel" aria-label="월" onClick={handleMonthClick}>
+                                        <select
+                                            id="mm"
+                                            className="sel"
+                                            aria-label="월"
+                                            value={month}
+                                            onChange={handleMonthChange}
+                                        >
                                             <option value="" defaultValue>월</option>
                                             <option value="01">1</option>
                                             <option value="02">2</option>
@@ -322,11 +476,18 @@ function JoinForm() {
                                 </div>
                                 <div className="bir_dd">
                                     <span className="ps_box">
-                                        <input type="text" id="dd" placeholder="일" aria-label="일" className="int" maxLength="2" onClick={handleDayClick} onBlur={handleBlur} />
-                                        <label htmlFor="dd" className="lbl"></label>
+                                        <input
+                                            type="text"
+                                            id="dd"
+                                            placeholder="일"
+                                            aria-label="일"
+                                            className="int"
+                                            maxLength="2"
+                                            value={day}
+                                            onChange={handleDayChange}
+                                        />
                                     </span>
                                 </div>
-                                <span className="error_next_box" id="birthdayMsg" style={{ display: message ? 'block' : 'none' }} aria-live="assertive">{message}</span>
                             </div>
 
                             <div className="join_row join_gender">
@@ -344,9 +505,8 @@ function JoinForm() {
                                         <option value="" defaultValue>
                                             성별
                                         </option>
-                                        <option value="M">남자</option>
-                                        <option value="F">여자</option>
-                                        <option value="U">선택 안함</option>
+                                        <option value="MALE">남자</option>
+                                        <option value="FEMALE">여자</option>
                                     </select>
                                 </div>
                                 {isRequired && (
@@ -357,24 +517,23 @@ function JoinForm() {
                             </div>
                             <div className="join_row join_occupation">
                                 <h3 className="join_title">
-                                    <label htmlFor="occupation">직업구분</label>
+                                    <label htmlFor="occupation">직업</label>
                                 </h3>
                                 <div className="ps_box occupation_code">
                                     <select
                                         id="occupation"
                                         name="occupation"
                                         className="sel"
-                                        aria-label="직업구분"
+                                        aria-label="직업"
                                         onBlur={occupationBlur}
                                     >
                                         <option value="" defaultValue>
-                                            직업구분
+                                            직업
                                         </option>
-                                        <option value="1">개인사업자</option>
-                                        <option value="2">법인사업자</option>
-                                        <option value="3">공무원</option>
-                                        <option value="4">회사원</option>
-                                        <option value="5">기타</option>
+                                        <option value="ENTREPRENEUR">개인사업자</option>
+                                        <option value="PUBLICOFFICIAL">공무원</option>
+                                        <option value="WORKER">회사원</option>
+                                        <option value="ETC">기타</option>
                                     </select>
                                 </div>
                                 {isOccupation && (
@@ -385,23 +544,24 @@ function JoinForm() {
                             </div>
                             <div className="join_row join_education">
                                 <h3 className="join_title">
-                                    <label htmlFor="ed_level">교육 수준</label>
+                                    <label htmlFor="ed_level">학력</label>
                                 </h3>
                                 <div className="ps_box education_code">
                                     <select
                                         id="education"
                                         name="education"
                                         className="sel"
-                                        aria-label="교육 수준"
+                                        aria-label="학력"
                                         onBlur={educationBlur}
                                     >
                                         <option value="" defaultValue>
-                                            교육 수준
+                                            학력
                                         </option>
-                                        <option value="1">중학교 졸업</option>
-                                        <option value="2">고등학교 졸업</option>
-                                        <option value="3">대학교 졸업</option>
-                                        <option value="4">석박사 졸업</option>
+                                        <option value="ELEMENTARY">초등학교 졸업</option>
+                                        <option value="MIDDLE">중학교 졸업</option>
+                                        <option value="HIGH">고등학교 졸업</option>
+                                        <option value="UNIVERSITY">대학교 졸업</option>
+                                        <option value="DOCTORATE">석박사 졸업</option>
                                     </select>
                                 </div>
                                 {isEducation && (
@@ -410,64 +570,26 @@ function JoinForm() {
                                     </span>
                                 )}
                             </div>
-
-
-                            <div>
-                                <div className="join_row join_email">
-                                    <h3 className="join_title">
-                                        <label htmlFor="email">
-                                            본인 확인 이메일
-                                            <span className="terms_choice">(선택)</span>
-                                        </label>
-                                    </h3>
-                                    <span className="ps_box int_email box_right_space">
-                                        <input
-                                            type="text"
-                                            id="email"
-                                            name="email"
-                                            placeholder="선택입력"
-                                            aria-label="선택입력"
-                                            className="int"
-                                            maxLength="100"
-                                            value={email}
-                                            onChange={handleEmailChange}
-                                            onBlur={handleEmailBlur}
-                                        />
-                                    </span>
-                                </div>
-                                <span className="error_next_box" id="emailMsg" aria-live="assertive">
-                                    {emailErrorMsg}
-                                </span>
-                            </div>
-                            <div>
-
-                            </div>
-                            <div className="join_row join_mobile" id="mobDiv">
-                                <div className="join_row join_mobile">
-                                    <h3 className="join_title">
-                                        <label htmlFor="pphoneNo">휴대전화</label>
-                                    </h3>
-                                    <div className="int_mobile_area">
-                                        <span className="ps_box int_mobile">
-                                            <input type="tel" id="pphoneNo" name="pphoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력" className="int" maxLength="16" />
-                                        </span>
-                                        <a href="#" className="btn_verify btn_primary" id="btnPrtsSend" role="button">
-                                            <span>인증번호 받기</span>
-                                        </a>
-                                    </div>
-                                    <div className="ps_box_disable box_right_space" id="pauthNoBox">
-                                        <input type="tel" id="pauthNo" name="pauthNo" placeholder="인증번호 입력하세요" aria-label="인증번호 입력하세요" aria-describedby="pwa_verify" className="int" disabled maxLength="6" />
-                                        <label id="pwa_verify" htmlFor="pauthNo" className="lbl">
-                                            <span className="wa_blind">인증받은 후 인증번호를 입력해야 합니다.</span>
-                                            <span className="input_code" id="pauthNoCode">일치 <CheckIcon /></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-
+                               <div className="join_row join_phone">
+                                 <h3 className="join_title">
+                                   <label htmlFor="phoneNo">전화번호</label>
+                                 </h3>
+                                   <span className="ps_box join_phone">
+                                     <input
+                                       type="text"
+                                       id="phoneNo"
+                                       name="phoneNo"
+                                       placeholder="전화번호 입력"
+                                       aria-label="전화번호 입력"
+                                       className="int"
+                                       maxLength="16"
+                                       value={phoneNo}
+                                       onChange={handlePhoneChange}
+                                     />
+                                   </span>
+                                 </div>
                             <div className="btn_area">
-                                <button type="button" id="btnJoin" className="btn_type btn_primary"><span>가입하기</span></button>
+                                <button type="button" id="btnJoin" className="btn_type btn_primary" onClick={handleJoinClick}><span>가입하기</span></button>
                             </div>
                         </div>
                     </div>

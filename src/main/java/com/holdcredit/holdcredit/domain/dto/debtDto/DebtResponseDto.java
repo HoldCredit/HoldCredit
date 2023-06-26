@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DebtResponseDto {
     private Long id;
-    private Customer customer;
+    private Long customerNo; //먉
     private Long loanAmount;
     private Long loanPeriod;
     private Long loanCount;

@@ -15,12 +15,19 @@ drop table qna;
 drop table reply;
 drop table score;
 drop table redemption;
+drop table member;
+drop table score;
+drop table modeling_information;
+drop table refresh_token;
+drop table anonymous_data;
+
+--아래 굳이 필요한가
 
 --customer 테이블 DB에 삽입해볼때
 select * from customer;
 
 INSERT INTO customer  (customer_no, customer_id, password, customer_name, birth, gender, phone_num, email, join_date, admin_level, job, education_level)
-VALUES (customer_no_SEQ_GENERATOR.NEXTVAL, 'gj09', '240', '쮸', TO_DATE('1996-07-18', 'YYYY-MM-DD'), 'F', 1042933333, 'jju240@tistory.com', SYSDATE, 0, 0, 0);
+VALUES (customer_no_SEQ_GENERATOR.NEXTVAL, '123', '123', '쮸', TO_DATE('1996-07-18', 'YYYY-MM-DD'), 'F', 1042933333, 'jju240@tistory.com', SYSDATE, 0, 0, 0);
 
 --FAQ 테이블 DB에 삽입해볼때
 INSERT INTO FAQ (faq_no, customer_no, title, content)

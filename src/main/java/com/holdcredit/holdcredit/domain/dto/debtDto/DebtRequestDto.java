@@ -15,22 +15,21 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class DebtRequestDto {
-    private Customer customer;  //회원번호
+    private Long customerNo; //먉
     private Long loanAmount;
     private Long loanPeriod;
     private Long loanCount;
 
-    private Redemption redemption;
 
     /* Dto -> Entity 저장 */
     public Debt toEntity() {
         return Debt.builder()
-                .customer(customer)
+//                .customerNo(customerNo)
                 .loanAmount(loanAmount)
                 .loanPeriod(loanPeriod)
                 .loanCount(loanCount)
-                .redemption(redemption)
                 .build();
+
     }
 
 }

@@ -31,7 +31,6 @@ body {
 }
 
 .blind1 {
-    position: absolute;
     overflow: hidden;
     clip: rect(0 0 0 0);
     margin: -1px;
@@ -67,13 +66,6 @@ body {
     padding-bottom: 16px;
 }
 
-.join_row_flex {
-    display: flex;
-    flex-direction: column;
-}
-.join_hr {
-    padding-bottom: 10px;
-}
 .join_title {
     margin: 19px 0 8px;
     font-size: 17px;
@@ -84,14 +76,7 @@ label {
     cursor: pointer;
 }
 
-.ps_box.int_id,
-.ps_box.int_id input {
-    background: #fff;
-    outline: 0;
-}
-
-.ps_box,
-.ps_box_disable {
+.ps_box {
     display: block;
     position: relative;
     width: 100%;
@@ -121,15 +106,6 @@ label {
     padding: 6px;
 }
 
-.step_url {
-    position: absolute;
-    top: 16px;
-    right: 10px;
-    font-size: 14px;
-    line-height: 18px;
-    color: #8e8e8e;
-}
-
 .error_next_box {
     display: block;
     margin: 9px 0 -2px;
@@ -144,10 +120,6 @@ label {
     padding-right: 40px;
 }
 
-.box_right_space {
-    padding-right: 14px;
-    box-sizing: border-box;
-}
 
 .row_group+.row_group {
     margin-top: 20px;
@@ -156,10 +128,6 @@ label {
 .row_group {
     overflow: hidden;
     width: 100%;
-}
-
-.join_birtday {
-    padding: 0;
 }
 
 .bir_wrap,
@@ -184,24 +152,6 @@ label {
     padding-left: 10px;
 }
 
-.int1 {
-    display: block;
-    position: relative;
-    width: 73%;
-    height: 49px;
-    padding-right: 13px;
-    line-height: 29px;
-    border: none;
-    background: #fff;
-    font-size: 18px;
-    box-sizing: border-box;
-    z-index: 10;
-    position: absolute;
-    top: 0;
-    left: 0;
-    appearance: none;
-    padding: 6px;
-}
 
 :root .sel {
     background-size: 20px 8px;
@@ -240,37 +190,6 @@ select:hover:not(:focus) {
     color: #8e8e8e;
 }
 
-.join_mobile .int_mobile_area {
-    position: relative;
-    margin-top: 10px;
-    padding: 0 125px 0 0;
-}
-
-.join_mobile .int_mobile {
-    display: inline-block;
-    width: 100%;
-    padding: 10px 15px 10px 14px;
-    vertical-align: top;
-}
-
-.join_mobile .int_mobile_area .btn_verify {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 115px;
-    height: 51px;
-    padding: 15px 0 13px;
-    font-weight: 700;
-    text-align: center;
-    box-sizing: border-box;
-    text-decoration: none;
-}
-
-.btn_verify {
-    display: block;
-    font-size: 15px;
-    cursor: pointer;
-}
 
 .btn_primary {
     color: #333333;
@@ -278,17 +197,6 @@ select:hover:not(:focus) {
     background-color: #fee500;
 }
 
-.join_mobile .ps_box_disable,
-.join_mobile .ps_box_disable input {
-    background: #f7f7f7;
-    outline: 0;
-}
-
-.int_mobile_area+.ps_box,
-.int_mobile_area+.ps_box_disable,
-.ps_box_disable+.ps_box {
-    margin-top: 10px;
-}
 
 .btn_area {
     margin: 30px 0 30px;
@@ -306,25 +214,33 @@ select:hover:not(:focus) {
     margin-bottom: 5px;
 }
 
-.address-form input {
+.ps_box1 {
     display: block;
-    margin-bottom: 10px;
-    padding: 5px;
-    font-size: 14px;
+    position: relative;
+    width: 100%;
+    height: 51px;
+    border: solid 1px #dadada;
+    padding: 10px 11px 10px 14px;
+    background: #fff;
+    box-sizing: border-box;
 }
 
-.address-form button {
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.join_row.join_email {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.address-form button:hover {
-    background-color: #0069d9;
+.join_row.join_email .int_email {
+  margin-bottom: 10px; /* 이메일 입력란 아래에 간격을 추가합니다 */
 }
-.creditDivider {
-    padding-top: 30px;
+
+.join_row.join_email .emailBtn {
+  /* 버튼 스타일을 설정합니다 */
+  padding: 5px 10px;
+  background-color: #fee500;
+  color: #33333;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 5px; /* 이메일 입력란과의 간격을 추가합니다 */
 }

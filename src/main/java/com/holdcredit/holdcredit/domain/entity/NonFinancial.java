@@ -27,7 +27,7 @@ public class NonFinancial {
 
     //FK : userNo
     @OneToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn(name = "customer_no",/* nullable = false,*/ updatable = false) //readonly
+    @JoinColumn(name = "customer_no", nullable = false, updatable = false, unique = true) //readonly
 //  @JsonIgnore //response에 해당 필드 제외>>>>여기는 확인 해봐야함...ㅋ
     private Customer customer; //userNo
 
@@ -88,20 +88,22 @@ public class NonFinancial {
         this.nationalPension = nonFinancialRequestDto.getNationalPension();
     }
 
-    public NonFinancialResponseDto toDto(){
+    public NonFinancialResponseDto toDto(NonFinancial nonFinancial){
         return NonFinancialResponseDto.builder()
-                .id(this.id)
-                .customer(this.customer)
-                .marital(this.marital)
-                .childrenCnt(this.childrenCnt)
-                .realestate(this.realestate)
-                .vehicle(this.vehicle)
-                .healthInsurance(this.healthInsurance)
-                .phoneBillPayment(this.phoneBillPayment)
-                .proofOfIncomeAmount(this.proofOfIncomeAmount)
-                .nationalPension(this.nationalPension)
+                .id(nonFinancial.getId())
+                .customerNo(nonFinancial.getCustomer().getId())
+                .marital(nonFinancial.getMarital())
+                .childrenCnt(nonFinancial.getChildrenCnt())
+                .realestate(nonFinancial.getRealestate())
+                .vehicle(nonFinancial.getVehicle())
+                .healthInsurance(nonFinancial.getHealthInsurance())
+                .phoneBillPayment(nonFinancial.getPhoneBillPayment())
+                .proofOfIncomeAmount(nonFinancial.getProofOfIncomeAmount())
+                .nationalPension(nonFinancial.getNationalPension())
                 .build();
     }
 
 
+    public void setCustomer(Customer customer) { this.customer = customer;
+    }
 }

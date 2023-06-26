@@ -11,9 +11,14 @@ import CreditRating from "./screens/CreditRating";
 import MainNotice from './screens/MainNotice';
 import MainQnA from './screens/MainQnA';
 import MainFaQ from './screens/MainFaQ';
+import MainFaqWrite from './screens/MainFaqWrite';
+import MainMaps from './screens/MainMaps';
 import NoticeView from './screens/NoticeView';
 import NoticeWrite from './screens/NoticeWrite';
 import NoticeEdit from './screens/NoticeEdit';
+import QnaView from './screens/QnaView';
+import QnaWrite from './screens/QnaWrite';
+import QnaEdit from './screens/QnaEdit';
 import LoginPage from "./login/LoginPage";
 import JoinForm from "./login/JoinForm";
 import FindId from "./login/FindId";
@@ -24,48 +29,68 @@ import ReportSummary from "./dashboard/maincontents/ReportSummary";
 import MyAssets from "./dashboard/maincontents/MyAssets";
 import MyCredit from "./dashboard/maincontents/MyCredit";
 import LiskAnalysis from "./dashboard/maincontents/LiskAnalysis";
-import Notice from "./dashboard/subcontents/Notice";
-import QNA from "./dashboard/subcontents/QNA";
-import FAQ from "./dashboard/subcontents/FAQ";
+import Board from "./dashboard/Board";
+import BoardPost from "./dashboard/BoardPost";
 import Error404 from "./pages/Error404";
 import CreditForm from "./pages/CreditForm";
+import {Provider} from "react-redux";
+import Store from "./store/Store";
+import CustomerList from "./dashboard/maincontents/CustomerList";
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<App/>}>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/Service" element={<Service/>}/>
-          <Route path="/CreditRating" element={<CreditRating/>}/>
-          <Route path ="/MainNotice" element ={<MainNotice />} />
-          <Route path ="/MainQnA" element ={<MainQnA />} />
-          <Route path ="/MainFaQ" element ={<MainFaQ />} />
-          <Route path="/NoticeView/:id" element = {<NoticeView/>} />
-          <Route path="/NoticeWrite" element = {<NoticeWrite/>} />
-          <Route path="/NoticeEdit/:id" element ={<NoticeEdit/>} />
-          <Route path="/LoginPage" element={<LoginPage/>}/>
-          <Route path="/JoinForm" element={<JoinForm/>}/>
-          <Route path="/FindId" element={<FindId/>}/>
-          <Route path="/FindPwd" element={<FindPwd/>}/>
-          <Route path="/EditMember" element={<EditMember/>}/>
-          <Route path="/DeleteMember" element={<DeleteMember/>}/>
-          <Route path="/CreditForm" element={<CreditForm/>}/>
-        </Route>
-        <Route path="/dashboard" element={<Dashboard/>}>
-          <Route path="" element={<ReportSummary/>}/>
-          <Route path="myassets" element={<MyAssets/>}/>
-          <Route path="mycredit" element={<MyCredit/>}/>
-          <Route path="liskanalysis" element={<LiskAnalysis/>}/>
-          <Route path="notice" element={<Notice/>}/>
-          <Route path="qna" element={<QNA/>}/>
-          <Route path="faq" element={<FAQ/>}/>
-        </Route>
-        <Route path="*" element={ <Error404/> } />
-      </Routes>
+    <Provider store={Store}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<App/>}>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/Service" element={<Service/>}/>
+            <Route path="/CreditRating" element={<CreditRating/>}/>
+            <Route path="/MainNotice" element={<MainNotice/>}/>
+            <Route path="/MainQnA" element={<MainQnA/>}/>
+            <Route path="/MainFaQ" element={<MainFaQ/>}/>
+            <Route path="/MainFaqWrite" element={<MainFaqWrite/>}/>
+            <Route path="/MainMaps" element={<MainMaps/>}/>
+            <Route path="/NoticeView/:id" element={<NoticeView/>}/>
+            <Route path="/NoticeWrite" element={<NoticeWrite/>}/>
+            <Route path="/NoticeEdit/:id" element={<NoticeEdit/>}/>
+            <Route path="/QnaView/:id" element={<QnaView/>}/>
+            <Route path="/QnaEdit/:id" element={<QnaEdit/>}/>
+            <Route path="/QnaWrite" element={<QnaWrite/>}/>
+            <Route path="/LoginPage" element={<LoginPage/>}/>
+            <Route path="/JoinForm" element={<JoinForm/>}/>
+            <Route path="/FindId" element={<FindId/>}/>
+            <Route path="/FindPwd" element={<FindPwd/>}/>
+            <Route path="/EditMember" element={<EditMember/>}/>
+            <Route path="/DeleteMember" element={<DeleteMember/>}/>
+            <Route path="/CreditForm/" element={<CreditForm/>}/>
+          </Route>
 
-    </BrowserRouter>
+          <Route path="/Dashboard" element={<Dashboard/>}>
+            <Route path="" element={<ReportSummary/>}/>
+            <Route path="Myassets" element={<MyAssets/>}/>
+            <Route path="Mycredit" element={<MyCredit/>}/>
+            <Route path="Liskanalysis" element={<LiskAnalysis/>}/>
+            <Route path="customerList" element={<CustomerList/>}/>
+            <Route path="Notice/" element={<Board/>}/>
+            <Route path="Notice/:id" element={<Board/>}/>
+            <Route path="Notice/post" element={<BoardPost/>}/>
+            <Route path="Notice/:id/edit" element={<BoardPost/>}/>
+            <Route path="Qna" element={<Board/>}/>
+            <Route path="Qna/:id" element={<Board/>}/>
+            <Route path="Qna/post" element={<BoardPost/>}/>
+            <Route path="Qna/:id/edit" element={<BoardPost/>}/>
+            <Route path="Faq" element={<Board/>}/>
+            <Route path="Faq/post" element={<BoardPost/>}/>
+          </Route>
+          <Route path="*" element={<Error404/>}/>
+        </Routes>
+
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

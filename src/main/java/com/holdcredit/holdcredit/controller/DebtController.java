@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/debt")
@@ -20,6 +20,10 @@ public class DebtController {
     /* 등록*/
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody DebtRequestDto debtRequestDto) { //HTTP 요청 -> 자바 객체 변환
+        // 회원 번호 확인
+        Long customerNo = debtRequestDto.getCustomerNo();
+        System.out.println("전달된 회원 번호: " + customerNo);
+
         debtService.save(debtRequestDto);
         return new ResponseEntity<>(CREATED);
     }
@@ -42,14 +46,14 @@ public class DebtController {
     }
 
     /* 삭제 */
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Debt> delete(@PathVariable Long id){
         debtService.delete(id);
-        return new ResponseEntity<>(NOT_FOUND);
+        return new ResponseEntity<>(OK);
     }
 
     /* 수정 */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<DebtRequestDto> update(@PathVariable Long id, @Validated @RequestBody DebtRequestDto debtRequestDto){
         debtService.update(id, debtRequestDto);
         return new ResponseEntity<>(OK);

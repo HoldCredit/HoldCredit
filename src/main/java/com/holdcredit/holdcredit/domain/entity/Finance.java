@@ -23,7 +23,7 @@ public class Finance {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY) //Lazy:지연로딩 ///cascade = CascadeType.MERGE, targetEntity = Member.class
-    @JoinColumn (name = "customer_no", /*nullable = false,*/ updatable = false) //readonly
+    @JoinColumn (name = "customer_no", nullable = false, updatable = false, unique = true) //readonly
     private Customer customer; //userNo
 
     @Column(nullable = false)
@@ -41,14 +41,14 @@ public class Finance {
         this.extraMonthlyFund = financeRequestDto.getExtraMonthlyFund();
     }
 
-    public FinanceResponseDto toDto(){
+    public FinanceResponseDto toDto(Finance finance){
         return FinanceResponseDto.builder()
-                .id(this.id)
-                .customer(this.customer)
-                .annulIncome(this.annulIncome)
-                .continuousService(this.continuousService)
-                .extraMonthlyFund(this.extraMonthlyFund).build();
+                .id(finance.getId())
+                .customerNo(finance.getCustomer().getId())
+                .annulIncome(finance.getAnnulIncome())
+                .continuousService(finance.getContinuousService())
+                .extraMonthlyFund(finance.getExtraMonthlyFund()).build();
     }
-
-
+    public void setCustomer(Customer customer) { this.customer = customer;
+    }
 }

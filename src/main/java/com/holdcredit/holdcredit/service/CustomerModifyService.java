@@ -1,7 +1,7 @@
 package com.holdcredit.holdcredit.service;
 
-import com.holdcredit.holdcredit.domain.dto.creditCardDto.CreditCardResponseDto;
 import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerDto;
+import com.holdcredit.holdcredit.domain.dto.customerDto.CustomerModifyDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +14,14 @@ public  interface CustomerModifyService {
 
     CustomerDto read(Long id);
 
-    //수정할 부분만 dto에 담아서 db에 저장하기!!!
-    CustomerDto updateCustomer(final CustomerDto customerDto);
+
+    //회원 정보 수정
+    void updateCustomer(Long id, CustomerModifyDto requestDto);
+
+    //회원 정보 삭제 ㅇ
+    void deleteCustomer(Long id);
+
+    //void pwdUpdate(Long id, String password);
+
+    boolean verifyCustomerPassword(Long customerId, String password);
 }

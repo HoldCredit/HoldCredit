@@ -1,7 +1,13 @@
-import React, { useState } from "react";
 import "../styles/EditMember.css";
 import CheckIcon from '@mui/icons-material/Check';
 
+//근주추가
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import {useDispatch, useSelector} from "react-redux";
+import {setName} from "../store/CustomerNameStore";
 
 function EditMember() {
     const [isIdRequired, setIsIdRequired] = useState(false);
@@ -14,42 +20,55 @@ function EditMember() {
     const [isIdLengthValid, setIsIdLengthValid] = useState(true);
     const [isIdValid, setIsIdValid] = useState(true);
     const [showBirthdayMsg, setShowBirthdayMsg] = useState(false);
+    const[update, setUpdate] = useState({});
+      // 세션에 저장된 토큰 값을 가져옵니다.
+      const storedToken = sessionStorage.getItem("loginData");
+      // 토큰이 존재할 경우 해독합니다.
+      const decodedToken = storedToken ? jwtDecode(storedToken) : null;
+      // 해독된 정보에서 고객 번호를 추출합니다.
+      const customerNo = decodedToken ? decodedToken.sub : null;
 
-    // 아이디
-    const handleIdChange = (e) => {
-        const idValue = e.target.value;
-        if (idValue === "") {
-            setIsIdRequired(true);
-            setIsIdValid(true);
-        } else if (idValue.length <= 5 || !/^[a-z0-9_-]{5,20}$/.test(idValue)) {
-            setIsIdValid(false);
-        } else {
-            setIsIdRequired(false);
-            setIsIdValid(true);
-        }
-    };
+    const navigate = useNavigate();
+    const [memberInfo, setMemberInfo] = useState({});
 
-    // 비밀번호
-    const handlePasswordBlur = (e) => {
-        const passwordValue = e.target.value;
-        if (passwordValue.length === 0) {
-            setIsPasswordValid(false);
-            setIsPasswordRequired(true);
-        } else if (passwordValue.length < 8) {
-            setIsPasswordValid(false);
-            setIsPasswordRequired(false);
-        } else {
-            setIsPasswordValid(true);
-            setIsPasswordRequired(false);
-        }
-    };
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (e.target.value.length > 0) {
-            setIsPasswordRequired(false);
+    useEffect(() => {
+        if (customerNo) {
+          axios.get(`/customerModify/${customerNo}`)
+            .then((res) => {
+              console.log(res.data);
+              setMemberInfo(res.data);
+            })
+            .catch((error) => {
+              console.log('회원수정 페이지 에러:' + error);
+            });
         }
-    };
+      }, [customerNo]);
+
+  // 비밀번호
+  const handlePasswordBlur = (e) => {
+    const passwordValue = e.target.value;
+    if (passwordValue.length === 0) {
+      setIsPasswordValid(false);
+      setIsPasswordRequired(true);
+    } else if (passwordValue.length < 8) {
+      setIsPasswordValid(false);
+      setIsPasswordRequired(false);
+    } else {
+      setIsPasswordValid(true);
+      setIsPasswordRequired(false);
+    }
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setMemberInfo({ ...memberInfo, password: e.target.value });
+    if (e.target.value.length > 0) {
+      setIsPasswordRequired(false);
+    }
+  };
+
     // 비밀번호 체크
     const handlePasswordCheckChange = (e) => {
         const passwordCheckValue = e.target.value;
@@ -77,44 +96,46 @@ function EditMember() {
         }
     };
 
+    const newPassword =password;
 
-    // 생년 월 일
-    const [message, setMessage] = useState('');
+const updatePassword = async () => {
+  try {
+    const newPassword = password;
 
-    function handleYearClick() {
-        setMessage('태어난 년도 4자리를 정확하게 입력하세요.');
-    }
+    // 서버로 요청을 보낼 때 JWT를 헤더에 포함시킴
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`, // JWT를 가져와서 헤더에 첨부
+      },
+    };
 
-    function handleMonthClick() {
-        setMessage('태어난 월을 선택하세요.');
-    }
+    // 서버로 비밀번호 수정 요청을 보냄
+    await axios.put('/api/updatePassword', { newPassword }, config);
 
-    function handleDayClick() {
-        setMessage('태어난 일 (날짜) 2자리를 정확하게 입력하세요.');
-    }
-    function handleBlur() {
-        setMessage('');
-    }
+    // 비밀번호 수정이 성공적으로 이루어졌을 때의 처리
+    console.log('비밀번호가 성공적으로 수정되었습니다.');
+  } catch (error) {
+    // 요청이 실패했을 때의 처리
+    console.error('비밀번호 수정에 실패했습니다.', error);
+  }
+};
 
-    // 성별
-    const [isRequired, setIsRequired] = useState(false);
+// 비밀번호 수정 버튼 클릭 시 updatePassword 함수 호출
+const handleUpdatePassword = () => {
+  updatePassword();
+};
 
-    const [gender, setGender] = useState('');
 
-    function genderBlur() {
-        setIsRequired(document.querySelector("#gender").value === "");
-    }
+   // 직업
+      const [isOccupation, setIsOccupation] = useState(false);
 
-    // 직업구분
-    const [isOccupation, setIsOccupation] = useState(false);
+      const [occupation, setOccupation] = useState('');
 
-    const [occupation, setOccupation] = useState('');
+      function occupationBlur() {
+          setIsOccupation(document.querySelector("#occupation").value === "");
+      }
 
-    function occupationBlur() {
-        setIsOccupation(document.querySelector("#occupation").value === "");
-    }
-
-    // 교육 수준
+    // 학력
     const [isEducation, setIsEducation] = useState(false);
 
     const [education, setEducation] = useState('');
@@ -123,39 +144,70 @@ function EditMember() {
         setIsEducation(document.querySelector("#education").value === "");
     }
 
+    // 휴대폰
+      const [mobileNumber, setMobileNumber] = useState("");
+      const [isMobileNumberValid, setIsMobileNumberValid] = useState(true);
+      const [isMobileNumberRequired, setIsMobileNumberRequired] = useState(false);
 
+      const handleMobileNumberBlur = (e) => {
+        const mobileNumberValue = e.target.value;
+        const pattern = /^\d{3}-\d{3,4}-\d{4}$/;
 
-    // 메일
-    const [email, setEmail] = useState("");
-    const [emailErrorMsg, setEmailErrorMsg] = useState("");
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleEmailBlur = () => {
-        if (!isValidEmail(email)) {
-            setEmailErrorMsg("이메일 주소를 다시 확인해주세요.");
+        if (mobileNumberValue.length === 0) {
+          setIsMobileNumberValid(true);
+          setIsMobileNumberRequired(true);
+        } else if (!pattern.test(mobileNumberValue)) {
+          setIsMobileNumberValid(false);
+          setIsMobileNumberRequired(false);
         } else {
-            setEmailErrorMsg("");
+          setIsMobileNumberValid(true);
+          setIsMobileNumberRequired(false);
         }
-    };
+      };
+
+      const handleMobileNumberChange = (e) => {
+        setMobileNumber(e.target.value);
+        setIsMobileNumberRequired(false);
+      };
 
 
-    const isValidEmail = (email) => {
-        // 이메일 형식이 맞는지 검증하는 로직을 작성합니다.
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
+    //아래는 작업중 비번만 바꿔볼까?
+ // 수정
+const updateCustomer = (event) => {
+  // Send updated memberInfo to server
 
+  event.preventDefault();
+  const update = {
+    password: memberInfo.password,
+    occupation: memberInfo.job,
+    education: memberInfo.education_level,
+    phoneNo: memberInfo.phone_num,
+    email: memberInfo.email
+  };
+    console.log(update);
+  console.log("근주지금해봄 memberInfo 다 나와=> " + memberInfo);
+    axios.put(`/customerModify/Modify/${customerNo}`, update)
+    .then(res => {
+        alert('정보가 수정되었습니다.');
+        console.log(res);
+        navigate(`/`);
+  });
+};
 
+  // 회원 수정시 콘솔에 찍어봄
+  const changeHandler = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setMemberInfo({...memberInfo, education_level: value});
+  };
 
     return (
         <div id="wrap">
             <div id="header1" className="join_membership">
                 <h1>
-                    <span className="h_logo">
-                        <span className="blind">HOLD CREDIT</span>
-                    </span>
+                   <a href="/" className="h_logo">
+                   <span className="blind1">HOLD CREDIT</span>
+                    </a>
                 </h1>
             </div>
             <div id="container1">
@@ -164,22 +216,26 @@ function EditMember() {
                     <div className="join_content">
                         <div className="row_group1">
                             <div className="join_row">
-                                <h3 className="join_title1">
-                                    <label htmlFor="id">아이디</label>
-                                </h3>
-                                <span className="edit_box int_id">
-                                    <input
-                                        type="text"
-                                        id="id"
-                                        name="id"
-                                        className="edit1"
-                                        title="ID"
-                                        maxLength={20}
-                                        disabled
-                                        value={'ID'}
-                                    />
-                                    <span className="step_url">@holdcredit.com</span>
-                                </span>
+                                <h3 className="join_title">
+                                <label htmlFor="email">
+                                    본인 이메일
+                                    <span className="terms_choice"></span>
+                                </label>
+                            </h3>
+                            <span className="edit_box int_email box_right_space">
+                                <input
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    className="int"
+                                    maxLength="100"
+                                    disabled
+                                    value={memberInfo.email}
+//                                            onChange={handleEmailChange}
+                                    onChange={(e) => setMemberInfo({ ...memberInfo, email: e.target.value})}
+//                                            onBlur={handleEmailBlur}
+                                />
+                            </span>
 
                             </div>
                             <div className="join_row">
@@ -192,7 +248,7 @@ function EditMember() {
                                         id="password"
                                         name="password"
                                         className="edit"
-                                        title="비밀번호"
+                                        placeholder="변경하고자 하는 비밀번호를 입력해주세요."
                                         maxLength={20}
                                         value={password}
                                         onChange={handlePasswordChange}
@@ -204,9 +260,9 @@ function EditMember() {
                                         필수 정보입니다.
                                     </span>
                                 )}
-                                {password.length > 0 && password.length < 8 && (
+                                {password.length > 0 && password.length < 4 && (
                                     <span className="error_next_box" id="passwordMsg">
-                                        8자 이상 입력해주세요.
+                                        일단 4자 이상 입력해주세요. 귀차나 나중에 바꿀꺼임
                                     </span>
                                 )}
                             </div>
@@ -220,7 +276,7 @@ function EditMember() {
                                         id="passwordCheck"
                                         name="passwordCheck"
                                         className="edit"
-                                        title="비밀번호 확인"
+                                        placeholder="변경하고자 하는 비밀번호를 입력해주세요."
                                         maxLength={20}
                                         value={passwordCheck}
                                         onChange={handlePasswordCheckChange}
@@ -252,133 +308,104 @@ function EditMember() {
                                             title="이름"
                                             className="int"
                                             maxLength="40"
-                                            value={"김창민"}
-                                            disabled
-                                        />
+                                            value={memberInfo.customer_name}
+                                             disabled
+                                             onChange={changeHandler}
+                                           />
                                     </span>
 
                                 </div>
                             </div>
+                             <h3 className="join_title1">
 
-                            <div className="join_birthday">
+                                        <label htmlFor="id">성별</label>
+                                    </h3>
+                                    <span className="edit_box int_id">
+                                        <input
+                                            type="text"
+                                            id="gender"
+                                            name="gender"
+                                            className="edit1"
+                                            title="gender"
+                                            maxLength={20}
+                                            disabled
+                                            value = {
+                                                memberInfo.gender == "MALE" ? "남자" :  "여자"
+                                            }
+//                                            value={memberInfo.gender}
+                                        />
+                                    </span>
+
+                               <div className="join_birthday">
                                 <h3 className="join_title"><label htmlFor="yy">생년월일</label></h3>
-                                <div className="bir_yy">
+                               <div className="birthday">
                                     <span className="edit_box">
                                         <input
                                             type="text"
-                                            id="yy"
-                                            placeholder="년(4자)"
-                                            aria-label="년(4자)"
+                                            id="birthday"
                                             className="int"
-                                            maxLength="4"
+                                            maxLength="8"
                                             disabled
-                                            value={"1997"}
+                                            value={memberInfo.birth}
                                         />
                                     </span>
                                 </div>
-                                <div className="bir_mm">
-                                    <span className="edit_box">
-                                        <select id="mm"
-                                            className="sel"
-                                            aria-label="월"
-                                            onClick={handleMonthClick}
-                                            disabled
-                                        >
-                                            <option value="" defaultValue>{"3"}</option>
-                                            <option value="01">1</option>
-                                            <option value="02">2</option>
-                                            <option value="03">3</option>
-                                            <option value="04">4</option>
-                                            <option value="05">5</option>
-                                            <option value="06">6</option>
-                                            <option value="07">7</option>
-                                            <option value="08">8</option>
-                                            <option value="09">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    </span>
                                 </div>
-                                <div className="bir_dd">
-                                    <span className="edit_box">
-                                        <input type="text"
-                                            id="dd"
-                                            placeholder="일"
-                                            aria-label="일"
-                                            className="int"
-                                            maxLength="2"
-                                            disabled
-                                            value={"19"}
-                                        />
-                                        <label htmlFor="dd" className="lbl"></label>
-                                    </span>
-                                </div>
-                                <span className="error_next_box" id="birthdayMsg" style={{ display: message ? 'block' : 'none' }} aria-live="assertive">{message}</span>
-                            </div>
 
-                            <div className="join_row join_gender">
-                                <h3 className="join_title">
-                                    <label htmlFor="gender">성별</label>
-                                </h3>
-                                <div
-                                    id="gender"
-                                    name="gender"
-                                    className="edit_box gender_code"
-                                    disabled
-                                    value= {"남"}
-                                    >
-                                    {"남"}
-                                </div>
-                                
                             </div>
-                            <div className="join_row join_occupation">
-                                <h3 className="join_title">
-                                    <label htmlFor="occupation">직업구분</label>
-                                </h3>
-                                <div className="edit_box occupation_code">
-                                    <select
-                                        id="occupation"
-                                        name="occupation"
-                                        className="sel1"
-                                        aria-label="직업구분"
-                                        onBlur={occupationBlur}
-                                    >
-                                        <option value="" defaultValue>
-                                            직업구분
-                                        </option>
-                                        <option value="1">개인사업자</option>
-                                        <option value="2">법인사업자</option>
-                                        <option value="3">공무원</option>
-                                        <option value="4">회사원</option>
-                                        <option value="5">기타</option>
-                                    </select>
-                                </div>
-                                {isOccupation && (
-                                    <span className="error_next_box" id="occupationMsg">
-                                        필수 정보입니다.
-                                    </span>
-                                )}
+                          <div className="join_row join_occupation">
+                                  <h3 className="join_title">
+                                      <label htmlFor="occupation">직업</label>
+                                  </h3>
+                                  <div className="edit_box occupation_code">
+                                      <select
+                                          id="occupation"
+                                          name="occupation"
+                                          className="sel1"
+                                          className={`int${isOccupation ? " required" : ""}`}
+                                          value={memberInfo.job}
+                                          aria-label="직업"
+                                          onBlur={occupationBlur}
+                                          // onChange={changeHandler}
+                                          onChange={(e) => setMemberInfo({ ...memberInfo, job: e.target.value})}
+                                      >
+                                          <option value="" defaultValue>
+                                              직업
+                                          </option>
+                                          <option value="ENTREPRENEUR">개인사업자</option>
+                                          <option value="PUBLICOFFICIAL">공무원</option>
+                                          <option value="WORKER">회사원</option>
+                                          <option value="ETC">기타</option>
+                                      </select>
+                                  </div>
+                                  {isOccupation && (
+                                      <span className="error_next_box" id="occupationMsg">
+                                          필수 정보입니다.
+                     </span>
+                       )}
                             </div>
                             <div className="join_row join_education">
                                 <h3 className="join_title">
-                                    <label htmlFor="ed_level">교육 수준</label>
+                                    <label htmlFor="ed_level">학력</label>
                                 </h3>
                                 <div className="edit_box education_code">
                                     <select
                                         id="education"
                                         name="education"
-                                        className="sel1"
-                                        aria-label="교육 수준"
+                                        aria-label="학력"
+                                        className={`int${isEducation ? " required" : ""}`}
+                                        value={memberInfo.education_level}
                                         onBlur={educationBlur}
+                                        onChange={changeHandler}
                                     >
-                                        <option value="" defaultValue>
-                                            교육 수준
+                                        <option value="memberInfo.education_level" defaultValue>
+                                            학력
                                         </option>
-                                        <option value="1">중학교 졸업</option>
-                                        <option value="2">고등학교 졸업</option>
-                                        <option value="3">대학교 졸업</option>
-                                        <option value="4">석박사 졸업</option>
+                                        <option value="ELEMENTARY">초졸</option>
+                                          <option value="MIDDLE">중졸</option>
+                                          <option value="HIGH">고졸</option>
+                                          <option value="UNIVERSITY">대졸</option>
+                                          <option value="DOCTORATE">석박사</option>
                                     </select>
                                 </div>
                                 {isEducation && (
@@ -387,73 +414,33 @@ function EditMember() {
                                     </span>
                                 )}
                             </div>
-                          
 
-
-                            <div>
-                                <div className="join_row join_email">
-                                    <h3 className="join_title">
-                                        <label htmlFor="email">
-                                            본인 확인 이메일
-                                            <span className="terms_choice">(선택)</span>
-                                        </label>
-                                    </h3>
-                                    <span className="edit_box int_email box_right_space">
-                                        <input
-                                            type="text"
-                                            id="email"
-                                            name="email"
-                                            placeholder="선택입력"
-                                            aria-label="선택입력"
-                                            className="int"
-                                            maxLength="100"
-                                            value={email}
-                                            onChange={handleEmailChange}
-                                            onBlur={handleEmailBlur}
-                                        />
-                                    </span>
-                                </div>
-                                <span className="error_next_box" id="emailMsg" aria-live="assertive">
-                                    {emailErrorMsg}
-                                </span>
-                            </div>
-                            <div>
-
-                            </div>
-                            <div className="join_row join_mobile1" id="mobDiv">
-                                <div className="join_row join_mobile">
-                                    <h3 className="join_title">
-                                        <label htmlFor="pphoneNo">휴대전화</label>
-                                    </h3>
-                                    <div className="int_mobile_area1">
-                                        <span className="edit_box int_mobile1">
-                                            <input type="tel" id="pphoneNo" name="pphoneNo" placeholder="전화번호 입력" aria-label="전화번호 입력" className="int" maxLength="16" />
-                                        </span>
-                                        <a href="#" className="btn_verify1 btn_primary1" id="btnPrtsSend" role="button">
-                                            <span>인증번호 받기</span>
-                                        </a>
-                                    </div>
-                                    <div className="edit_box_disable box_right_space" id="pauthNoBox">
-                                        <input type="tel" id="pauthNo" name="pauthNo" placeholder="인증번호 입력하세요" aria-label="인증번호 입력하세요" aria-describedby="pwa_verify" className="int" disabled maxLength="6" />
-                                        <label id="pwa_verify" htmlFor="pauthNo" className="lbl">
-                                            <span className="wa_blind">인증받은 후 인증번호를 입력해야 합니다.</span>
-                                            <span className="input_code" id="pauthNoCode">일치 <CheckIcon /></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-
-
+                           <div className="join_row join_phone">
+                                <h3 className="join_title">
+                                  <label htmlFor="phoneNo">전화번호</label>
+                                </h3>
+                                  <span className="ps_box join_phone">
+                                    <input
+                                      type="text"
+                                      id="phoneNo"
+                                      name="phoneNo"
+                                      placeholder="전화번호 입력"
+                                      aria-label="전화번호 입력"
+                                      className="int"
+                                      maxLength="11"
+                                      value={memberInfo.phone_num}
+                                      onChange={(e) => setMemberInfo({ ...memberInfo, phone_num: e.target.value})}
+                                    />
+                                  </span>
+                           </div>
                             <div className="btn_area">
-                                <button type="button" id="btnJoin" className="btn_type1 btn_primary1"><span>수정</span></button>
-                                <button type="button" id="btnJoin" className="btn_type2 btn_primary2"><span>삭제</span></button>
+                                <button type="button" id="btnJoin" className="btn_type1 btn_primary1" onClick={updateCustomer}><span>수정</span></button>
+                                <button type="button" className="btn_type2 btn_primary2" onClick={() => { window.location.href = '/DeleteMember'; }}>회원탈퇴</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 

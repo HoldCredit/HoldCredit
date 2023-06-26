@@ -1,38 +1,41 @@
 package com.holdcredit.holdcredit.domain.dto.customerDto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.holdcredit.holdcredit.domain.entity.Customer;
 import com.holdcredit.holdcredit.domain.entity.enumeration.EducationLevel;
 import com.holdcredit.holdcredit.domain.entity.enumeration.JobDomain;
-import com.holdcredit.holdcredit.domain.entity.enumeration.UserLevel;
+import com.holdcredit.holdcredit.domain.entity.enumeration.Authority;
 import lombok.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
-@Builder
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerModifyDto {
-
-    //수정 할 수 있는 부분만 남겨놓기!!! 아닌가,,,? 다 있어야하나...?
-    //private Long customer_no;
-    //private String customer_id;
+    //회원정보 수정 목록, 아래 그 외는 수정 금지!
     private String password;
-    //private String customer_name;
-    //private LocalDate birth;
-    //private String gender;
-    private Long phone_num;
+    @JsonProperty(value="phoneNo")
+    private String phone_num;
     private String email;
-    //private LocalDateTime join_Date;
-
+    @JsonProperty(value = "occupation")
     private JobDomain job;
-    private UserLevel admin_level;
-
+    @JsonProperty(value="education")
     private EducationLevel education_level;
+    private Authority authority;
 
-//    //dto를 엔터티로 변경하는 작업을 customer 에서 .dto로 함
-//    필요한것만 넣었는데,, 아닐수도 추후 검토 필요!
+
+    public Customer toEntity(CustomerModifyDto dto, PasswordEncoder passwordEncoder) {
+
+        return Customer.builder()
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .phoneNum(dto.getPhone_num())
+                .email(dto.getEmail())
+                .job(dto.getJob())
+                .educationLevel(dto.getEducation_level())
+                .authority(dto.getAuthority())
+                .build();
+    }
 }

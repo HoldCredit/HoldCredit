@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FinanceResponseDto {
     private Long id;
-    private Customer customer;
+//    private Customer customer;
+    private Long customerNo; //먉
     private Long annulIncome;
     private Long continuousService;
     private Long extraMonthlyFund;
