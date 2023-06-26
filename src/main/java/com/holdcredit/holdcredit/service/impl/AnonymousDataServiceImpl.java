@@ -75,7 +75,7 @@ public class AnonymousDataServiceImpl implements AnonymousDataService {
 
 
 
-    @Scheduled(cron = "0 3 5 * * *") // 매시간마다 실행 (0s 0m 4h)
+    @Scheduled(cron = "0 0 4 * * *") // 매시간마다 실행 (0s 0m 4h)
     public void checkAndInsert() throws IOException, InterruptedException {
         List<Customer> cutomerList = customerRepository.findAll();
 

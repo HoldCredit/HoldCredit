@@ -58,7 +58,6 @@ function FindId() {
         phone_num: phoneNumber,
       })
       .then((response) => {
-        // 응답 처리
         const { email } = response.data;
 
         if (email) {

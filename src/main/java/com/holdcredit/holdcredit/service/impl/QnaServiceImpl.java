@@ -62,7 +62,6 @@ public class QnaServiceImpl implements QnaService {
         Qna qna = qnaRepository.findById(id).get();
         QnaResponseDto responseDto = qna.responseDto();
         return responseDto;
-
     }
 
     //게시글 조회수
@@ -78,10 +77,8 @@ public class QnaServiceImpl implements QnaService {
     @Override
     public Qna saveQna(QnaRequestDto requestDto){
         Customer findCustomer = customerRepository.findById(requestDto.getCustomerNo()).get();
-
         Qna qna = Qna.toEntity(requestDto);
         qna.setCustomer(findCustomer);
-
         return qnaRepository.save(qna);
     }
     // 수정
@@ -91,7 +88,6 @@ public class QnaServiceImpl implements QnaService {
         qna.updateQna(requestDto);
         qnaRepository.save(qna);
     }
-
     // 삭제
     @Override
     public void deleteQna(Long id) {

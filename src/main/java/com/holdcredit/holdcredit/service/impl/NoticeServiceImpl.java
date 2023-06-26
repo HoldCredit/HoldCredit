@@ -98,12 +98,9 @@ public class NoticeServiceImpl implements NoticeService {
 
         if (requestDto.getAttach() == null || requestDto.getAttach().isEmpty()) {
             Notice notice = Notice.toEntity(requestDto);
-
             notice.setCustomer(findCustomer);
             noticeRepository.save(notice);
-
         } else {
-
             Notice notice = Notice.toSaveAttach(requestDto);
             notice.setCustomer(findCustomer);
 
@@ -111,7 +108,6 @@ public class NoticeServiceImpl implements NoticeService {
             Notice board = noticeRepository.findById(noticeNo).orElse(null);
 
             for(MultipartFile file: requestDto.getAttach()) {
-
                 String originFilename = file.getOriginalFilename();
                 String storedFileName = System.currentTimeMillis() + "_" + originFilename;
                 String savePath = "C:\\upload\\" + storedFileName;

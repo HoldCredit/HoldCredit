@@ -39,24 +39,24 @@ export default function LiskAnalysis() {
       }, []);
 
   //cb등급
-     const [cbScore, setCbScore] = useState(null);
+   const [cbScore, setCbScore] = useState(null);
 
-     useEffect(() => {
-        const fetchCbScore = async () => {
-          try {
-            const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
-            if (response.ok) {
-              const scoreData = await response.json();
-              setCbScore(scoreData);
-            } else {
-              console.error('신용등급 실패:', response.status);
-            }
-          } catch (error) {
-            console.error(error);
+   useEffect(() => {
+      const fetchCbScore = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/score/cb/${customerNo}`);
+          if (response.ok) {
+            const scoreData = await response.json();
+            setCbScore(scoreData);
+          } else {
+            console.error('신용등급 실패:', response.status);
           }
-        };
-        fetchCbScore();
-     }, [customerNo]);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchCbScore();
+   }, [customerNo]);
 
 
 

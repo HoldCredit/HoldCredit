@@ -5,7 +5,7 @@ import pandas as pd
 import joblib
 import os
 
-os.chdir('C:\HoldCredit\py')
+os.chdir('C:\dev\HoldCredit\py')
 
 # 모델과 스케일러 로드
 cb_rf = joblib.load('CB_GradientBoosting_model.pkl')

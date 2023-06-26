@@ -26,17 +26,14 @@ public class QnaController {
     //게시글 리스트
     @GetMapping("/Qna")
     public Page<QnaResponseDto> list(Pageable pageable, String keyword, String field) throws Exception {
-
         Page<QnaResponseDto> qnaList = null;
-
         if(keyword == null){
             qnaList = qnaService.list(pageable);
         }else {
             qnaList = qnaService.searchQna(field, keyword, pageable);
         }
-
-        return qnaList;
-    }
+    return qnaList;
+}
     //게시글 상세조회
     @GetMapping("/Qna/{id}")
     public ResponseEntity<QnaResponseDto> getQna(@PathVariable Long id) {
@@ -62,7 +59,7 @@ public class QnaController {
         qnaService.updateQna(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    //삭제
     @DeleteMapping("/Qna/{id}")
     public ResponseEntity<?> deleteQna(@PathVariable Long id) {
         qnaService.deleteQna(id);

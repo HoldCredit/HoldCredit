@@ -60,22 +60,22 @@ const customerNo = decodedToken ? decodedToken.sub : null;
     };
 
 
-    const downloadAttachment = (id, path) => {
-        axios({
-            url: `http://localhost:8080/attachments/${id}?path=${encodeURIComponent(path)}`,
-            method: 'GET',
-            responseType: 'blob', // Receive the file data as 'blob'
+const downloadAttachment = (id, path) => {
+    axios({
+        url: `http://localhost:8080/attachments/${id}?path=${encodeURIComponent(path)}`,
+        method: 'GET',
+        responseType: 'blob', // Receive the file data as 'blob'
+    })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', path.substring(path.lastIndexOf('/') + 1));
+            document.body.appendChild(link);
+            link.click();
         })
-            .then((response) => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', path.substring(path.lastIndexOf('/') + 1));
-                document.body.appendChild(link);
-                link.click();
-            })
-            .catch((error) => console.log(error));
-    };
+        .catch((error) => console.log(error));
+};
 
     return (
         <div>

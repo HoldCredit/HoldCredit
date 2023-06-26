@@ -37,9 +37,7 @@ public class CustomerModifyController {
     public ResponseEntity<?> customerModify(@PathVariable Long id, @Validated @RequestBody CustomerModifyDto requestDto) {
         customerModifyService.updateCustomer(id, requestDto);
         Map<String, Object> map = new HashMap<>();
-        map.put("message", "JJU 성공");
-        System.out.println("requestDto = " + requestDto);
-        System.out.println("dddddsfdsfdsfdsfdsfsdfdsfsdfkdfhgkdzhgkdghkd");
+        map.put("message", "회원 정보 수정");
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 /*
@@ -61,14 +59,12 @@ public class CustomerModifyController {
     //회원 정보 삭제
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id, @RequestParam String password) {
-        System.out.println("야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
         boolean isPasswordCorrect = customerModifyService.verifyCustomerPassword(id, password);
         if (!isPasswordCorrect) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Incorrect password");
             return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         }
-
         customerModifyService.deleteCustomer(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

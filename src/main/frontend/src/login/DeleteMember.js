@@ -44,13 +44,8 @@ useEffect(() => {
 const handleDeleteMember = async (event) => {
  event.preventDefault();
   if (!memberInfo) {
-    console.log("회원 정보를 가져오는 중입니다...");
     return;
   }
-
-  console.log("비밀번호 :" + memberInfo.password);
-  console.log(typeof password);
-
       try {
         // 일치하는 경우 회원 삭제 처리
         await axios.delete(`/customerModify/delete/${customerNo}`, {

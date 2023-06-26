@@ -110,7 +110,7 @@ export default function BoardList() {
                       <TableCell>{row.id}</TableCell>
                       <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.title}</TableCell>
                       <TableCell
-                        onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.customer_name}</TableCell>
+                        onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.writer}</TableCell>
                       <TableCell onClick={() => navigate(`/dashboard/${menu.menuName}/${row.id}`)}>{row.createDate}</TableCell>
                       <TableCell>{row.hits}</TableCell>
                     </TableRow>

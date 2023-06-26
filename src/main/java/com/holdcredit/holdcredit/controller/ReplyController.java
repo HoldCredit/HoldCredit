@@ -22,21 +22,15 @@ public class ReplyController {
     //댓글 등록
     @PostMapping("/Qna/{id}/Reply")
     public ResponseEntity<?> replySave(@PathVariable Long id, Long customerNo, @RequestBody ReplyRequestDto requestDto){
-
         replyService.replySave(id, requestDto);
-
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     //댓글 수정
     @PutMapping("/Qna/{id}/Reply/{replyId}")
     public ResponseEntity<?> replyUpdate(@PathVariable Long replyId, @RequestBody ReplyRequestDto requestDto){
-
         replyService.replyUpdate(replyId, requestDto);
-
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     //댓글 삭제

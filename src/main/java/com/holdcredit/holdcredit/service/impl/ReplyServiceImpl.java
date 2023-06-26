@@ -28,21 +28,21 @@ public class ReplyServiceImpl implements ReplyService {
     private final CustomerRepository customerRepository;
 
     //댓글 정보 가져오기
-    @Override
-    public List<ReplyResponseDto> replyList(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("댓글 조회 실패: id가 null입니다.");
-        }
-
-        Qna qna = qnaRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글 조회 실패: 해당 게시글이 존재하지 않습니다."));
-        Long qnaNo = qna.getId();
-        List<Reply> replies = replyRepository.findByQnaNo(qnaNo);
-
-        return replies.stream()
-                .map(this::responseDto)
-                .collect(Collectors.toList());
+@Override
+public List<ReplyResponseDto> replyList(Long id) {
+    if (id == null) {
+        throw new IllegalArgumentException("댓글 조회 실패: id가 null입니다.");
     }
+
+    Qna qna = qnaRepository.findById(id).orElseThrow(() ->
+            new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글 조회 실패: 해당 게시글이 존재하지 않습니다."));
+    Long qnaNo = qna.getId();
+    List<Reply> replies = replyRepository.findByQnaNo(qnaNo);
+
+    return replies.stream()
+            .map(this::responseDto)
+            .collect(Collectors.toList());
+}
 
     @Override
     public ReplyResponseDto responseDto(Reply reply){
@@ -53,30 +53,21 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     @Transactional
     public Long replySave(Long id, ReplyRequestDto requestDto){
-
         Customer findCustomer = customerRepository.findById(requestDto.getCustomerNo()).get();
-
         Qna qna = qnaRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다."+ id));
-
         requestDto.setQnaNo(qna);
-
         Reply reply = requestDto.toEntity(requestDto);
         reply.setCustomer(findCustomer);
-
         replyRepository.save(reply);
-
         return requestDto.getId();
     }
 
     //댓글 수정
     @Override
     public void replyUpdate(Long id, ReplyRequestDto requestDto){
-
         Reply reply = replyRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글이 존재하지 않습니다."+ id));
-
-
         reply.replyUpdate(requestDto);
         replyRepository.save(reply);
     }
@@ -84,8 +75,6 @@ public class ReplyServiceImpl implements ReplyService {
     //댓글삭제
     @Override
     public void deleteReply(Long id) {
-
         replyRepository.deleteById(id);
-
     }
 }

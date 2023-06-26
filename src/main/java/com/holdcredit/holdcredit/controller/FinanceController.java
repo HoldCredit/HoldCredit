@@ -21,10 +21,8 @@ public class FinanceController {
     /* 등록 */
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody FinanceRequestDto financeRequestDto){
-        // 회원 번호 확인
         Long customerNo = financeRequestDto.getCustomerNo();
         System.out.println("전달된 회원 번호: " + customerNo);
-
         financeService.save(financeRequestDto);
         return new ResponseEntity<>(CREATED);
     }

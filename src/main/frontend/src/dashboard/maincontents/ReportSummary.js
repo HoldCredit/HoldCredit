@@ -35,14 +35,14 @@ export default function ReportSummary() {
    };
 
    //AnonymousData 정보 담기
-     const [creditInfo, setCreditInfo] = React.useState(null);
+       const [creditInfo, setCreditInfo] = React.useState(null);
 
-       useEffect(() => {
-         fetch(`http://localhost:8080/api/creditInfo/${customerNo}`)
-           .then((response) => response.json())
-           .then((data) => setCreditInfo(data))
-           .catch((error) => console.error(error));
-       }, []);
+         useEffect(() => {
+           fetch(`http://localhost:8080/api/creditInfo/${customerNo}`)
+             .then((response) => response.json())
+             .then((data) => setCreditInfo(data))
+             .catch((error) => console.error(error));
+         }, []);
 
   //cb등급
      const [cbScore, setCbScore] = useState(null);

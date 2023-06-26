@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import BoardService from "../../service/BoardService";
 import '../../screens/css/Board.css';
+import jwtDecode from "jwt-decode";
 
 export default function BoardWrite() {
 
@@ -17,6 +18,10 @@ export default function BoardWrite() {
   const navigate = useNavigate();
 
   const writer = useSelector((state) => state.customerName);
+
+  const storedToken = sessionStorage.getItem("loginData")
+  const decodedToken = storedToken ? jwtDecode(storedToken) : null;
+  const customerNo = decodedToken ? decodedToken.sub : null;
 
   const [data, setData] = useState([]);
   const [title, setTitle] = useState('');
@@ -93,6 +98,8 @@ const postBoard = (event) => {
         title: title,
         content: content,
         pwd: pwd,
+        writer: writer,
+        customerNo: customerNo,
       };
       BoardService.createQna(qnaData)
         .then(() => {

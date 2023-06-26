@@ -62,7 +62,6 @@ public class CustomerModifyServiceImpl implements CustomerModifyService {
     @Override
     public void deleteCustomer(Long id){
             customerModifyRepository.deleteById(id);
-        //    customerModifyRepository.deleteByIdAndPassword(id, modifyDto.getPassword());
     }
 
     //회원탈퇴 근주 다시함

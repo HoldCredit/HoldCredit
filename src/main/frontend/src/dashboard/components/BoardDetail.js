@@ -10,6 +10,7 @@ import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import IconButton from "@mui/material/IconButton";
 import '../../screens/css/Board.css'
 import CheckIcon from '@mui/icons-material/Check';
+import jwtDecode from "jwt-decode";
 
 export default function BoardDetail() {
 
@@ -21,6 +22,11 @@ export default function BoardDetail() {
   const [update, setUpdate] = useState({});
   const [editMode, setEditMode] = useState({});
   const navigate = useNavigate();
+
+  const storedToken = sessionStorage.getItem("loginData");
+  const decodedToken = storedToken ? jwtDecode(storedToken) : null;
+  const customerNo = decodedToken ? decodedToken.sub : null;
+  const writer = useSelector((state) => state.customerName);
 
   // 게시글
   useEffect(() => {
@@ -74,6 +80,8 @@ export default function BoardDetail() {
 
     let replyData = {
       reply: reply,
+      writer: writer,
+      customerNo: customerNo,
     };
 
     axios
@@ -178,7 +186,7 @@ export default function BoardDetail() {
             <th>번호</th>
             <td>{data.id}</td>
             <th>작성자</th>
-            <td>{data.customer}</td>
+            <td>{data.writer}</td>
             <th>작성일</th>
             <td>{data.createDate}</td>
             <th>수정일</th>

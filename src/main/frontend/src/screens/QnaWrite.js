@@ -43,23 +43,22 @@ function QnaWrite(props) {
 
       const navigate = useNavigate();
 
-      const createQna = (event) => {
-          event.preventDefault();
-          let qna = {
+    const createQna = (event) => {
+        event.preventDefault();
+        let qna = {
+          title: title,
+          content: content,
+          pwd: pwd,
+          writer: writer,
+          customerNo: customerNo,
 
-            title: title,
-            content: content,
-            pwd: pwd,
-            writer: writer,
-            customerNo: customerNo,
-
-          };
-          console.log("notice => " + JSON.stringify(qna));
-            BoardService.createQna(qna).then(res => {
-            alert('등록되었습니다.');
-            navigate('/MainQna');
-          });
         };
+        console.log("notice => " + JSON.stringify(qna));
+          BoardService.createQna(qna).then(res => {
+          alert('등록되었습니다.');
+          navigate('/MainQna');
+        });
+      };
 
       const cancel = () => {
         navigate('/MainQna');
